@@ -1,0 +1,1399 @@
+\section{JavaScriptを始めよう}\label{javascriptux3092ux59cbux3081ux3088ux3046}
+
+\begin{quote}
+想定時間: 90分 動作環境: Google Chrome
+\end{quote}
+
+TOC
+
+\begin{itemize}
+\tightlist
+\item
+  \hyperref[javascriptux3092ux59cbux3081ux3088ux3046]{JavaScriptを始めよう}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \hyperref[1-javascript-ux306bux89e6ux308cux3066ux307fux3088ux3046]{1.
+    JavaScript に触れてみよう}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \hyperref[1-1-ux30d6ux30e9ux30a6ux30b6ux306eux958bux767aux8005ux30c4ux30fcux30ebux3092ux898bux3088ux3046]{1-1.
+      ブラウザの開発者ツールを見よう}
+    \item
+      \hyperref[1-2-hello-world-ux3057ux3088ux3046]{1-2. Hello, World!
+      しよう}
+    \item
+      \hyperref[1-3-ux8aadux307fux3084ux3059ux3044ux30b3ux30fcux30c9ux3092ux66f8ux304fux305fux3081ux306b]{1-3.
+      読みやすいコードを書くために}
+
+      \begin{itemize}
+      \tightlist
+      \item
+        \hyperref[1-3-1-ux53b3ux683cux30e2ux30fcux30c9]{1-3-1.
+        厳格モード}
+      \item
+        \hyperref[1-3-2-ux30b3ux30e1ux30f3ux30c8]{1-3-2. コメント}
+      \item
+        \hyperref[1-3-3-ux547dux540d]{1-3-3. 命名}
+      \item
+        \hyperref[1-3-4-ux30a4ux30f3ux30c7ux30f3ux30c8]{1-3-4.
+        インデント}
+      \end{itemize}
+    \end{itemize}
+  \item
+    \hyperref[2-javascript-ux3067ux51e6ux7406ux3055ux305bux3088ux3046]{2.
+    JavaScript で処理させよう}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \hyperref[2-1-ux5909ux6570]{2-1. 変数}
+    \item
+      \hyperref[2-2-ux56dbux5247ux6f14ux7b97]{2-2. 四則演算}
+    \item
+      \hyperref[2-3-ux305dux306eux4ed6ux306eux7b97ux8853ux6f14ux7b97]{2-3.
+      その他の算術演算}
+    \item
+      \hyperref[2-4-ux6587ux5b57ux5217ux306eux51e6ux7406]{2-4.
+      文字列の処理}
+    \item
+      \hyperref[2-5-ux8ad6ux7406ux6f14ux7b97]{2-5. 論理演算}
+    \end{itemize}
+  \item
+    \hyperref[3-ux6761ux4ef6ux306bux3088ux3063ux3066ux51e6ux7406ux3092ux5909ux3048ux3088ux3046]{3.
+    条件によって処理を変えよう}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \hyperref[3-1-ux6bd4ux8f03ux6f14ux7b97ux5b50]{3-1. 比較演算子}
+    \item
+      \hyperref[3-2-ifux6587]{3-2. if文}
+    \item
+      \hyperref[3-3-ux4e09ux9805ux6f14ux7b97ux5b50]{3-3. 三項演算子}
+    \end{itemize}
+  \item
+    \hyperref[4-ux7e70ux308aux8fd4ux3057ux51e6ux7406ux3092ux3055ux305bux3088ux3046]{4.
+    繰り返し処理をさせよう}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \hyperref[4-1-ux914dux5217]{4-1. 配列}
+    \item
+      \hyperref[4-2-forux6587]{4-2. for文}
+    \item
+      \hyperref[4-3-arrayprototypeforeach]{4-3.
+      \texttt{Array.prototype.forEach()}}
+    \end{itemize}
+  \item
+    \hyperref[5-ux30b3ux30fcux30c9ux3092ux307eux3068ux3081ux3066ux308fux304bux308aux3084ux3059ux304fux3057ux3088ux3046]{5.
+    コードをまとめてわかりやすくしよう}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \hyperref[5-1-ux95a2ux6570]{5-1. 関数}
+
+      \begin{itemize}
+      \tightlist
+      \item
+        \hyperref[5-1-1-ux95a2ux6570]{5-1-1. 関数}
+      \item
+        \hyperref[5-1-2-ux7121ux540dux95a2ux6570]{5-1-2. 無名関数}
+      \item
+        \hyperref[5-1-3-ux5024ux3068ux3057ux3066ux306eux95a2ux6570]{5-1-3.
+        値としての関数}
+      \end{itemize}
+    \item
+      \hyperref[5-2-ux30aaux30d6ux30b8ux30a7ux30afux30c8]{5-2.
+      オブジェクト}
+
+      \begin{itemize}
+      \tightlist
+      \item
+        \hyperref[5-2-1-ux5b9aux7fa9ux3068ux30a2ux30afux30bbux30b9]{5-2-1.
+        定義とアクセス}
+      \item
+        \hyperref[5-2-2-ux30d7ux30edux30d1ux30c6ux30a3ux306eux8ffdux52a0ux3068ux5b58ux5728ux78baux8a8d]{5-2-2.
+        プロパティの追加と存在確認}
+      \end{itemize}
+    \item
+      \hyperref[5-3-ux30afux30e9ux30b9]{5-3. クラス}
+    \end{itemize}
+  \item
+    \hyperref[6-ux975eux540cux671fux51e6ux7406ux3092ux4f7fux304aux3046]{6.
+    非同期処理を使おう}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \hyperref[6-1-promisethencatch]{6-1.
+      \texttt{Promise}/\texttt{then()}/\texttt{catch()}}
+    \item
+      \hyperref[6-2-asyncawait]{6-2. \texttt{async}/\texttt{await}}
+    \end{itemize}
+  \item
+    \hyperref[7-ux30d6ux30e9ux30a6ux30b6ux306eux6a19ux6e96apiux3092ux4f7fux3063ux3066ux307fux3088ux3046]{7.
+    ブラウザの標準APIを使ってみよう}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \hyperref[7-1-web-storage-api]{7-1. Web Storage API}
+    \item
+      \hyperref[7-2-ux4f4dux7f6eux60c5ux5831api]{7-2. 位置情報API}
+    \end{itemize}
+  \item
+    \hyperref[8-ux7d42ux308fux308aux306b]{8. 終わりに}
+  \item
+    \hyperref[9-ux53c2ux8003ux6587ux732e]{9. 参考文献}
+  \end{itemize}
+\end{itemize}
+
+\subsection{1. JavaScript
+に触れてみよう}\label{javascript-ux306bux89e6ux308cux3066ux307fux3088ux3046}
+
+JavaScript(以下JS)とは一般にWeb開発やシステム開発に用いられるプログラミング言語の一つです。
+今回はインターンでのチーム開発にあたって基礎的なJSについて説明します。
+\textgreater{} \textbf{※注意}
+本記事には一部説明の簡単のために厳密には正しくない表現・説明があります。なるべく正確な記述を行いますが、気になる箇所は参考文献にある記事などから調べて貰えればと思います。
+
+\subsubsection{1-1.
+ブラウザの開発者ツールを見よう}\label{ux30d6ux30e9ux30a6ux30b6ux306eux958bux767aux8005ux30c4ux30fcux30ebux3092ux898bux3088ux3046}
+
+Chromeではウィンドウ右上のケバブボタンから開いたメニューの「その他のツール」から「デベロッパーツール」を開けます。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/open-devtool-from-kebab.png}
+\caption{開発者ツールをひらく}
+\end{figure}
+
+ショートカットキーが設定されているため、WindowsやChromeOSでは
+\texttt{Ctrl}+\texttt{Shift}+\texttt{I} で、macOSでは
+\texttt{Cmd}+\texttt{Option}+\texttt{I}
+でも開くことができます。また、ページの適当な部分で右クリックして「検証」を押すことでも開発者ツールが開けます。\\
+無事にツールが開けていれば以下のような表示になるはずです。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/devtool-opened-element.png}
+\caption{開発者ツール開いた見た目}
+\end{figure}
+
+開いているタブが要素タブ(Elementタブ)ではなかったり日本語化されてなかったり日本語化案内が出るかもしれませんが、ひとまずコンソールタブ(Consoleタブ)を開いてください。これで準備完了です。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/devtool-opened-console.png}
+\caption{コンソールタブ}
+\end{figure}
+
+\subsubsection{1-2. Hello, World!
+しよう}\label{hello-world-ux3057ux3088ux3046}
+
+「新たにプログラミング言語の学習を始めるとき、まず\texttt{Hello,\ World!}から始める教」に入信しているため、まずは標準的な出力方法で「Hello,
+World!」を表示させることにします。
+先程開いたコンソールタブに以下のコードを入力してみてください。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(}\StringTok{\textquotesingle{}Hello, World!\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+実行すると以下の画像のように表示されるはずです。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/hello-world.png}
+\caption{Hello, World!}
+\end{figure}
+
+このように、JSでは
+\texttt{Console.log(\textless{}任意の文字列\textgreater{});}
+とすることでコンソールタブに出力を出すことができます。
+
+\subsubsection{1-3.
+読みやすいコードを書くために}\label{ux8aadux307fux3084ux3059ux3044ux30b3ux30fcux30c9ux3092ux66f8ux304fux305fux3081ux306b}
+
+これから始まるインターンやその他でも「チーム開発」をしなければならないタイミングがあると思います。
+そんなとき最も大事なことの一つが「\textbf{コードを読んだ人間に処理の意味・意図が伝わること}」です。
+自分以外の人が見ても読みやすいコードを書くために、JSの機能やプログラムを書く上で気をつける点を説明します。
+
+\paragraph{1-3-1. 厳格モード}\label{ux53b3ux683cux30e2ux30fcux30c9}
+
+厳格モード (strictモード)
+とは、そうでない状態ではエラーにはならない微妙な実装をエラー扱いとするモードです。これによって、暗黙的に失敗していた処理をエラーとして検知できるようになったり、JSのエンジンが最適化しづらい手順を修正できるようになったりといったメリットがあります。しかし、利用したい構文がstrictモードに非対応である場合には注意が必要です。
+
+厳格モードはJSのコード内に\texttt{"use\ strict";}と記述することで有効化できます。
+試しに以下のコードを実行してみてください。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\StringTok{"use strict"}\OperatorTok{;}
+\NormalTok{a }\OperatorTok{=} \DecValTok{1}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{imgs/strict-error-undefined-variable.png}
+\caption{未宣言の変数に値を代入しようとしたエラー}
+\end{figure}
+
+↑の画像のようにエラーが出れば問題なく厳格モードが有効になっています。この場合は未宣言の変数を操作しようとしたことでエラーが発生しています。
+これは意図せずグローバル変数を宣言してしまうことを防いでくれます。
+
+このように便利な厳格モードですが、スクリプト全体で有効にしてしまうと他のライブラリやファイルが厳格モードに対応しない記述で書かれていたときに動作しなくなってしまうことには注意が必要です。
+使用方法のおすすめとしては関数の冒頭部で有効化するものです。そうすることで厳格モードは関数内でのみ有効になります。
+
+\paragraph{1-3-2. コメント}\label{ux30b3ux30e1ux30f3ux30c8}
+
+コメントは他のほぼすべてのプログラミング言語にもある「コード中に記述されているが処理に影響がない文」のことで、JSでは以下の二通りで記述できます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(}\StringTok{\textquotesingle{}コメントの説明\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+\CommentTok{// console.log(\textquotesingle{}これは一行だけをコメントにするやつ\textquotesingle{});}
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(}\StringTok{\textquotesingle{}//が書いてある行にしか影響しない\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+
+\CommentTok{/**}
+\CommentTok{ * console.log(\textquotesingle{}これは複数行をコメントにするやつ\textquotesingle{});}
+\CommentTok{ * console.log(\textquotesingle{}/* から * /までの間が実行されない\textquotesingle{});}
+\CommentTok{ */}
+\end{Highlighting}
+\end{Shaded}
+
+コメントを適切に書くことでコードの意図や内容を他の開発者にわかりやすく伝えることができます。
+また、実行したくないコードをコメントにすることで開発中のデバッグをやりやすくする使い方もあります。
+
+\paragraph{1-3-3. 命名}\label{ux547dux540d}
+
+命名はプログラムを書く上で逃れられず、かつ難しい要素の一つです。
+「名は体を表す」ということわざがありますが、意識するべきはまさにこれです。
+コードを読む上でわざわざ他人の書いたコードをすべて読んで意味を理解してから使うことはあまりにも面倒です。そのため、完結で処理の内容や意味、効果がわかりやすい命名を変数・関数にするべきだとされています。
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+良い例
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+悪い例
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{let\ count\ =\ 0;} & \texttt{let\ a\ =\ 0;} \\
+\texttt{function\ solveQuadraticEquation\ ()\ \{...\}} &
+\texttt{function\ solve()\ \{...\}} \\
+\end{longtable}
+
+1つ目の例はあまりにも極端ですが、\texttt{count}という名前で宣言されている方が変数の利用目的が明確です。
+2つ目の例は場合によってどちらがいいかの判断が変わる場合があります。特にクラスのメンバとしてある式を解くような関数の場合では悪い例は悪いとは言い切れません。また、エディタの補完機能がない場合には冗長な命名の関数は嫌われるため良い例が必ずしも良いわけではありません。
+
+時と場合に合わせて命名とコメントを組み合わせて誰が読んでもわかりやすいコードになるよう心がけましょう。
+
+\paragraph{1-3-4. インデント}\label{ux30a4ux30f3ux30c7ux30f3ux30c8}
+
+インデントとは、行頭の字下げのことを指します。
+主にコード中のブロックをわかりやすくするために利用されます。Pythonのようなインデントベースの言語ではブロックそのものを表すために使われますが、JSではコードのブロックは\texttt{\{\}}で表現されるため、インデントがなくてもエラーになったりはしません。
+インデントをつけたほうが処理の塊がわかりやすくなるので、つけるようにしましょう。なお、\texttt{\{\}}で囲まれた文をそれまでの字下げよりもう1段階深くインデントするのが一般的です。
+
+インデントなし
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{function} \FunctionTok{myFunc}\NormalTok{ () \{}
+\KeywordTok{let}\NormalTok{ i }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}
+\ControlFlowTok{for}\NormalTok{ (i }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ i }\OperatorTok{\textless{}} \DecValTok{10}\OperatorTok{;}\NormalTok{ i}\OperatorTok{++}\NormalTok{) \{}
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(i)}\OperatorTok{;}
+\NormalTok{\}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+インデントあり
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{function} \FunctionTok{myFunc}\NormalTok{ () \{}
+  \KeywordTok{let}\NormalTok{ i }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}
+  \ControlFlowTok{for}\NormalTok{ (i }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ i }\OperatorTok{\textless{}} \DecValTok{10}\OperatorTok{;}\NormalTok{ i}\OperatorTok{++}\NormalTok{) \{}
+    \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(i)}\OperatorTok{;}
+\NormalTok{  \}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{2. JavaScript
+で処理させよう}\label{javascript-ux3067ux51e6ux7406ux3055ux305bux3088ux3046}
+
+ここでは様々な計算や処理をJSにやってもらう方法を説明します。
+
+\subsubsection{2-1. 変数}\label{ux5909ux6570}
+
+はじめに、プログラムを書くにあたって重要な変数から説明します。
+変数は値を格納する入れ物です。例えるとラベルの付いた箱のようなものです。
+\texttt{let}と記述した後に変数の名前を記述することで変数を宣言できます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{let}\NormalTok{ myVariable}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+変数のあとに\texttt{=}と値を順番に記述すると、その値を変数に割り当てることができます。
+値の割り当てと変数の宣言をまとめて、一行で記述することもできます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{let}\NormalTok{ myVariable}\OperatorTok{;}
+\NormalTok{myVariable }\OperatorTok{=} \DecValTok{1}\OperatorTok{;}
+
+\KeywordTok{let}\NormalTok{ nextVariable }\OperatorTok{=} \DecValTok{100}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{let}を使って宣言すると、後から変数に割り当てた値を変更できます。
+\texttt{let}のかわりに\texttt{const}を使って宣言すると、後から変更できない定数として宣言できます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{let}\NormalTok{ myVariable }\OperatorTok{=} \DecValTok{1}\OperatorTok{;}
+\NormalTok{myVariable }\OperatorTok{=} \DecValTok{23}\OperatorTok{;}
+
+\KeywordTok{const}\NormalTok{ constantValue }\OperatorTok{=} \DecValTok{10}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{2-2. 四則演算}\label{ux56dbux5247ux6f14ux7b97}
+
+次に計算といえばな四則演算について説明します。それぞれ以下のようにして記述することができます。
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+演算 & 記述 & 実行結果 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+加法 & \texttt{1\ +\ 1} & \includegraphics{imgs/calc-plus.png} \\
+減法 & \texttt{1\ -\ 1} & \includegraphics{imgs/calc-minus.png} \\
+乗法 & \texttt{2\ *\ 2} & \includegraphics{imgs/calc-multi.png} \\
+除法 & \texttt{2\ /\ 2} & \includegraphics{imgs/calc-divide.png} \\
+剰余 & \texttt{3\ \%\ 2} & \includegraphics{imgs/calc-remainder.png} \\
+\end{longtable}
+
+この他に\texttt{+=}、\texttt{-=}のような二項演算子の後ろに\texttt{=}をつける、加算代入演算子や減算代入演算子などもあります。
+この演算子は計算と変数への値の割り当てと一行で記述できます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{let}\NormalTok{ value }\OperatorTok{=} \DecValTok{1}\OperatorTok{;}
+\NormalTok{value }\OperatorTok{+=} \DecValTok{2}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+この加算代入演算子を使った処理は、以下のコードと同じ処理になります。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{let}\NormalTok{ value }\OperatorTok{=} \DecValTok{1}\OperatorTok{;}
+\NormalTok{value }\OperatorTok{=}\NormalTok{ value }\OperatorTok{+} \DecValTok{2}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{2-3.
+その他の算術演算}\label{ux305dux306eux4ed6ux306eux7b97ux8853ux6f14ux7b97}
+
+プログラムでは四則演算以外でも頻繁につかう演算があります。
+変数の値を一つ増やすインクリメントや、一つ減らすデクリメントがその例です。
+インクリメントのようなプログラム中で特に利用する演算は、演算子として用意されています。
+
+また、三角関数のような高度な演算はJSでは \texttt{Math}
+という名前の組み込みオブジェクトから呼び出せます。
+
+以下にいくつか例を示します。
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 6\tabcolsep) * \real{0.2500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+演算
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+記述
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+実行結果
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+補足
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+インクリメント &
+後置インクリメント:\texttt{x++}前置インクリメント:\texttt{++x} &
+\includegraphics{imgs/calc-after-increment.png}\includegraphics{imgs/calc-before-increment.png}
+&
+後置:先に評価結果を返して加算を行う前置:先に加算を行って評価結果を返す \\
+デクリメント &
+後置デクリメント:\texttt{x-\/-}前置デクリメント:\texttt{-\/-x} &
+\includegraphics{imgs/calc-after-decrement.png}\includegraphics{imgs/calc-before-decrement.png}
+&
+後置:先に評価結果を返して減算を行う前置:先に減算を行って評価結果を返す \\
+べき乗 & \texttt{2\ **\ 2}\texttt{Math.pow(2,2)} &
+\includegraphics{imgs/calc-power-operator.png}\includegraphics{imgs/calc-power-mathobj.png}
+& べき乗演算子\texttt{**}が後に実装された \\
+円周率 & \texttt{Math.PI} & \includegraphics{imgs/math-pi.png} & \\
+正弦 & \texttt{Math.sin(θ)} & \includegraphics{imgs/math-sin.png} & \\
+余弦 & \texttt{Math.cos(θ)} & \includegraphics{imgs/math-cos.png} & \\
+\end{longtable}
+
+その他のMathオブジェクトのプロパティやメソッドは\href{https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Math}{こちら}から確認できます。
+
+\subsubsection{2-4.
+文字列の処理}\label{ux6587ux5b57ux5217ux306eux51e6ux7406}
+
+文字列はJSではStringオブジェクトとして扱われ、様々な操作を行うことができます。連結、分割、置き換えなどの一部操作の方法を以下に示します。
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+操作
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+記述
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+実行結果
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+結合 &
+\texttt{\textquotesingle{}jig\textquotesingle{}\ +\ \textquotesingle{}.\textquotesingle{}\ +\ \textquotesingle{}jp\textquotesingle{}}
+& \includegraphics{imgs/str-binding.png} \\
+結合 & \texttt{str\ +=\ otherStr} &
+\includegraphics{imgs/str-bind-assign.png} \\
+文字の取り出し &
+\texttt{\textquotesingle{}jig.jp\textquotesingle{}.charAt(1)} &
+\includegraphics{imgs/str-charat.png} \\
+分割 &
+\texttt{\textquotesingle{}jig.jp\textquotesingle{}.split(\textquotesingle{}.\textquotesingle{})}
+& \includegraphics{imgs/str-split.png} \\
+文字列の切り出し &
+\texttt{\textquotesingle{}jig.jp\textquotesingle{}.slice(1,\ 4)} &
+\includegraphics{imgs/str-slice.png} \\
+文字列の置き換え &
+\texttt{\textquotesingle{}jig.jp\textquotesingle{}.replace(\textquotesingle{}ji\textquotesingle{},\ \textquotesingle{}じぇいあい\textquotesingle{})}
+& \includegraphics{imgs/str-replace.png} \\
+文字列の長さ &
+\texttt{\textquotesingle{}jig.jp\textquotesingle{}.length} &
+\includegraphics{imgs/str-length.png} \\
+文字列の位置 &
+\texttt{\textquotesingle{}jig.jp\textquotesingle{}.indexOf(\textquotesingle{}jp\textquotesingle{})}
+& \includegraphics{imgs/str-indexof.png} \\
+\end{longtable}
+
+その他のStringオブジェクトのプロパティやメソッドは\href{https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/String}{こちら}から確認できます。
+
+\subsubsection{2-5. 論理演算}\label{ux8ad6ux7406ux6f14ux7b97}
+
+論理演算はプログラムで頻出する演算の一つです。それぞれの演算は以下のように表せます。
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule\noalign{}
+演算 & 記述 & 実行結果 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+AND & \texttt{a\ \&\&\ b} & \includegraphics{imgs/calc-and.png} \\
+OR & \texttt{a\ \textbackslash{}\textbar{}\textbackslash{}\textbar{}\ b}
+& \includegraphics{imgs/calc-or.png} \\
+NOT & \texttt{!a} & \includegraphics{imgs/calc-not.png} \\
+\end{longtable}
+
+\subsection{3.
+条件によって処理を変えよう}\label{ux6761ux4ef6ux306bux3088ux3063ux3066ux51e6ux7406ux3092ux5909ux3048ux3088ux3046}
+
+数学の問題でも場合分けが発生するように、プログラムでも条件によって処理を変更したいことがあります。
+ここではプログラムで条件分岐を記述する方法を説明します。
+
+\subsubsection{3-1. 比較演算子}\label{ux6bd4ux8f03ux6f14ux7b97ux5b50}
+
+場合分けが発生する簡単な例として、二次方程式の判別式Dがあります。判別式Dは以下の式で、次のような分岐がわかります。
+判別式D: \(D = b^2 - 4ac\) 判別式Dの結果が
+
+\begin{itemize}
+\tightlist
+\item
+  正の値 → 実数解
+\item
+  0 → 重解
+\item
+  負の値 → 虚数解
+\end{itemize}
+
+これは判別式Dの結果を\texttt{value}として、それぞれ比較演算子を用いて以下のように表現できます。
+
+\begin{itemize}
+\tightlist
+\item
+  正の値 → \texttt{value\ \textgreater{}\ 0}
+\item
+  0 → \texttt{value\ ===\ 0}
+\item
+  負の値 → \texttt{value\ \textless{}\ 0}
+\end{itemize}
+
+JSではこのようにして値の大小や等価かどうかを比較できます。
+以下に比較演算子の表を示します。
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+演算 & 記述 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{厳密等価} & \texttt{a\ ===\ b} \\
+\texttt{厳密不等価} & \texttt{a\ !==\ b} \\
+\texttt{超過/より大きい} & \texttt{a\ \textgreater{}\ b} \\
+\texttt{以上} & \texttt{a\ \textgreater{}=\ b} \\
+\texttt{未満/より小さい} & \texttt{a\ \textless{}\ b} \\
+\texttt{以下} & \texttt{a\ \textless{}=\ b} \\
+\end{longtable}
+
+厳密でない等価/不等価
+
+厳密等価/厳密不等価の演算が存在するということは、厳密\textbf{でない}等価・不等価の演算があると言うことです。
+これらは暗黙的な型変換を行うため一見して予想できない挙動をすることがあります。
+このため、厳密等価演算子・厳密不等価演算子を使用することが推奨されます。
+以下に厳密でない等価・不等価演算子の表を示します。
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+演算 & 記述 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+等価 & \texttt{==} \\
+不等価 & \texttt{!=} \\
+\end{longtable}
+
+繰り返しになりますが、厳密でない演算子の使用は非推奨です。
+
+\subsubsection{3-2. if文}\label{ifux6587}
+
+3-1.でプログラムで条件を表現する方法を説明しました。先程の判別式Dの結果を評価し、実数解、重解、虚数解のどれになるかを出力するプログラムを作ることを考えてみましょう。
+評価の結果によって処理を分岐させるためには \texttt{if}文を使います。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{ (}\OperatorTok{\textless{}}\NormalTok{条件1}\OperatorTok{\textgreater{}}\NormalTok{) \{}
+\NormalTok{   条件1が真のときの処理}
+\NormalTok{\} }\ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{ (}\OperatorTok{\textless{}}\NormalTok{条件2}\OperatorTok{\textgreater{}}\NormalTok{) \{}
+\NormalTok{   条件2が真のときの処理}
+\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{   条件1も条件2も偽のときの処理}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+if文は\texttt{()}内の評価結果が真のときに直後の\texttt{\{\}}で囲まれたブロック内の処理を行い、\texttt{()}内の評価結果が偽のときに直後の\texttt{else}句の処理を行います。このとき、\texttt{else}のあとに\texttt{if}でif文をつなげることで条件分岐を追加できます。\texttt{else}句のあとにある\texttt{\{\}}ブロック内の処理は、それより前にある\texttt{if}と\texttt{else\ if}のすべての条件を満たさなかったときに実行されます。
+\texttt{if}\textasciitilde{}\texttt{else\ if}\textasciitilde{}\texttt{else}句は一連の処理の塊として捉えられます。この中で上から順に評価が行われるため、条件の順番には気をつける必要があります。
+
+では判別式の結果から解がどうなるかを出力するプログラムを以下に書きます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{let}\NormalTok{ a}\OperatorTok{,}\NormalTok{ b}\OperatorTok{,}\NormalTok{ c}\OperatorTok{;}
+\NormalTok{a }\OperatorTok{=} \OperatorTok{\textless{}}\NormalTok{x2 の係数}\OperatorTok{\textgreater{};}
+\NormalTok{b }\OperatorTok{=} \OperatorTok{\textless{}}\NormalTok{x の係数}\OperatorTok{\textgreater{};}
+\NormalTok{c }\OperatorTok{=} \OperatorTok{\textless{}}\NormalTok{定数項}\OperatorTok{\textgreater{};}
+
+\KeywordTok{const}\NormalTok{ d }\OperatorTok{=}\NormalTok{ b }\OperatorTok{**} \DecValTok{2} \OperatorTok{{-}} \DecValTok{4} \OperatorTok{*}\NormalTok{ a }\OperatorTok{*}\NormalTok{ c}\OperatorTok{;}
+
+\ControlFlowTok{if}\NormalTok{ (d }\OperatorTok{===} \DecValTok{0}\NormalTok{) \{}
+   \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(}\StringTok{\textquotesingle{}重解\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+\NormalTok{\} }\ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{ (d }\OperatorTok{\textgreater{}} \DecValTok{0}\NormalTok{) \{}
+   \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(}\StringTok{\textquotesingle{}実数解\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
+   \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(}\StringTok{\textquotesingle{}虚数解\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+実行結果は以下のようになります。
+
+\includegraphics{imgs/if-discriminant-1.png}\includegraphics{imgs/if-discriminant-2.png}
+
+\subsubsection{3-3. 三項演算子}\label{ux4e09ux9805ux6f14ux7b97ux5b50}
+
+三項演算子とは条件によって返す値を変えられる演算子です。
+以下のような記法で利用できます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{value }\OperatorTok{=} \OperatorTok{\textless{}}\NormalTok{条件}\OperatorTok{\textgreater{}} \OperatorTok{?} \OperatorTok{\textless{}}\NormalTok{条件が真のときの値}\OperatorTok{\textgreater{}} \OperatorTok{:} \OperatorTok{\textless{}}\NormalTok{条件が偽のときの値}\OperatorTok{\textgreater{};}
+\end{Highlighting}
+\end{Shaded}
+
+例えばある値の真偽によって値を返したいときに活用できます。↑の判別式の例を書き換えると以下のようになります。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{let}\NormalTok{ a}\OperatorTok{,}\NormalTok{ b}\OperatorTok{,}\NormalTok{ c}\OperatorTok{;}
+\NormalTok{a }\OperatorTok{=} \OperatorTok{\textless{}}\NormalTok{x2 の係数}\OperatorTok{\textgreater{};}
+\NormalTok{b }\OperatorTok{=} \OperatorTok{\textless{}}\NormalTok{x の係数}\OperatorTok{\textgreater{};}
+\NormalTok{c }\OperatorTok{=} \OperatorTok{\textless{}}\NormalTok{定数項}\OperatorTok{\textgreater{};}
+
+\KeywordTok{const}\NormalTok{ d }\OperatorTok{=}\NormalTok{ b }\OperatorTok{**} \DecValTok{2} \OperatorTok{{-}} \DecValTok{4} \OperatorTok{*}\NormalTok{ a }\OperatorTok{*}\NormalTok{ c}\OperatorTok{;}
+
+\KeywordTok{const}\NormalTok{ res }\OperatorTok{=}\NormalTok{ d }\OperatorTok{===} \DecValTok{0}
+            \OperatorTok{?} \StringTok{\textquotesingle{}重解\textquotesingle{}}
+            \OperatorTok{:}\NormalTok{ d }\OperatorTok{\textgreater{}} \DecValTok{0}
+              \OperatorTok{?} \StringTok{\textquotesingle{}実数解\textquotesingle{}}
+              \OperatorTok{:} \StringTok{\textquotesingle{}虚数解\textquotesingle{}}\OperatorTok{;}
+
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(res)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+三項演算子はこのように三項演算子の下に三項演算子を書くことができます。
+しかし、階層が深くなると複雑で読みづらくなるので注意が必要です。
+
+\includegraphics{imgs/conditional-operator-1.png}\includegraphics{imgs/consitional-operator-2.png}
+
+\subsection{4.
+繰り返し処理をさせよう}\label{ux7e70ux308aux8fd4ux3057ux51e6ux7406ux3092ux3055ux305bux3088ux3046}
+
+複数回処理をするとき、何度も同じコードを書くのは面倒です。ですよね？
+JSには同じ処理を複数回行うための文法があります。ここではその文法
+\texttt{for}文について説明します。
+
+\subsubsection{4-1. 配列}\label{ux914dux5217}
+
+繰り返し処理と関連の深い値として配列があります。
+配列とは、変数が列になって連なったようなもので、以下のような記述で利用できます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{const}\NormalTok{ array }\OperatorTok{=}\NormalTok{ [}\DecValTok{1}\OperatorTok{,} \DecValTok{2}\OperatorTok{,} \DecValTok{3}\OperatorTok{,} \DecValTok{4}\OperatorTok{,} \DecValTok{5}\NormalTok{]}\OperatorTok{;}
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(array[}\DecValTok{0}\NormalTok{])}\OperatorTok{;} \CommentTok{// 1}
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(array[}\DecValTok{3}\NormalTok{])}\OperatorTok{;} \CommentTok{// 4}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{imgs/array-sample.png}
+\caption{配列のサンプル}
+\end{figure}
+
+配列は \texttt{{[}{]}} で囲まれ \texttt{,}
+で区切られた一連の値で表現されます。
+個々の値にアクセスするには配列名の後ろに\texttt{{[}index{]}}と書くことで取り出せます。この\texttt{index}とは配列の中の順番のことで、0番から順に番号が振られます。
+
+1からではなく、0から数えることに注意してください。ほとんどのプログラミング言語では0から数を数えるので覚えておきましょう。
+
+\subsubsection{4-2. for文}\label{forux6587}
+
+先程の配列を使って、繰り返し処理の実例を見てみましょう。
+ここでは第10項までのフィボナッチ数列を作ることを考えます。
+
+\texttt{for}文は実はしれっとすでに資料中で登場していますが、以下のような記述で使うことができます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{for}\NormalTok{ (}\OperatorTok{\textless{}}\NormalTok{ループ前の処理}\OperatorTok{\textgreater{};} \OperatorTok{\textless{}}\NormalTok{ループ終了条件}\OperatorTok{\textgreater{};} \OperatorTok{\textless{}}\NormalTok{ループごとの処理}\OperatorTok{\textgreater{}}\NormalTok{) \{}
+  \OperatorTok{\textless{}}\NormalTok{繰り返す処理内容}\OperatorTok{\textgreater{}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+は、ループがはじまる前に一度だけ処理されます。 \texttt{i}, \texttt{j},
+\texttt{k}を\texttt{for}文での制御変数として利用し、\texttt{let\ i\ =\ 0;}のように変数宣言と初期値の代入をすることが多いです。
+
+は、評価結果が偽になったときにループを抜けるものです。
+制御変数を含めた判定式を記述することが多いです。
+
+は、が完了した後に毎回処理されます。
+\texttt{i++}のように制御変数をインクリメントすることが多いです。
+
+では具体的なフィボナッチ数列の生成コードを見てみましょう。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{let}\NormalTok{ fibonacciSeries }\OperatorTok{=}\NormalTok{ []}\OperatorTok{;}
+\ControlFlowTok{for}\NormalTok{ (}\KeywordTok{let}\NormalTok{ i }\OperatorTok{=} \DecValTok{1}\OperatorTok{;}\NormalTok{ i }\OperatorTok{\textless{}=} \DecValTok{10}\OperatorTok{;}\NormalTok{ i}\OperatorTok{++}\NormalTok{) \{}
+  \KeywordTok{const}\NormalTok{ len }\OperatorTok{=}\NormalTok{ fibonacciSeries}\OperatorTok{.}\AttributeTok{length}\OperatorTok{;}
+  \ControlFlowTok{if}\NormalTok{ (len }\OperatorTok{\textless{}} \DecValTok{2}\NormalTok{) \{}
+\NormalTok{    fibonacciSeries}\OperatorTok{.}\FunctionTok{push}\NormalTok{(}\DecValTok{1}\NormalTok{)}\OperatorTok{;}
+\NormalTok{  \} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{    fibonacciSeries}\OperatorTok{.}\FunctionTok{push}\NormalTok{(fibonacciSeries[len }\OperatorTok{{-}} \DecValTok{2}\NormalTok{] }\OperatorTok{+}\NormalTok{ fibonacciSeries[len }\OperatorTok{{-}} \DecValTok{1}\NormalTok{])}\OperatorTok{;}
+\NormalTok{  \}}
+\NormalTok{\}}
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(fibonacciSeries)}\OperatorTok{;} \CommentTok{// [1, 1, 2, 3, 5, 8, 13, 21, 34, 55]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{imgs/for-calc-fibonacci.png}
+\caption{実行結果}
+\end{figure}
+
+このように面倒な手順を繰り返し処理で簡単に記述できました。
+
+負の値をインデックスに使いたい
+
+Pythonなど一部言語では配列のインデックスに負の値を入力することで配列の後側から値を取り出すことができます。JSでは通常の\texttt{array{[}index{]}}ではこの記法が利用できませんが、\texttt{Array}オブジェクトの\texttt{at()}メソッドを利用することで同様の処理が可能です。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \KeywordTok{let}\NormalTok{ fibonacciSeries }\OperatorTok{=}\NormalTok{ []}\OperatorTok{;}
+  \ControlFlowTok{for}\NormalTok{ (}\KeywordTok{let}\NormalTok{ i }\OperatorTok{=} \DecValTok{1}\OperatorTok{;}\NormalTok{ i }\OperatorTok{\textless{}=} \DecValTok{10}\OperatorTok{;}\NormalTok{ i}\OperatorTok{++}\NormalTok{) \{}
+    \ControlFlowTok{if}\NormalTok{ (fibonacciSeries}\OperatorTok{.}\AttributeTok{length} \OperatorTok{\textless{}} \DecValTok{2}\NormalTok{) \{}
+\NormalTok{      fibonacciSeries}\OperatorTok{.}\FunctionTok{push}\NormalTok{(}\DecValTok{1}\NormalTok{)}\OperatorTok{;}
+\NormalTok{    \} }\ControlFlowTok{else}\NormalTok{ \{}
+\NormalTok{      fibonacciSeries}\OperatorTok{.}\FunctionTok{push}\NormalTok{(fibonacciSeries}\OperatorTok{.}\FunctionTok{at}\NormalTok{(}\OperatorTok{{-}}\DecValTok{2}\NormalTok{) }\OperatorTok{+}\NormalTok{ fibonacciSeries}\OperatorTok{.}\FunctionTok{at}\NormalTok{(}\OperatorTok{{-}}\DecValTok{1}\NormalTok{))}\OperatorTok{;}
+\NormalTok{    \}}
+\NormalTok{  \}}
+  \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(fibonacciSeries)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+個人的にはこの書き方のほうが行数も減って直感的にわかりやすくて好みです。適宜つか分けられると良いでしょう。
+
+\subsubsection{\texorpdfstring{4-3.
+\texttt{Array.prototype.forEach()}}{4-3. Array.prototype.forEach()}}\label{array.prototype.foreach}
+
+配列には\texttt{.forEach()}というメソッドがあります。メソッドとはオブジェクトから呼び出せる関数のことで、メソッドや関数については5.1で詳しく説明します。
+\texttt{.forEach()}は配列の1要素ごとに繰り返し処理を行うためのもので、以下のようにして利用できます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{let}\NormalTok{ array }\OperatorTok{=}\NormalTok{ []}\OperatorTok{;}
+\ControlFlowTok{for}\NormalTok{ (}\KeywordTok{let}\NormalTok{ i }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ i }\OperatorTok{\textless{}} \DecValTok{10}\OperatorTok{;}\NormalTok{ i}\OperatorTok{++}\NormalTok{) \{}
+\NormalTok{  array}\OperatorTok{.}\FunctionTok{push}\NormalTok{(}\BuiltInTok{Math}\OperatorTok{.}\FunctionTok{floor}\NormalTok{(}\BuiltInTok{Math}\OperatorTok{.}\FunctionTok{random}\NormalTok{() }\OperatorTok{*} \DecValTok{10} \OperatorTok{*}\NormalTok{ i))}\OperatorTok{;}
+\NormalTok{\}}
+
+\NormalTok{array}\OperatorTok{.}\FunctionTok{forEach}\NormalTok{((value) }\KeywordTok{=\textgreater{}}\NormalTok{ \{}
+  \ControlFlowTok{if}\NormalTok{ (value }\OperatorTok{\%} \DecValTok{2} \OperatorTok{===} \DecValTok{0}\NormalTok{) \{}
+    \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(}\VerbatimStringTok{\textasciigrave{}}\SpecialCharTok{$\{}\NormalTok{value}\SpecialCharTok{\}}\VerbatimStringTok{ is even.\textasciigrave{}}\NormalTok{)}\OperatorTok{;}
+\NormalTok{  \} }\ControlFlowTok{else}\NormalTok{ \{}
+    \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(}\VerbatimStringTok{\textasciigrave{}}\SpecialCharTok{$\{}\NormalTok{value}\SpecialCharTok{\}}\VerbatimStringTok{ is odd.\textasciigrave{}}\NormalTok{)}\OperatorTok{;}
+\NormalTok{  \}}
+\NormalTok{\})}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+このコードは10個の乱数を生成して配列にしたあと、それぞれに対して偶数か奇数かを判定するコードです。
+\texttt{(value)\ =\textgreater{}\ \{\}}と渡している処理をコールバック関数と呼びます。このようにJSでは関数の引数に関数を渡すことがあります。
+
+同様の処理はfor文でも記述できますが、インデックスによるアクセスが発生し混乱のもとになりやすいです。(特に配列のインデックスが0から始まることを忘れているとバグのもとになります。)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{let}\NormalTok{ array }\OperatorTok{=}\NormalTok{ []}\OperatorTok{;}
+\ControlFlowTok{for}\NormalTok{ (}\KeywordTok{let}\NormalTok{ i }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ i }\OperatorTok{\textless{}} \DecValTok{10}\OperatorTok{;}\NormalTok{ i}\OperatorTok{++}\NormalTok{) \{}
+\NormalTok{    array}\OperatorTok{.}\FunctionTok{push}\NormalTok{(}\BuiltInTok{Math}\OperatorTok{.}\FunctionTok{floor}\NormalTok{(}\BuiltInTok{Math}\OperatorTok{.}\FunctionTok{random}\NormalTok{() }\OperatorTok{*} \DecValTok{10} \OperatorTok{*}\NormalTok{ i))}\OperatorTok{;}
+\NormalTok{\}}
+
+\ControlFlowTok{for}\NormalTok{ (}\KeywordTok{let}\NormalTok{ i }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}\NormalTok{ i }\OperatorTok{\textless{}} \DecValTok{10}\OperatorTok{;}\NormalTok{ i}\OperatorTok{++}\NormalTok{) \{}
+    \ControlFlowTok{if}\NormalTok{ (array[i] }\OperatorTok{\%} \DecValTok{2} \OperatorTok{===} \DecValTok{0}\NormalTok{) \{}
+        \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(}\VerbatimStringTok{\textasciigrave{}}\SpecialCharTok{$\{}\NormalTok{array[i]}\SpecialCharTok{\}}\VerbatimStringTok{ is even.\textasciigrave{}}\NormalTok{)}\OperatorTok{;}
+\NormalTok{    \} }\ControlFlowTok{else}\NormalTok{ \{}
+        \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(}\VerbatimStringTok{\textasciigrave{}}\SpecialCharTok{$\{}\NormalTok{array[i]}\SpecialCharTok{\}}\VerbatimStringTok{ is odd.\textasciigrave{}}\NormalTok{)}\OperatorTok{;}
+\NormalTok{    \}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{imgs/calc-evenodd-foreach.png}
+\includegraphics{imgs/calc-evenodd-index.png}
+
+for文中の処理の最初で\texttt{array{[}i{]}}を別の変数(例えば\texttt{value})に代入しても良いですが、同様のことが\texttt{forEach()}では\texttt{(value)\ =\textgreater{}\ \{...\}}とするだけでかけます。またfor文での処理と違い配列の長さを気にせず処理を行えるのも便利な特徴です。適宜使い分けると良いでしょう。
+
+\subsection{5.
+コードをまとめてわかりやすくしよう}\label{ux30b3ux30fcux30c9ux3092ux307eux3068ux3081ux3066ux308fux304bux308aux3084ux3059ux304fux3057ux3088ux3046}
+
+ここまででJSでの基本的な処理の説明を行ってきました。
+それらの組み合わせで多種多様な処理を作っていくわけですが、処理のたびに毎回同じコードを書くのは気が引けますよね？一連の処理に名前をつけて呼び出せたら\ldots それを実現する愉快な仲間たちを紹介します。
+
+\begin{quote}
+※ このセクションは全体的にだいぶ端折った説明をしています。
+より詳細な説明は参考文献から\href{https://developer.mozilla.org/ja/docs/Web}{mdn
+web
+docs}や\href{https://jsprimer.net/}{JSPrimer}の該当箇所を読んでください。
+\end{quote}
+
+\subsubsection{5-1. 関数}\label{ux95a2ux6570}
+
+\paragraph{5-1-1. 関数}\label{ux95a2ux6570-1}
+
+すでに関数の呼び出しは資料中にたくさん登場しています。例えば\texttt{console.log()}は立派な関数呼び出しです。このように\texttt{関数名(引数)}という形で関数は呼び出せます。
+
+では関数はどのようにプログラム中で記述できるのかというと、基本的に以下のように記述できます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{function} \OperatorTok{\textless{}}\NormalTok{関数名}\OperatorTok{\textgreater{}}\NormalTok{ (}\OperatorTok{\textless{}}\NormalTok{引数}\OperatorTok{\textgreater{}}\NormalTok{) \{}
+  \OperatorTok{\textless{}}\NormalTok{処理内容}\OperatorTok{\textgreater{}}
+  \ControlFlowTok{return} \OperatorTok{\textless{}}\NormalTok{返り値}\OperatorTok{\textgreater{};}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+具体的に二次方程式の解を求める関数を作成してみます。(ただし、JSは標準では虚数を表現できません)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{function} \FunctionTok{solveQuadraticEquation}\NormalTok{ (a}\OperatorTok{,}\NormalTok{ b}\OperatorTok{,}\NormalTok{ c) \{}
+  \KeywordTok{const}\NormalTok{ d }\OperatorTok{=}\NormalTok{ b }\OperatorTok{**} \DecValTok{2} \OperatorTok{{-}} \DecValTok{4} \OperatorTok{*}\NormalTok{ a }\OperatorTok{*}\NormalTok{ c}\OperatorTok{;}
+  \ControlFlowTok{if}\NormalTok{ (d }\OperatorTok{===} \DecValTok{0}\NormalTok{) \{}
+    \ControlFlowTok{return}\NormalTok{ \{}
+      \DataTypeTok{type}\OperatorTok{:} \StringTok{\textquotesingle{}重解\textquotesingle{}}\OperatorTok{,}
+      \DataTypeTok{ans}\OperatorTok{:}\NormalTok{ [b }\OperatorTok{/}\NormalTok{ (}\DecValTok{2} \OperatorTok{*}\NormalTok{ a)]}
+\NormalTok{    \}}\OperatorTok{;}
+\NormalTok{  \} }\ControlFlowTok{else} \ControlFlowTok{if}\NormalTok{ (d }\OperatorTok{\textgreater{}} \DecValTok{0}\NormalTok{) \{}
+    \ControlFlowTok{return}\NormalTok{ \{}
+      \DataTypeTok{type}\OperatorTok{:} \StringTok{\textquotesingle{}実数解\textquotesingle{}}\OperatorTok{,}
+      \DataTypeTok{ans}\OperatorTok{:}\NormalTok{ [}
+\NormalTok{        (b }\OperatorTok{+} \BuiltInTok{Math}\OperatorTok{.}\FunctionTok{sqrt}\NormalTok{(d)) }\OperatorTok{/}\NormalTok{ (}\DecValTok{2} \OperatorTok{*}\NormalTok{ a)}\OperatorTok{,}
+\NormalTok{        (b }\OperatorTok{{-}} \BuiltInTok{Math}\OperatorTok{.}\FunctionTok{sqrt}\NormalTok{(d)) }\OperatorTok{/}\NormalTok{ (}\DecValTok{2} \OperatorTok{*}\NormalTok{ a)}
+\NormalTok{      ]}
+\NormalTok{    \}}\OperatorTok{;}
+\NormalTok{  \} }\ControlFlowTok{else}\NormalTok{ \{}
+    \ControlFlowTok{return}\NormalTok{ \{}
+      \DataTypeTok{type}\OperatorTok{:} \StringTok{\textquotesingle{}虚数解\textquotesingle{}}\OperatorTok{,}
+      \DataTypeTok{ans}\OperatorTok{:}\NormalTok{ [}
+        \VerbatimStringTok{\textasciigrave{}(}\SpecialCharTok{$\{}\NormalTok{b}\SpecialCharTok{\}}\VerbatimStringTok{ ± √}\SpecialCharTok{$\{}\BuiltInTok{Math}\OperatorTok{.}\FunctionTok{abs}\NormalTok{(d)}\SpecialCharTok{\}}\VerbatimStringTok{i) / }\SpecialCharTok{$\{}\DecValTok{2} \OperatorTok{*}\NormalTok{ a}\SpecialCharTok{\}}\VerbatimStringTok{\textasciigrave{}}
+\NormalTok{      ]}
+\NormalTok{    \}}\OperatorTok{;}
+\NormalTok{  \}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+ここで \texttt{a}, \texttt{b}, \texttt{c}
+は\textbf{仮引数}と呼ばれ、関数の呼び出し時に\texttt{()}の中の対応する位置に与えられた値(\textbf{引数})を参照できます。その後\texttt{return}で関数の処理結果を\textbf{返り値}として返しています。
+この\texttt{return}文は値を返す必要がない関数では省略可能です。
+
+また、\texttt{return}は値を返す、つまり関数の処理を終えたことを意味します。そのため上記の処理のように処理の途中で関数を終了したり、条件によって複数の終了処理を記述することができます。
+
+\paragraph{5-1-2. 無名関数}\label{ux7121ux540dux95a2ux6570}
+
+JSで頻出する関数の書き方には名前はないけど関数として宣言されて実行されるものがあります。それが無名関数です。以下のようなものが無名関数と呼ばれます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{function}\NormalTok{ (msg) \{}
+  \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(msg)}\OperatorTok{;}
+\NormalTok{\}}\OperatorTok{;}
+
+\NormalTok{(msg) }\KeywordTok{=\textgreater{}}\NormalTok{ \{}
+  \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(msg)}\OperatorTok{;}
+\NormalTok{\}}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+後者は特別に\emph{アロー関数}と呼ばれる場合もあります。これらは返り値として関数を返します。
+そのため、変数に関数を代入して変数名の後ろに\texttt{()}をつけることで代入した関数を呼び出すことができます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{const}\NormalTok{ log }\OperatorTok{=} \KeywordTok{function}\NormalTok{ (msg) \{}
+  \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(msg)}\OperatorTok{;}
+\NormalTok{\}}\OperatorTok{;}
+\FunctionTok{log}\NormalTok{(}\StringTok{\textquotesingle{}test\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\paragraph{5-1-3.
+値としての関数}\label{ux5024ux3068ux3057ux3066ux306eux95a2ux6570}
+
+5-1-2.では無名関数を変数に代入していました。このことから、JSの関数は値として扱うことができるのがわかります。
+また、この性質を利用してコールバックという処理方法を取れます。\texttt{setTimeout(callback,\ delay)}の\texttt{callback}のように関数を値として渡すことで特別な処理がしやすくなります。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\PreprocessorTok{setTimeout}\NormalTok{(() }\KeywordTok{=\textgreater{}}\NormalTok{ \{}
+  \KeywordTok{const}\NormalTok{ now }\OperatorTok{=} \KeywordTok{new} \BuiltInTok{Date}\NormalTok{()}\OperatorTok{;}
+  \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(now)}\OperatorTok{;}
+\NormalTok{\}}\OperatorTok{,} \DecValTok{5} \OperatorTok{*} \DecValTok{1000}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{imgs/set-interval.gif}
+\caption{setInterval}
+\end{figure}
+
+setInterval
+
+\texttt{setInterval}は\texttt{setTimeout(callback,\ delay)}のように2つの引数を取ります。
+\texttt{callback}はコールバック関数で\texttt{delay}ミリ秒後に実行されます。
+また、返り値として正の整数値を返します。これは登録されたtimeoutのIDで、\texttt{setTimeout}が呼ばれてから\texttt{delay}ミリ秒の間に\texttt{clearTimeout(timeoutID)}とすることで登録されたコールバック関数の実行をキャンセルできます。
+
+\subsubsection{5-2.
+オブジェクト}\label{ux30aaux30d6ux30b8ux30a7ux30afux30c8}
+
+\paragraph{5-2-1.
+定義とアクセス}\label{ux5b9aux7fa9ux3068ux30a2ux30afux30bbux30b9}
+
+オブジェクトの名はここまでにも登場していますが、あらためて説明します。
+JSにおけるオブジェクトとは、キーと値が対になった\textbf{プロパティの集合}です。
+以下の文法で定義・アクセスできます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{let}\NormalTok{ obj }\OperatorTok{=}\NormalTok{ \{}
+  \DataTypeTok{key1}\OperatorTok{:} \StringTok{\textquotesingle{}value1\textquotesingle{}}\OperatorTok{,}
+  \DataTypeTok{key2}\OperatorTok{:} \StringTok{\textquotesingle{}value2\textquotesingle{}}
+\NormalTok{\}}\OperatorTok{;}
+
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(obj}\OperatorTok{.}\AttributeTok{key1}\OperatorTok{,}\NormalTok{ obj[}\StringTok{\textquotesingle{}key2\textquotesingle{}}\NormalTok{])}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{imgs/object-sample.png}
+\caption{オブジェクトのサンプル実行結果}
+\end{figure}
+
+このとき、\texttt{{[}{]}}(ブラケット記法)を利用したアクセスでは\texttt{obj{[}\textquotesingle{}key2\textquotesingle{}{]}}のように、プロパティ名を文字列として記述するほうが望ましいです。仮に\texttt{obj{[}key2{]}}と記述してアクセスしようとしたとき、\texttt{key2}が変数として解釈されて未定義のためエラーが発生します。
+これに対して、\texttt{.}(ドット記法)を利用したアクセスでは、使えないプロパティ名があることに注意が必要です。数字で始まるプロパティ名やハイフンを含んだプロパティ名はブラケット記法でアクセスする必要があります。
+
+\paragraph{5-2-2.
+プロパティの追加と存在確認}\label{ux30d7ux30edux30d1ux30c6ux30a3ux306eux8ffdux52a0ux3068ux5b58ux5728ux78baux8a8d}
+
+JSのオブジェクトは、一度作成したあとその値自体を変更できる特性を持ちます。これは\texttt{const}を利用して宣言したときも同様です。
+そのため、以下のようにしてオブジェクトにプロパティを追加できます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{const}\NormalTok{ obj }\OperatorTok{=}\NormalTok{ \{\}}\OperatorTok{;}
+
+\NormalTok{obj}\OperatorTok{.}\AttributeTok{key1} \OperatorTok{=} \StringTok{\textquotesingle{}value1\textquotesingle{}}\OperatorTok{;}
+\NormalTok{obj[}\StringTok{\textquotesingle{}key2\textquotesingle{}}\NormalTok{] }\OperatorTok{=} \StringTok{\textquotesingle{}value2\textquotesingle{}}\OperatorTok{;}
+
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(obj}\OperatorTok{.}\AttributeTok{key1}\OperatorTok{,}\NormalTok{ obj[}\StringTok{\textquotesingle{}key2\textquotesingle{}}\NormalTok{])}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{imgs/objectr-add-property.png}
+\caption{オブジェクトにプロパティを追加}
+\end{figure}
+
+またこの特性から、オブジェクトにないプロパティも参照できてしまいます(参照すると\texttt{undefined}が返ります)。この挙動によるバグを回避するために、いくつかの方法でオブジェクトに目的のプロパティが存在するかを確認することができます。ここでは最も使いやすい手法として\textbf{Optional
+Chaining演算子}\texttt{?.}を用いた方法を以下に示します。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{const}\NormalTok{ obj }\OperatorTok{=}\NormalTok{ \{}
+  \DataTypeTok{prop1}\OperatorTok{:}\NormalTok{ \{}
+    \DataTypeTok{key1}\OperatorTok{:} \StringTok{\textquotesingle{}value1\textquotesingle{}}
+\NormalTok{  \}}\OperatorTok{,}
+  \DataTypeTok{key2}\OperatorTok{:} \StringTok{\textquotesingle{}value2\textquotesingle{}}
+\NormalTok{\}}\OperatorTok{;}
+
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(obj}\OperatorTok{.}\AttributeTok{key1}\NormalTok{)}\OperatorTok{;} \CommentTok{// X  undefined}
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(obj}\OperatorTok{.}\AttributeTok{key2}\NormalTok{)}\OperatorTok{;} \CommentTok{// O  \textquotesingle{}value2\textquotesingle{}}
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(obj}\OperatorTok{.}\AttributeTok{prop1}\NormalTok{)}\OperatorTok{;} \CommentTok{// O  \{key1: \textquotesingle{}value1\textquotesingle{}\}}
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(obj}\OperatorTok{.}\AttributeTok{prop1}\OperatorTok{.}\AttributeTok{key1}\NormalTok{)}\OperatorTok{;} \CommentTok{// O  \textquotesingle{}value1\textquotesingle{}}
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(obj}\OperatorTok{.}\AttributeTok{prop1}\OperatorTok{.}\AttributeTok{key2}\NormalTok{)}\OperatorTok{;} \CommentTok{// X  undefined}
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(obj}\OperatorTok{.}\AttributeTok{prop2}\NormalTok{)}\OperatorTok{;} \CommentTok{// X  undefined}
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(obj}\OperatorTok{.}\AttributeTok{prop2}\OperatorTok{.}\AttributeTok{key1}\NormalTok{)}\OperatorTok{;} \CommentTok{// エラー  undefinedに対して更にプロパティにアクセスしようとした}
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(obj}\OperatorTok{.}\AttributeTok{prop2}\OperatorTok{.}\AttributeTok{key2}\NormalTok{)}\OperatorTok{;} \CommentTok{// エラー  undefinedに対して更にプロパティにアクセスしようとした}
+
+\CommentTok{// optional chaining}
+\CommentTok{// \textasciigrave{}?.\textasciigrave{}のつなげられたプロパティが存在するかを確認して}
+\CommentTok{//   存在すれば\textasciigrave{}?.\textasciigrave{}でつながったプロパティにアクセスする}
+\CommentTok{//   存在しなければundefinedを返す}
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(obj}\OperatorTok{.}\AttributeTok{prop2}\OperatorTok{?.}\AttributeTok{key1}\NormalTok{)}\OperatorTok{;} \CommentTok{// X  undefined}
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(obj}\OperatorTok{?.}\AttributeTok{prop2}\OperatorTok{.}\AttributeTok{key1}\NormalTok{)}\OperatorTok{;} \CommentTok{// エラー (obj?.prop2 が undefinedになり、undefined.key1と同じ意味になる)}
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(obj}\OperatorTok{?.}\AttributeTok{prop2}\OperatorTok{?.}\AttributeTok{key1}\NormalTok{)}\OperatorTok{;} \CommentTok{// X  undefined (obj?.prop2 が undefinedになり、undefined?.key1がundefinedになる)}
+\end{Highlighting}
+\end{Shaded}
+
+例えば、APIリクエストのレスポンスにあったりなかったりするプロパティにアクセスするときや、入力が必須でない項目があるフォームなどを扱うときに重宝する機能です。覚えていると良いことがあるかもしれません。
+
+オブジェクトのプロパティに関数を
+
+JSの関数は値として扱える、という話をしましたが、ならばキーと値が対になったプロパティに関数を使うこともできそうですよね？できます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \KeywordTok{const}\NormalTok{ basicArithmeticOperations }\OperatorTok{=}\NormalTok{ \{}
+    \DataTypeTok{sum}\OperatorTok{:}\NormalTok{ (a}\OperatorTok{,}\NormalTok{ b) }\KeywordTok{=\textgreater{}}\NormalTok{ a }\OperatorTok{+}\NormalTok{ b}\OperatorTok{,}
+    \DataTypeTok{diff}\OperatorTok{:}\NormalTok{ (a}\OperatorTok{,}\NormalTok{ b) }\KeywordTok{=\textgreater{}}\NormalTok{ a }\OperatorTok{{-}}\NormalTok{ b}\OperatorTok{,}
+    \DataTypeTok{multi}\OperatorTok{:}\NormalTok{ (a}\OperatorTok{,}\NormalTok{ b) }\KeywordTok{=\textgreater{}}\NormalTok{ a }\OperatorTok{*}\NormalTok{ b}\OperatorTok{,}
+    \DataTypeTok{div}\OperatorTok{:}\NormalTok{ (a}\OperatorTok{,}\NormalTok{ b) }\KeywordTok{=\textgreater{}}\NormalTok{ a }\OperatorTok{/}\NormalTok{ b}
+\NormalTok{  \}}\OperatorTok{;}
+
+  \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(basicArithmeticOperations}\OperatorTok{.}\FunctionTok{sum}\NormalTok{(}\DecValTok{1}\OperatorTok{,} \DecValTok{1}\NormalTok{))}\OperatorTok{;}
+  \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(basicArithmeticOperations}\OperatorTok{.}\FunctionTok{diff}\NormalTok{(}\DecValTok{1}\OperatorTok{,} \DecValTok{1}\NormalTok{))}\OperatorTok{;}
+  \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(basicArithmeticOperations}\OperatorTok{.}\FunctionTok{multi}\NormalTok{(}\DecValTok{2}\OperatorTok{,} \DecValTok{2}\NormalTok{))}\OperatorTok{;}
+  \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(basicArithmeticOperations}\OperatorTok{.}\FunctionTok{div}\NormalTok{(}\DecValTok{2}\OperatorTok{,} \DecValTok{2}\NormalTok{))}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{imgs/object-function.png}
+\caption{関数をプロパティに}
+\end{figure}
+
+\subsubsection{5-3. クラス}\label{ux30afux30e9ux30b9}
+
+クラスは以下のような文で定義し、インスタンスを生成してメソッドやプロパティにアクセスできます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// クラス定義}
+\KeywordTok{class} \OperatorTok{\textless{}}\NormalTok{クラス名}\OperatorTok{\textgreater{}}\NormalTok{ \{}
+  \OperatorTok{\textless{}}\NormalTok{プロパティの宣言}\OperatorTok{\textgreater{}}
+
+  \FunctionTok{constructor}\NormalTok{ (}\OperatorTok{\textless{}}\NormalTok{コンストラクタ引数}\OperatorTok{\textgreater{}}\NormalTok{) \{}
+    \OperatorTok{\textless{}}\NormalTok{コンストラクタ関数での処理}\OperatorTok{\textgreater{}}
+    \OperatorTok{\textless{}}\NormalTok{※ }\FunctionTok{コンストラクタ関数では}\VerbatimStringTok{\textasciigrave{}return\textasciigrave{}}\NormalTok{は基本的にしない}\OperatorTok{\textgreater{}}
+\NormalTok{  \}}
+
+  \OperatorTok{\textless{}}\FunctionTok{メソッド}\NormalTok{(関数)の定義}\OperatorTok{\textgreater{}}
+\NormalTok{\}}
+
+\CommentTok{// インスタンス生成}
+\OperatorTok{\textless{}}\KeywordTok{const}\NormalTok{ または }\KeywordTok{let}\OperatorTok{\textgreater{}} \OperatorTok{\textless{}}\NormalTok{インスタンス変数名}\OperatorTok{\textgreater{}} \OperatorTok{=} \KeywordTok{new} \OperatorTok{\textless{}}\NormalTok{クラス名}\OperatorTok{\textgreater{}}\NormalTok{(}\OperatorTok{\textless{}}\NormalTok{コンストラクタ引数}\OperatorTok{\textgreater{}}\NormalTok{)}\OperatorTok{;}
+
+\CommentTok{// メソッド・プロパティアクセス}
+\OperatorTok{\textless{}}\NormalTok{インスタンス変数名}\OperatorTok{\textgreater{}.\textless{}}\NormalTok{プロパティ または メソッド}\OperatorTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+↑の疑似コードでは分かりづらい部分もあるので具体的に
+
+\begin{itemize}
+\tightlist
+\item
+  クラス名: \texttt{MyClass}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    文字列を与えて初期化できる（与えなくても初期値をもつ）
+  \item
+    \texttt{printText}メソッドを呼び出すことで自身が持つ文字列を出力する
+  \end{itemize}
+\end{itemize}
+
+というクラスを実装してみます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{class}\NormalTok{ MyClass \{}
+\NormalTok{  text }\OperatorTok{=} \StringTok{\textquotesingle{}initial text\textquotesingle{}}\OperatorTok{;}
+  
+  \FunctionTok{constructor}\NormalTok{ (text) \{}
+    \ControlFlowTok{if}\NormalTok{ (text) }\KeywordTok{this}\OperatorTok{.}\AttributeTok{text} \OperatorTok{=}\NormalTok{ text}\OperatorTok{;}
+\NormalTok{  \}}
+
+  \FunctionTok{printText}\NormalTok{ () \{}
+    \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(}\KeywordTok{this}\OperatorTok{.}\AttributeTok{text}\NormalTok{)}\OperatorTok{;}
+\NormalTok{  \}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+これがクラスです。クラスは設計書のようなもので、これをもとに実体(\textbf{インスタンス})を生成します。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{const}\NormalTok{ myClass }\OperatorTok{=} \KeywordTok{new} \FunctionTok{MyClass}\NormalTok{(}\StringTok{\textquotesingle{}my text\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+これで自身の文字列として\texttt{\textquotesingle{}my\ text\textquotesingle{}}を持つ\texttt{MyClass}のインスタンスを生成して\texttt{myClass}に代入できました。
+\texttt{myClass}から\texttt{printText}メソッドを呼び出せば\texttt{\textquotesingle{}my\ text\textquotesingle{}}と出力されるはずです。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{myClass}\OperatorTok{.}\FunctionTok{printText}\NormalTok{()}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{imgs/class-sample.png}
+\caption{クラスのサンプルコード実行結果}
+\end{figure}
+
+\subsection{6.
+非同期処理を使おう}\label{ux975eux540cux671fux51e6ux7406ux3092ux4f7fux304aux3046}
+
+非同期処理とはその名の通りプログラム中で非同期的な処理を行うことです。例えばサーバーへのリクエストを送ってレスポンスを受けとりたいときに使用されます。
+ここまでのコードはすべて同期処理で、非同期処理とは対称的に書いてあるコードが上から順に処理されて行きます。しかし、同期処理ではサーバーへのリクエストを送ったあとレスポンスが返ってくるまで何もすることができず（正確には「レスポンスを待つ」ことが処理になっているため次の処理に移れず）、処理にかかる時間が大幅に伸びてしまったりします。この待ち時間を解消するための仕組みが非同期処理です。
+
+\href{https://mermaid-js.github.io/docs/mermaid-live-editor-beta/\#/edit/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gIHBhcnRpY2lwYW50IEMgYXMg44Kv44Op44Kk44Ki44Oz44OIXG4gIHBhcnRpY2lwYW50IEggYXMg44Ob44K544OIXG5cbiAgQyAtPj4rIEg6IOODquOCr-OCqOOCueODiFxuICBOb3RlIHJpZ2h0IG9mIEM6IOW-heOBoeaZgumWk1xuICBIIC0tPj4tIEM6IOODrOOCueODneODs-OCuVxuIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifSwidXBkYXRlRWRpdG9yIjpmYWxzZX0}{\includegraphics{https://mermaid.ink/img/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gIHBhcnRpY2lwYW50IEMgYXMg44Kv44Op44Kk44Ki44Oz44OIXG4gIHBhcnRpY2lwYW50IEggYXMg44Ob44K544OIXG5cbiAgQyAtPj4rIEg6IOODquOCr-OCqOOCueODiFxuICBOb3RlIHJpZ2h0IG9mIEM6IOW-heOBoeaZgumWk1xuICBIIC0tPj4tIEM6IOODrOOCueODneODs-OCuVxuIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifSwidXBkYXRlRWRpdG9yIjpmYWxzZX0}}\href{https://mermaid-js.github.io/docs/mermaid-live-editor-beta/\#/edit/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gIHBhcnRpY2lwYW50IEMgYXMg44Kv44Op44Kk44Ki44Oz44OIXG4gIHBhcnRpY2lwYW50IFAgYXMg6Z2e5ZCM5pyf5Yem55CGXG4gIHBhcnRpY2lwYW50IEggYXMg44Ob44K544OIXG5cbiAgQyAtPj4rIFA6IOWHpueQhueZu-mMslxuICBQIC0-PisgSDog44Oq44Kv44Ko44K544OIXG4gIE5vdGUgcmlnaHQgb2YgQzog5LuW44Gu5Yem55CGXG4gIEggLS0-Pi0gUDog44Os44K544Od44Oz44K5XG4gIFAgLS0-Pi0gQzog44Kz44O844Or44OQ44OD44Kv5ZG844Gz5Ye644GXIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifSwidXBkYXRlRWRpdG9yIjpmYWxzZX0}{\includegraphics{https://mermaid.ink/img/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gIHBhcnRpY2lwYW50IEMgYXMg44Kv44Op44Kk44Ki44Oz44OIXG4gIHBhcnRpY2lwYW50IFAgYXMg6Z2e5ZCM5pyf5Yem55CGXG4gIHBhcnRpY2lwYW50IEggYXMg44Ob44K544OIXG5cbiAgQyAtPj4rIFA6IOWHpueQhueZu-mMslxuICBQIC0-PisgSDog44Oq44Kv44Ko44K544OIXG4gIE5vdGUgcmlnaHQgb2YgQzog5LuW44Gu5Yem55CGXG4gIEggLS0-Pi0gUDog44Os44K544Od44Oz44K5XG4gIFAgLS0-Pi0gQzog44Kz44O844Or44OQ44OD44Kv5ZG844Gz5Ye644GXIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifSwidXBkYXRlRWRpdG9yIjpmYWxzZX0}}
+
+JSにおける非同期処理の捉え方
+
+JSの処理は基本的にシングルスレッドで、実際には↑の図のような形にはなりづらいです。(実現する方法はあります。)
+非同期処理は並列に処理される(同時の2つの処理が行われる)わけではなく平行に処理されます(一つの処理の流れの中で2つの処理が行われる)。イメージとしては人間二人が一つずつの作業を行うわけではなく、人間一人が順序をつけて2つの作業を行う感じです。
+JSにおける非同期処理は、サーバーからもらうデータが必要などの理由で、\emph{今すぐに実行することができない処理を一旦後回しにして、必要なデータが揃ったものから処理していく}という認識が妥当に思います。
+
+詳しくは\href{https://jsprimer.net/basic/async/}{こちらのページ}がわかりやすいです。
+
+\subsubsection{\texorpdfstring{6-1.
+\texttt{Promise}/\texttt{then()}/\texttt{catch()}}{6-1. Promise/then()/catch()}}\label{promisethencatch}
+
+ここでは非同期処理の状態や結果を扱うことのできる\texttt{Promise}オブジェクトについて説明します。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{const}\NormalTok{ randomDelay }\OperatorTok{=}\NormalTok{ () }\KeywordTok{=\textgreater{}} \KeywordTok{new} \BuiltInTok{Promise}\NormalTok{((resolve}\OperatorTok{,}\NormalTok{ reject) }\KeywordTok{=\textgreater{}}\NormalTok{ \{}
+  \KeywordTok{const}\NormalTok{ delay }\OperatorTok{=} \BuiltInTok{Math}\OperatorTok{.}\FunctionTok{floor}\NormalTok{(}\BuiltInTok{Math}\OperatorTok{.}\FunctionTok{random}\NormalTok{() }\OperatorTok{*} \DecValTok{1000}\NormalTok{)}\OperatorTok{;}
+  \PreprocessorTok{setTimeout}\NormalTok{(() }\KeywordTok{=\textgreater{}}\NormalTok{ \{}
+    \ControlFlowTok{if}\NormalTok{ (delay }\OperatorTok{\%} \DecValTok{2} \OperatorTok{===} \DecValTok{0}\NormalTok{) \{}
+      \FunctionTok{resolve}\NormalTok{(}\VerbatimStringTok{\textasciigrave{}}\SpecialCharTok{$\{}\NormalTok{delay}\SpecialCharTok{\}}\VerbatimStringTok{ is even.\textasciigrave{}}\NormalTok{)}\OperatorTok{;}
+\NormalTok{    \} }\ControlFlowTok{else}\NormalTok{ \{}
+      \FunctionTok{reject}\NormalTok{(}\VerbatimStringTok{\textasciigrave{}}\SpecialCharTok{$\{}\NormalTok{delay}\SpecialCharTok{\}}\VerbatimStringTok{ is odd.\textasciigrave{}}\NormalTok{)}
+\NormalTok{    \}}
+\NormalTok{  \}}\OperatorTok{,}\NormalTok{ delay)}\OperatorTok{;}
+\NormalTok{\})}\OperatorTok{;}
+
+\FunctionTok{randomDelay}\NormalTok{()}
+  \OperatorTok{.}\FunctionTok{then}\NormalTok{(v }\KeywordTok{=\textgreater{}} \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(}\VerbatimStringTok{\textasciigrave{}resolve: }\SpecialCharTok{$\{}\NormalTok{v}\SpecialCharTok{\}}\VerbatimStringTok{\textasciigrave{}}\NormalTok{))}
+  \OperatorTok{.}\FunctionTok{catch}\NormalTok{(e }\KeywordTok{=\textgreater{}} \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(}\VerbatimStringTok{\textasciigrave{}reject: }\SpecialCharTok{$\{}\NormalTok{e}\SpecialCharTok{\}}\VerbatimStringTok{\textasciigrave{}}\NormalTok{))}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+↑のコードではランダムな0\textasciitilde1000ミリ秒後に、待機時間が偶数秒なら\texttt{resolve}で解決され、奇数秒なら\texttt{reject}で拒否される\texttt{Promise}インスタンスを返す関数
+\texttt{randomDelay} を宣言しています。
+その後、\texttt{randomDelay()}でインスタンス生成、\texttt{Promise}を\texttt{then()}/\texttt{catch()}で受け取って解決・拒否を処理しています。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/promise-random-delay.gif}
+\caption{Promiseサンプル実行結果}
+\end{figure}
+
+\subsubsection{\texorpdfstring{6-2.
+\texttt{async}/\texttt{await}}{6-2. async/await}}\label{asyncawait}
+
+\texttt{async}はAsync Function(直訳:
+非同期関数)を定義するための構文です。これは必ず\texttt{Promise}インスタンスを返す関数で通常の関数定義の構文とは異なります。
+それに対して\texttt{await}は\texttt{Promise}インスタンスを右辺にとり、その状態が解決もしくは拒否されるまでその場で待機するものです。
+
+これらを用いて 6-1.
+の\texttt{randomDelay}を実装すると次のようになります。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{async} \KeywordTok{function} \FunctionTok{randomDelay}\NormalTok{ () \{}
+  \KeywordTok{const}\NormalTok{ startedAt }\OperatorTok{=} \KeywordTok{new} \BuiltInTok{Date}\NormalTok{()}\OperatorTok{;}
+  \KeywordTok{const}\NormalTok{ delay }\OperatorTok{=} \BuiltInTok{Math}\OperatorTok{.}\FunctionTok{floor}\NormalTok{(}\BuiltInTok{Math}\OperatorTok{.}\FunctionTok{random}\NormalTok{() }\OperatorTok{*} \DecValTok{1000}\NormalTok{)}\OperatorTok{;}
+  \ControlFlowTok{while}\NormalTok{ (}\KeywordTok{true}\NormalTok{) \{}
+    \ControlFlowTok{if}\NormalTok{ (startedAt}\OperatorTok{.}\FunctionTok{getTime}\NormalTok{() }\OperatorTok{+}\NormalTok{ delay }\OperatorTok{\textless{}}\NormalTok{ (}\KeywordTok{new} \BuiltInTok{Date}\NormalTok{()}\OperatorTok{.}\FunctionTok{getTime}\NormalTok{())) }\ControlFlowTok{break}\OperatorTok{;}
+\NormalTok{  \}}
+  \ControlFlowTok{if}\NormalTok{ (delay }\OperatorTok{\%} \DecValTok{2} \OperatorTok{===} \DecValTok{0}\NormalTok{) \{}
+    \ControlFlowTok{return} \VerbatimStringTok{\textasciigrave{}}\SpecialCharTok{$\{}\NormalTok{delay}\SpecialCharTok{\}}\VerbatimStringTok{ is even.\textasciigrave{}}\OperatorTok{;}
+\NormalTok{  \} }\ControlFlowTok{else}\NormalTok{ \{}
+    \ControlFlowTok{return} \BuiltInTok{Promise}\OperatorTok{.}\FunctionTok{reject}\NormalTok{(}\VerbatimStringTok{\textasciigrave{}}\SpecialCharTok{$\{}\NormalTok{delay}\SpecialCharTok{\}}\VerbatimStringTok{ is odd.\textasciigrave{}}\NormalTok{)}\OperatorTok{;}
+\NormalTok{  \}}
+\NormalTok{\}}
+
+\ControlFlowTok{try}\NormalTok{ \{}
+  \KeywordTok{const}\NormalTok{ v }\OperatorTok{=} \ControlFlowTok{await} \FunctionTok{randomDelay}\NormalTok{()}\OperatorTok{;}
+  \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(}\VerbatimStringTok{\textasciigrave{}resolve: }\SpecialCharTok{$\{}\NormalTok{v}\SpecialCharTok{\}}\VerbatimStringTok{\textasciigrave{}}\NormalTok{)}\OperatorTok{;}
+\NormalTok{\} }\ControlFlowTok{catch}\NormalTok{ (e) \{}
+  \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(}\VerbatimStringTok{\textasciigrave{}reject: }\SpecialCharTok{$\{}\NormalTok{e}\SpecialCharTok{\}}\VerbatimStringTok{\textasciigrave{}}\NormalTok{)}\OperatorTok{;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+ランダムな時間待機するコードが変わっていますが、処理内容は同様です。気になる方は以下のサマリーを確認してください。
+ここで \texttt{try} \textasciitilde{} \texttt{catch}
+という構文が登場しますが、これは例外処理のための文です。
+\texttt{Promise} \textasciitilde{} \texttt{then} \textasciitilde{}
+\texttt{catch} では例外を \texttt{catch}
+がひろってくれるのですが、\texttt{await}式を用いた実装では例外は明示的に処理しなければなりません。そのため、この記述が必要になります。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/async-random-delay.gif}
+\caption{asyncサンプル実行結果}
+\end{figure}
+
+JSで処理を一時待機させる方法
+
+↑のコードでは関数が呼ばれた時刻を保持して、\texttt{while}文を利用して現在時刻と比較し続けて\texttt{delay}秒経過したら\texttt{break}で\texttt{while}ループを抜ける処理になっています。
+この方法は処理の負荷が非常に高いため、普通まずやってはいけない処理です。
+
+ではどのような方法で実装できるかというと、以下の定義で\texttt{sleep}関数を用意することができます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \KeywordTok{const}\NormalTok{ sleep }\OperatorTok{=}\NormalTok{ delay }\KeywordTok{=\textgreater{}} \KeywordTok{new} \BuiltInTok{Promise}\NormalTok{(resolve }\KeywordTok{=\textgreater{}} \PreprocessorTok{setTimeout}\NormalTok{(resolve}\OperatorTok{,}\NormalTok{ delay))}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+これを使うことで以下のようにコードを書き直せます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \KeywordTok{async} \KeywordTok{function} \FunctionTok{randomDelay}\NormalTok{ () \{}
+    \KeywordTok{const}\NormalTok{ delay }\OperatorTok{=} \BuiltInTok{Math}\OperatorTok{.}\FunctionTok{floor}\NormalTok{(}\BuiltInTok{Math}\OperatorTok{.}\FunctionTok{random}\NormalTok{() }\OperatorTok{*} \DecValTok{1000}\NormalTok{)}\OperatorTok{;}
+    \ControlFlowTok{await} \FunctionTok{sleep}\NormalTok{(delay)}\OperatorTok{;}
+    \ControlFlowTok{if}\NormalTok{ (delay }\OperatorTok{\%} \DecValTok{2} \OperatorTok{===} \DecValTok{0}\NormalTok{) \{}
+      \ControlFlowTok{return} \VerbatimStringTok{\textasciigrave{}}\SpecialCharTok{$\{}\NormalTok{delay}\SpecialCharTok{\}}\VerbatimStringTok{ is even.\textasciigrave{}}\OperatorTok{;}
+\NormalTok{    \} }\ControlFlowTok{else}\NormalTok{ \{}
+      \ControlFlowTok{return} \BuiltInTok{Promise}\OperatorTok{.}\FunctionTok{reject}\NormalTok{(}\VerbatimStringTok{\textasciigrave{}}\SpecialCharTok{$\{}\NormalTok{delay}\SpecialCharTok{\}}\VerbatimStringTok{ is odd.\textasciigrave{}}\NormalTok{)}\OperatorTok{;}
+\NormalTok{    \}}
+\NormalTok{  \}}
+
+  \ControlFlowTok{try}\NormalTok{ \{}
+    \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(}\ControlFlowTok{await} \FunctionTok{randomDelay}\NormalTok{())}\OperatorTok{;}
+\NormalTok{  \} }\ControlFlowTok{catch}\NormalTok{ (e) \{}
+    \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(e)}\OperatorTok{;}
+\NormalTok{  \}}
+\end{Highlighting}
+\end{Shaded}
+
+ではなぜ非推奨なコードをサンプルで書いたのかというと、関数定義を一つだけにしたい、\texttt{await}の使用箇所を一つにしたいという理由のために使用しました。
+特別な事情がないかぎり、\texttt{sleep}関数を定義して利用するのが良いでしょう
+
+処理によって\texttt{Promise}\textasciitilde{}\texttt{then}を利用するか\texttt{async}/\texttt{await}を利用するか、どちらが読みやすいかを考えながら使い分けられると良いですね。
+
+\subsection{7.
+ブラウザの標準APIを使ってみよう}\label{ux30d6ux30e9ux30a6ux30b6ux306eux6a19ux6e96apiux3092ux4f7fux3063ux3066ux307fux3088ux3046}
+
+さて、最後にweb開発を助けてくれるブラウザの機能についてです。
+我々が普段使うブラウザには様々なAPIが用意されています。特に有用な2つを使ってみましょう。
+
+\subsubsection{7-1. Web Storage API}\label{web-storage-api}
+
+Web Storage API はブラウザにキーと値の対を保存できるAPIです。
+その中でも特に \texttt{localStorage} について説明します。
+
+\texttt{localstorage}は以下のようにして利用できます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// 値のセット}
+\NormalTok{localStorage}\OperatorTok{.}\FunctionTok{setItem}\NormalTok{(}\StringTok{\textquotesingle{}name\textquotesingle{}}\OperatorTok{,} \StringTok{\textquotesingle{}jig太郎\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+\CommentTok{// 値の取り出し}
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(localStorage}\OperatorTok{.}\FunctionTok{getItem}\NormalTok{(}\StringTok{\textquotesingle{}name\textquotesingle{}}\NormalTok{))}\OperatorTok{;}
+\CommentTok{// ローカルストレージに保存されている値の数}
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(localStorage}\OperatorTok{.}\AttributeTok{length}\NormalTok{)}\OperatorTok{;} \CommentTok{// 1}
+\CommentTok{// 値の削除}
+\NormalTok{localStorage}\OperatorTok{.}\FunctionTok{removeItem}\NormalTok{(}\StringTok{\textquotesingle{}name\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(localStorage}\OperatorTok{.}\FunctionTok{getItem}\NormalTok{(}\StringTok{\textquotesingle{}name\textquotesingle{}}\NormalTok{))}\OperatorTok{;} \CommentTok{// null}
+
+\NormalTok{localStorage}\OperatorTok{.}\FunctionTok{setItem}\NormalTok{(}\StringTok{\textquotesingle{}name\textquotesingle{}}\OperatorTok{,} \StringTok{\textquotesingle{}jig太郎\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+\NormalTok{localStorage}\OperatorTok{.}\FunctionTok{setItem}\NormalTok{(}\StringTok{\textquotesingle{}age\textquotesingle{}}\OperatorTok{,} \StringTok{\textquotesingle{}20\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+\CommentTok{// ローカルストレージを空にする}
+\NormalTok{localStorage}\OperatorTok{.}\FunctionTok{clear}\NormalTok{()}\OperatorTok{;}
+
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(localStorage}\OperatorTok{.}\AttributeTok{length}\NormalTok{)}\OperatorTok{;} \CommentTok{// 0}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{imgs/localstorage.png}
+\caption{localStorageサンプル}
+\end{figure}
+
+注意する点として、\texttt{localStorage}に保存する値はすべて文字列になることが挙げられます。
+例えば、\texttt{localStorage.setItem(\textquotesingle{}age\textquotesingle{},\ 20);}としてnumber型で保存できたと思っても、\texttt{getItem}で取り出したときには\texttt{\textquotesingle{}20\textquotesingle{}}として文字列で返ってきます。このあと数値として扱いたい場合には\texttt{Number(\textless{}文字列\textgreater{})}としてnumber型に変換する必要があります。
+
+また、\texttt{localStorage}への操作はパフォーマンスが悪いという問題もあります。あまりにも多用するのは問題ですが、その扱いの容易さ故に許容されがちです。気をつけて利用するようにしましょう。
+
+\subsubsection{7-2. 位置情報API}\label{ux4f4dux7f6eux60c5ux5831api}
+
+インターネットにアクセスできる環境下で便利なものの一つが位置情報でしょう。手元の小さな端末が自分の位置を正確に取得してくれるおかげで我々は迷子になることが減りました。
+
+そんな位置情報を取得するためのAPIがブラウザにも実装されています。以下のようにして自分の緯度経度を取得することができます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// 位置情報が利用可能か確認する}
+\ControlFlowTok{if}\NormalTok{ (}\StringTok{\textquotesingle{}geolocation\textquotesingle{}} \KeywordTok{in} \BuiltInTok{navigator}\NormalTok{) \{}
+  \KeywordTok{const}\NormalTok{ geolocation }\OperatorTok{=} \BuiltInTok{navigator}\OperatorTok{.}\AttributeTok{geolocation}\OperatorTok{;}
+\NormalTok{  geolocation}\OperatorTok{.}\FunctionTok{getCurrentPosition}\NormalTok{((position) }\KeywordTok{=\textgreater{}}\NormalTok{ \{}
+    \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(}\VerbatimStringTok{\textasciigrave{}latitude: }\SpecialCharTok{$\{}\NormalTok{position}\OperatorTok{.}\AttributeTok{coords}\OperatorTok{.}\AttributeTok{latitude}\SpecialCharTok{\}}\VerbatimStringTok{, longitude: }\SpecialCharTok{$\{}\NormalTok{position}\OperatorTok{.}\AttributeTok{coords}\OperatorTok{.}\AttributeTok{longitude}\SpecialCharTok{\}}\VerbatimStringTok{\textasciigrave{}}\NormalTok{)}\OperatorTok{;}
+\NormalTok{  \})}\OperatorTok{;}
+\NormalTok{\} }\ControlFlowTok{else}\NormalTok{ \{}
+  \BuiltInTok{console}\OperatorTok{.}\FunctionTok{error}\NormalTok{(}\StringTok{\textquotesingle{}this browser has not support geolocation.\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+↑のコードを実行すると↓のようなポップアップが表示されます。「許可する」をクリックして位置情報を利用できるようにしてください。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/geolocation-authority.png}
+\caption{位置情報利用許可}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{imgs/geolocation-sample.png}
+\caption{実行結果}
+\end{figure}
+
+↑のように緯度経度が出力されれば問題なく実行できています。
+
+\href{https://fukuno.jig.jp/app/map/latlng/}{地図}で調べて見ると若干のズレはあるもののおおよその位置はあっていました
+
+\begin{figure}
+\centering
+\includegraphics{imgs/geolocation-map.png}
+\caption{位置情報から地図}
+\end{figure}
+
+位置情報の応用は\href{https://hackmd.io/@haruyuki16278/Hk2Tmh7b3}{こちらの記事}や\href{https://developer.mozilla.org/ja/docs/Web/API/Geolocation_API/Using_the_Geolocation_API\#examples}{mdn
+web docs}を確認してみてください。
+
+\subsection{8. 終わりに}\label{ux7d42ux308fux308aux306b}
+
+ここまででこの記事ではJSの初歩〜ブラウザのAPIを利用するまでを駆け足で説明してきました。
+が、簡単のために省略した部分や実際の内容とは異なる解説をしている部分もあるため、理解しきれてない部分もあるかもしれません。
+わからないところ、詳しく知りたいところは筆者やメンターに聞いたり、参考文献から調べたりしてみてください。
+
+\subsection{9. 参考文献}\label{ux53c2ux8003ux6587ux732e}
+
+\begin{itemize}
+\tightlist
+\item
+  mdn web docs:
+  \url{https://developer.mozilla.org/ja/docs/Web/JavaScript}
+\item
+  JSPrimer: \url{https://jsprimer.net/}
+\item
+  ECMAScript2020言語仕様　私的日本語訳:
+  \url{https://xn--ecmascript2020-tt9vf572amitfjlc.com/}
+\end{itemize}

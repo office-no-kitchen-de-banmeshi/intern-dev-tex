@@ -4,10 +4,17 @@
 
 ## コピー時のコマンド
 
-前提: ホームディレクトリ下にintern-dev-tutorialがcloneされていること
+前提: ホームディレクトリ下にintern-dev-tutorialとintern-dev-texがcloneされていること
 
 ```zsh
 for i in `ls ~/intern-dev-tutorial/**/*.md`; do cp -R $i `echo $i | sed -E "s/intern-dev-tutorial\/([a-zA-Z0-9-]*\/*)/intern-dev-tex\/\1/g" | sed -E "s/(.*intern-dev-tex)\/(.*)\/(.*\.md)/\1\/\2-\3/g"`; done
+cd ~/intern-dev-tex
+for i in `ls *.md`; do pandoc $i -o `echo $i | sed -E "s/(.*).md/\1.tex/g"`; done
+```
+
+```zsh
+mkdir ~/intern-dev-tex/images
+
 ```
 
 ## TOC

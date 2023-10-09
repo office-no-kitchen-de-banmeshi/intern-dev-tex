@@ -1,0 +1,2043 @@
+\section{HTML/CSS
+を始めよう}\label{htmlcss-ux3092ux59cbux3081ux3088ux3046}
+
+\begin{quote}
+想定時間: 90分 動作環境: Google Chrome /
+\href{https://stackblitz.com}{StackBlitz}
+\end{quote}
+
+TOC
+
+\begin{itemize}
+\tightlist
+\item
+  \hyperref[htmlcss-ux3092ux59cbux3081ux3088ux3046]{HTML/CSS を始めよう}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \hyperref[1-htmlcssux306bux89e6ux308cux3066ux307fux3088ux3046]{1.
+    HTML/CSSに触れてみよう}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \hyperref[1-1-ux958bux767aux8005ux30c4ux30fcux30ebux3092ux898bux3088ux3046]{1-1.
+      開発者ツールを見よう}
+
+      \begin{itemize}
+      \tightlist
+      \item
+        \hyperref[1-1-1-elementsux8981ux7d20ux30bfux30d6ux3092ux898bux3088ux3046]{1-1-1.
+        Elements(要素)タブを見よう}
+      \item
+        \hyperref[1-1-2-styleux30b9ux30bfux30a4ux30ebux30bfux30d6ux3092ux898bux3088ux3046]{1-1-2.
+        Style(スタイル)タブを見よう}
+      \item
+        \hyperref[1-1-3-computedux8a08ux7b97ux6e08ux307fux30bfux30d6ux3092ux898bux3088ux3046]{1-1-3.
+        Computed(計算済み)タブを見よう}
+      \end{itemize}
+    \item
+      \hyperref[1-uxff12-visbugux3092ux4f7fux3063ux3066ux307fux3088ux3046]{1-２.
+      VisBugを使ってみよう}
+    \end{itemize}
+  \item
+    \hyperref[2-ux30daux30fcux30b8ux3092ux4f5cux3063ux3066ux307fux3088ux3046]{2.
+    ページを作ってみよう}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \hyperref[2-1-htmlux3092ux306fux3058ux3081ux3088ux3046]{2-1.
+      HTMLをはじめよう}
+    \item
+      \hyperref[2-2-htmlux306eux57faux672cux7684ux306aux69cbux9020ux3092ux77e5ux308dux3046]{2-2.
+      HTMLの基本的な構造を知ろう}
+
+      \begin{itemize}
+      \tightlist
+      \item
+        \hyperref[2-2-1-ux6587ux66f8ux578bux5b9aux7fa9ux3068ux30ebux30fcux30c8ux8981ux7d20]{2-2-1.
+        文書型定義とルート要素}
+      \item
+        \hyperref[2-2-2-headux8981ux7d20]{2-2-2. head要素}
+      \item
+        \hyperref[2-2-3-bodyux8981ux7d20]{2-2-3. body要素}
+      \end{itemize}
+    \item
+      \hyperref[2-3-ux30b3ux30f3ux30c6ux30f3ux30c4ux3092ux898bux3084ux3059ux304fux66f8ux304fhtmlux3092ux77e5ux308dux3046]{2-3.
+      コンテンツを見やすく書くHTMLを知ろう}
+
+      \begin{itemize}
+      \tightlist
+      \item
+        \hyperref[2-3-1-ux898bux51faux3057ux3068ux6bb5ux843d]{2-3-1.
+        見出しと段落}
+      \item
+        \hyperref[2-3-2-ux7b87ux6761ux66f8ux304dux30eaux30b9ux30c8]{2-3-2.
+        箇条書き(リスト)}
+      \item
+        \hyperref[2-3-3-ux5f37ux8abfux3068ux91cdux8981ux306eux8868ux73feux3068ux305dux306eux9055ux3044]{2-3-3.
+        強調と重要の表現とその違い}
+      \end{itemize}
+    \item
+      \hyperref[2-4-ux753bux50cfux3092ux5229ux7528ux3057ux3088ux3046]{2-4.
+      画像を利用しよう}
+    \item
+      \hyperref[2-5-ux30eaux30f3ux30afux3092ux8cbcux308dux3046]{2-5.
+      リンクを貼ろう}
+    \item
+      \hyperref[2-6-ux3088ux304fux3042ux308bux30daux30fcux30b8ux306eux30ecux30a4ux30a2ux30a6ux30c8ux3068ux305dux306eux305fux3081ux306ehtmlux8981ux7d20ux3092ux77e5ux308dux3046]{2-6.
+      よくあるページのレイアウトとそのためのHTML要素を知ろう}
+    \item
+      \hyperref[2-7-ux4f55ux3067ux3082ux306aux3044ux4fbfux5229ux8981ux7d20-div]{2-7.
+      何でもない便利要素 \texttt{\textless{}div\textgreater{}}}
+    \end{itemize}
+  \item
+    \hyperref[3-ux30ecux30a4ux30a2ux30a6ux30c8ux3068ux30c7ux30b6ux30a4ux30f3ux3092ux8003ux3048ux3088ux3046]{3.
+    レイアウトとデザインを考えよう}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \hyperref[3-1-cssux3092ux59cbux3081ux3088ux3046]{3-1.
+      CSSを始めよう}
+    \item
+      \hyperref[3-2-ux30dcux30c3ux30afux30b9ux30e2ux30c7ux30ebux3068box-sizing]{3-2.
+      ボックスモデルと\texttt{box-sizing}}
+    \item
+      \hyperref[3-3-ux30b9ux30bfux30a4ux30ebux30b7ux30fcux30c8ux306eux7a2eux985eux3068ux512aux5148ux5ea6]{3-3.
+      スタイルシートの種類と優先度}
+    \item
+      \hyperref[3-4-ux30bbux30ecux30afux30bfux3067ux3082ux3063ux3068ux9650ux5b9aux7684ux306bux30b9ux30bfux30a4ux30ebux3092ux9069ux7528ux3067ux304dux308bux3088ux3046ux306bux306aux308dux3046]{3-4.
+      セレクタでもっと限定的にスタイルを適用できるようになろう}
+
+      \begin{itemize}
+      \tightlist
+      \item
+        \hyperref[3-4-1-ux57faux672cux30bbux30ecux30afux30bfux3068ux7d50ux5408ux5b50]{3-4-1.
+        基本セレクタと結合子}
+      \item
+        \hyperref[3-4-2-ux7591ux4f3cux8868ux8a18]{3-4-2. 疑似表記}
+      \end{itemize}
+    \item
+      \hyperref[3-5-ux601dux3044ux3069ux304aux308aux306eux898bux305fux76eeux3092ux4f5cux308dux3046]{3-5.
+      思いどおりの見た目を作ろう}
+
+      \begin{itemize}
+      \tightlist
+      \item
+        \hyperref[3-5-1-cssux30abux30b9ux30bfux30e0ux30d7ux30edux30d1ux30c6ux30a3ux3092ux4f7fux304aux3046]{3-5-1.
+        CSSカスタムプロパティを使おう}
+      \item
+        \hyperref[3-5-2-ux6587ux5b57ux306eux898bux305fux76eeux3092ux5909ux66f4ux3057ux3088ux3046]{3-5-2.
+        文字の見た目を変更しよう}
+      \item
+        \hyperref[3-5-3-ux8981ux7d20ux306eux898bux305fux76eeux3092ux5909ux66f4ux3057ux3088ux3046]{3-5-3.
+        要素の見た目を変更しよう}
+      \item
+        \hyperref[3-5-4-ux5f62ux3092ux3064ux304fux308dux3046]{3-5-4.
+        形をつくろう}
+      \end{itemize}
+    \item
+      \hyperref[3-6-ux601dux3044ux3069ux304aux308aux306bux914dux7f6eux3057ux3088ux3046]{3-6.
+      思いどおりに配置しよう}
+
+      \begin{itemize}
+      \tightlist
+      \item
+        \hyperref[3-4-1-ux30b0ux30eaux30c3ux30c9ux30ecux30a4ux30a2ux30a6ux30c8]{3-4-1.
+        グリッドレイアウト}
+      \item
+        \hyperref[3-4-2-ux30d5ux30ecux30c3ux30afux30b9ux30dcux30c3ux30afux30b9]{3-4-2.
+        フレックスボックス}
+      \end{itemize}
+    \end{itemize}
+  \item
+    \hyperref[4-ux30daux30fcux30b8ux306bux5909ux66f4ux3092ux52a0ux3048ux3088ux3046]{4.
+    ページに変更を加えよう}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \hyperref[4-1-htmlux3067ux30e6ux30fcux30b6ux30fcux306eux5165ux529bux3092ux53d7ux3051ux53d6ux308dux3046]{4-1.
+      HTMLでユーザーの入力を受け取ろう}
+
+      \begin{itemize}
+      \tightlist
+      \item
+        \hyperref[4-1-1-ux30dcux30bfux30f3ux8981ux7d20]{4-1-1.
+        ボタン要素}
+      \item
+        \hyperref[4-1-2-ux8981ux7d20ux306eux30a4ux30d9ux30f3ux30c8ux3092ux51e6ux7406ux3059ux308b]{4-1-2.
+        要素のイベントを処理する}
+      \end{itemize}
+    \item
+      \hyperref[4-uxff12-javascriptux3067ux8981ux7d20ux306bux5909ux66f4ux3092ux52a0ux3048ux3088ux3046]{4-２.
+      JavaScriptで要素に変更を加えよう}
+
+      \begin{itemize}
+      \tightlist
+      \item
+        \hyperref[4-2-1-ux30b3ux30f3ux30c6ux30f3ux30c4ux306bux5909ux66f4ux3092ux52a0ux3048ux3088ux3046]{4-2-1.
+        コンテンツに変更を加えよう}
+      \item
+        \hyperref[4-2-2-ux898bux305fux76eeux306bux5909ux66f4ux3092ux52a0ux3048ux3088ux3046]{4-2-2.
+        見た目に変更を加えよう}
+      \end{itemize}
+    \item
+      \hyperref[4-3-cssux3067ux8981ux7d20ux306eux5909ux5316ux3092ux9b45ux305bux3088ux3046]{4-3.
+      CSSで要素の変化を魅せよう}
+    \end{itemize}
+  \item
+    \hyperref[5-ux7d42ux308fux308aux306b]{5. 終わりに}
+  \item
+    \hyperref[6-ux53c2ux8003ux6587ux732e]{6. 参考文献}
+  \end{itemize}
+\end{itemize}
+
+\subsection{1.
+HTML/CSSに触れてみよう}\label{htmlcssux306bux89e6ux308cux3066ux307fux3088ux3046}
+
+Web開発をやってみようと思ったとき、誰しもがまず目にするのが
+\texttt{HTML}/\texttt{CSS}/\texttt{JavaScript}
+という組み合わせだと思います。これらについていまから学んでいきます。
+
+\subsubsection{1-1.
+開発者ツールを見よう}\label{ux958bux767aux8005ux30c4ux30fcux30ebux3092ux898bux3088ux3046}
+
+まずWeb開発で必ず使うツールとしてブラウザの開発者ツールがあります。
+ブラウザの右上のケバブボタンからメニューを開いて、「その他のツール」→「デベロッパーツール」から開発者ツールを開いておいてください。
+\includegraphics{imgs/open-dev-tool.png}
+
+\paragraph{1-1-1.
+Elements(要素)タブを見よう}\label{elementsux8981ux7d20ux30bfux30d6ux3092ux898bux3088ux3046}
+
+1.1で開いてもらった開発者ツールの一番上のタブで「Elememts」もしくは「要素」と書かれているタブを開いてください。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/opened-dev-tool-element.png}
+\caption{開発者ツールの見た目}
+\end{figure}
+
+ここで開発者ツールの左上にある点線と矢印のアイコンをクリックすると要素選択ツールが使えます。\\
+このツールはページの要素をクリックして要素の詳細を確認できます。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/select-element-in-dev-tool.gif}
+\caption{要素選択ツールの使い方}
+\end{figure}
+
+\paragraph{1-1-2.
+Style(スタイル)タブを見よう}\label{styleux30b9ux30bfux30a4ux30ebux30bfux30d6ux3092ux898bux3088ux3046}
+
+1-1-1.
+でやったように要素選択ツールで適当な要素を選択すると、それに合わせて開発者ツール下部にあるスタイルタブ内の表示も変わります。\\
+ここでは各要素に適用されているスタイルを確認することができます。
+また、ここで適当にスタイルを書き換えることもできます。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/edit-element-style-on-dev-tool.gif}
+\caption{開発者ツールでスタイルを書き換える}
+\end{figure}
+
+\paragraph{1-1-3.
+Computed(計算済み)タブを見よう}\label{computedux8a08ux7b97ux6e08ux307fux30bfux30d6ux3092ux898bux3088ux3046}
+
+1-1-2. で確認したStyleタブの横に Computed(計算済み)タブ
+があるので、そこも確認しましょう。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/show-conputed-tab.gif}
+\caption{計算済みの要素サイズを確認する}
+\end{figure}
+
+このタブでは選択中の要素の計算された大きさが表示されます。\\
+外から順にmargin、border、padding、content
+それぞれの大きさがわかります。\\
+そのため意図しない大きさが設定されている部分などを見つけやすいです。
+
+\subsubsection{1-２.
+VisBugを使ってみよう}\label{visbugux3092ux4f7fux3063ux3066ux307fux3088ux3046}
+
+ここでChromeで使える便利な拡張機能「VisBug」を紹介します。\href{https://chrome.google.com/webstore/detail/visbug/cdockenadnadldjbbgcallicgledbeoc?hl=ja}{こちら}からインストールできます。
+
+インストールしたら \texttt{Alt}+\texttt{Shift}+\texttt{D}
+のショートカットでVisBugを起動できます。\\
+様々な機能がありますが、特に便利なガイドツールとインスペクトツールを紹介します。
+
+VisBug の起動時に自動で開くツールがガイドツールです。\\
+このツールでは、クリックした要素とマウスホバー中の要素の大きさの差分が表示されます。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/visbug-guide-tool.gif}
+\caption{VisBugガイドツール}
+\end{figure}
+
+標準だと左側に出てくるツールバーから二番目のツールを開くとインスペクトツールになります。\\
+このツールはホバー中の要素の詳細が簡単に見れるツールです。\\
+開発者ツールのComputedタブで確認した要素の大きさや、Styleタブで確認した色周りの設定を一発で見れるのが便利です。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/visbug-inspect-tool.gif}
+\caption{VisBugインスペクトツール}
+\end{figure}
+
+ここで紹介した開発者ツールと拡張機能は何かと使えると便利なので頭の片隅にでもおいておいてください。
+
+\subsection{2.
+ページを作ってみよう}\label{ux30daux30fcux30b8ux3092ux4f5cux3063ux3066ux307fux3088ux3046}
+
+では実際にWebページの開発を始めてみましょう！\\
+ここでは \href{https://stackblitz.com/?starters=vanilla}{StackBlitz}
+というWeb IDEを使います。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/stackblitz-start-page.png}
+\caption{StackBlitzスタートページ}
+\end{figure}
+
+GitHubアカウントでログイン可能なので右上の「Sign
+in」からログインしておいてください。(制作物の保存に必要です)\\
+ログインが成功すると↓のような画面に遷移します。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/stackblitz-dashboard.png}
+\caption{stackblitzダッシュボード}
+\end{figure}
+
+「New
+Project」をクリックすると新規プロジェクトダイアログが開くので、Vanillaタブにある
+Static をクリックしてください。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/stackblitz-create-new-project.png}
+\caption{stackblitz新規プロジェクト}
+\end{figure}
+
+↓の画像のようにエディタとエミュレータが表示された状態に遷移します。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/stackblits-opened-static-ide.png}
+\caption{stackblitz新規プロジェクト初期状態}
+\end{figure}
+
+ファイルビューアにあるファイルをすべて削除して準備完了です。
+
+\subsubsection{2-1.
+HTMLをはじめよう}\label{htmlux3092ux306fux3058ux3081ux3088ux3046}
+
+では空になったファイルビューアの右上にカーソルをホバーして、アイコンからファイルの追加をクリックします。\\
+最初に作るHTMLファイルは \texttt{index.html}
+とします。以下の内容を\texttt{index.html}に書き込んでください。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Hello, World !}
+\end{Highlighting}
+\end{Shaded}
+
+StackBlitzのエミュレータに↓のように表示されていることを確認してください。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/html-hello-world.png}
+\caption{マーク前}
+\end{figure}
+
+先程の\texttt{Hello,\ World\ !}の前後を\texttt{\textless{}h1\textgreater{}}と\texttt{\textless{}/h1\textgreater{}}で囲んで↓のように書き換えててください。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{\textless{}h1\textgreater{}}\NormalTok{Hello, World !}\KeywordTok{\textless{}/h1\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+これでエミュレータに表示されるテキストが大きくなったはずです。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/html-hello-world-h1.png}
+\caption{マーク後}
+\end{figure}
+
+このとき↑のコードの\texttt{\textless{}h1\textgreater{}},\texttt{\textless{}/h1\textgreater{}}を
+\textbf{タグ}　\emph{（開始タグ、終了タグ）} といい、タグを含む全体を
+\textbf{要素} といいます。\\
+ここで使用している\texttt{h1}タグは heading
+のhをとった見出しを示すタグで、ページで最も重要な見出し要素に使うものです。\\
+このように、文字列をタグで囲むことをマークアップといい、マークアップすることでブラウザが要素を解釈でき、内容に合わせた表示をとることができます。
+
+\subsubsection{2-2.
+HTMLの基本的な構造を知ろう}\label{htmlux306eux57faux672cux7684ux306aux69cbux9020ux3092ux77e5ux308dux3046}
+
+ではより実用的なHTMLの記述に移っていきます。まずは↓のコードを\texttt{index.html}に入力してみてください。\\
+(StackBlitzでhtmlファイルに \texttt{\textless{}!}
+まで入力すると候補に出てくるスニペットに2-1.のコードを入れ込んだものです)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{\textless{}!DOCTYPE }\NormalTok{html}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}}\KeywordTok{html}\OtherTok{ lang}\OperatorTok{=}\StringTok{"ja"}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{head}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{meta}\OtherTok{ charset}\OperatorTok{=}\StringTok{"UTF{-}8"}\OtherTok{ }\DataTypeTok{/\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{meta}\OtherTok{ name}\OperatorTok{=}\StringTok{"viewport"}\OtherTok{ content}\OperatorTok{=}\StringTok{"width=device{-}width, initial{-}scale=1.0"}\OtherTok{ }\DataTypeTok{/\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{title}\DataTypeTok{\textgreater{}}\NormalTok{サンプルページ}\DataTypeTok{\textless{}/}\KeywordTok{title}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}/}\KeywordTok{head}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{body}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{h1}\DataTypeTok{\textgreater{}}\NormalTok{Hello, World !}\DataTypeTok{\textless{}/}\KeywordTok{h1}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}/}\KeywordTok{body}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}/}\KeywordTok{html}\DataTypeTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+表示が少しだけ変わったかと思います。これは本来2-1.で示したコードでは表示がうまくいっていないことを示しています。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/html-basic-structure.gif}
+\caption{貼付け結果}
+\end{figure}
+
+\paragraph{2-2-1.
+文書型定義とルート要素}\label{ux6587ux66f8ux578bux5b9aux7fa9ux3068ux30ebux30fcux30c8ux8981ux7d20}
+
+試しに上から順に1行ずつコメントにして表示が変わった原因を探りましょう。
+
+HTMLでのコメントは、コメントにしたい記述一帯を \texttt{\textless{}!-\/-}
+\textasciitilde{} \texttt{-\/-\/-\textgreater{}}
+で囲むことで表現できます。\\
+\textgreater Tips: StackBlitzではコメントにしたい行にカーソルをおいて
+\texttt{Ctrl}+\texttt{/} を押すことでコメントにできます
+
+1行目の \texttt{\textless{}!DOCTYPE\ html\textgreater{}}
+をコメントにすると表示が変わっているのがわかります。\\
+この行は\emph{文書型定義}と呼ばれるもので、ブラウザにファイルがHTMLで記述されていることを伝えています。\\
+この記述がない場合には先程のような不具合が発生し得るため、必ずHTMLファイルの先頭には文書型定義を記述しましょう。
+
+HTMLの記述は\texttt{\textless{}html\textgreater{}}\textasciitilde{}\texttt{\textless{}/html\textgreater{}}の中に記述し、この要素をルート要素と言います。\\
+ルート要素の子には
+\emph{一つの\texttt{\textless{}head\textgreater{}}要素} と
+\emph{そのあとに続く一つの\texttt{\textless{}body\textgreater{}}要素}
+が許可されています。\\
+サンプルコードでは開始タグに\texttt{lang="ja"}という記述があります。これはサイトがja=japanese=日本語で記述されていることを示していて、この記述のおかげでブラウザはページの内容をサイト制作者が意図した言語で解釈することができます。(文字化けが起こらなくなるなど)
+この\texttt{lang="ja"}のようにタグの中に書かれる設定を \textbf{属性}
+といいます。
+
+HTMLにおける子孫
+
+要素の中に入れ子になった要素のことを \emph{子}
+といい、要素の中の要素からみて自分を含む要素を \emph{親}
+と言い表すことがあります。\\
+共通の親を持つ要素を
+\emph{兄弟}、親から見て子要素の子要素の子要素の\ldots と続いていく要素郡を
+\emph{子孫}
+などと表すこともあります。この資料で頻出する表現になるので覚えておくと良いでしょう。
+
+\paragraph{2-2-2. head要素}\label{headux8981ux7d20}
+
+\texttt{\textless{}head\textgreater{}}要素は、HTMLファイルに記述するもののうち、閲覧者に見せる
+\textbf{コンテンツでないもの} を子孫に記述する要素です。\\
+例えば、ページのタイトルや説明文が含まれます。2-2.のコードから\texttt{\textless{}head\textgreater{}}要素を切り出すと以下のようになります。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{\textless{}}\KeywordTok{head}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{meta}\OtherTok{ charset}\OperatorTok{=}\StringTok{"UTF{-}8"}\OtherTok{ }\DataTypeTok{/\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{meta}\OtherTok{ name}\OperatorTok{=}\StringTok{"viewport"}\OtherTok{ content}\OperatorTok{=}\StringTok{"width=device{-}width, initial{-}scale=1.0"}\OtherTok{ }\DataTypeTok{/\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{title}\DataTypeTok{\textgreater{}}\NormalTok{Document}\DataTypeTok{\textless{}/}\KeywordTok{title}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}/}\KeywordTok{head}\DataTypeTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+このうち、\texttt{\textless{}meta}\textasciitilde{}\texttt{/\textgreater{}}で囲まれた要素を
+\emph{メタ要素}
+と言います。その名の通りメタデータを表現するために利用します。\\
+属性を\texttt{charset="UTF-8"}としたものは「文書の文字セットをUTF-8に設定する」意味を持ちます。\\
+属性に\texttt{name="\textless{}指定するメタデータの名前\textgreater{}"}とされているメタ要素はまた別に特定のメタデータを指定することができ、この例では\texttt{"viewport"}が指定されています。\\
+これは表示領域に関する指定で、主にスマートフォンでページを閲覧したときに意図しない幅で表示されないようにしたり、表示が拡大・縮小されたりしないようにできます。
+
+\texttt{\textless{}title\textgreater{}}\textasciitilde{}\texttt{\textless{}/title\textgreater{}}で囲まれた\texttt{\textless{}title\textgreater{}}要素は、ページを開いたときにブラウザのタブに表示されるタイトルを指定します。\\
+これもページ閲覧者に伝えるよりブラウザに伝えて使ってもらうような値であるため、HTMLメタ関連の要素になります。
+
+これ以外にも、\texttt{\textless{}head\textgreater{}}要素の中にはJavaScriptを記述したり読み込んだりする\texttt{\textless{}script\textgreater{}}要素や後述するCSSを記述できる\texttt{\textless{}style\textgreater{}}要素、現在のファイルと外部リソースの関係を表現できる\texttt{\textless{}link\textgreater{}}要素等が記述できます。
+
+\paragraph{2-2-3. body要素}\label{bodyux8981ux7d20}
+
+\texttt{\textless{}body\textgreater{}}要素は、HTMLファイルに記述するもののうち
+\textbf{ページに表示されるすべてのコンテンツ}
+を子孫に記述する要素です。\\
+この例では\texttt{\textless{}h1\textgreater{}Hello,\ World\ !\textless{}/h1\textgreater{}}のみがページに表示されるコンテンツです。\\
+例えば、このページにあなたの自己紹介を表示することになったら、その内容はすべて\texttt{\textless{}body\textgreater{}}要素の中に書かれます。
+
+以下のコードを、コメントを置き換えつつ追記してみてください。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \DataTypeTok{\textless{}}\KeywordTok{body}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{h1}\DataTypeTok{\textgreater{}}\NormalTok{Hello, World !}\DataTypeTok{\textless{}/}\KeywordTok{h1}\DataTypeTok{\textgreater{}}
+    \CommentTok{\textless{}!{-}{-} ここから追加の記述 {-}{-}\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{h2}\DataTypeTok{\textgreater{}}\NormalTok{自己紹介}\DataTypeTok{\textless{}/}\KeywordTok{h2}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{ul}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{名前: }\DataTypeTok{\textless{}}\KeywordTok{strong}\DataTypeTok{\textgreater{}}\CommentTok{\textless{}!{-}{-} あなたの名前 {-}{-}{-}\textgreater{}}\DataTypeTok{\textless{}/}\KeywordTok{strong}\DataTypeTok{\textgreater{}\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{出身校: }\CommentTok{\textless{}!{-}{-} あなたの出身校 {-}{-}{-}\textgreater{}}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+\NormalTok{        好きな食べ物ランキング: }
+        \DataTypeTok{\textless{}}\KeywordTok{ol}\DataTypeTok{\textgreater{}}
+          \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\CommentTok{\textless{}!{-}{-} 好きなもの1位 {-}{-}{-}\textgreater{}}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+          \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\CommentTok{\textless{}!{-}{-} 好きなもの2位 {-}{-}{-}\textgreater{}}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+          \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\CommentTok{\textless{}!{-}{-} 好きなもの3位 {-}{-}{-}\textgreater{}}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+        \DataTypeTok{\textless{}/}\KeywordTok{ol}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}/}\KeywordTok{ul}\DataTypeTok{\textgreater{}}
+    \CommentTok{\textless{}!{-}{-} ここまで追加の記述 {-}{-}\textgreater{}}
+  \DataTypeTok{\textless{}/}\KeywordTok{body}\DataTypeTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{imgs/self-introduction.png}
+\caption{追記したページ}
+\end{figure}
+
+これがHTMLの基本的な構造です。
+
+\subsubsection{2-3.
+コンテンツを見やすく書くHTMLを知ろう}\label{ux30b3ux30f3ux30c6ux30f3ux30c4ux3092ux898bux3084ux3059ux304fux66f8ux304fhtmlux3092ux77e5ux308dux3046}
+
+2-2.が終了した時点ではコードが↓のようになっていると思います。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{\textless{}!DOCTYPE }\NormalTok{html}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}}\KeywordTok{html}\OtherTok{ lang}\OperatorTok{=}\StringTok{"ja"}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{head}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{meta}\OtherTok{ charset}\OperatorTok{=}\StringTok{"UTF{-}8"}\OtherTok{ }\DataTypeTok{/\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{meta}\OtherTok{ name}\OperatorTok{=}\StringTok{"viewport"}\OtherTok{ content}\OperatorTok{=}\StringTok{"width=device{-}width, initial{-}scale=1.0"}\OtherTok{ }\DataTypeTok{/\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{title}\DataTypeTok{\textgreater{}}\NormalTok{サンプルページ}\DataTypeTok{\textless{}/}\KeywordTok{title}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}/}\KeywordTok{head}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{body}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{h1}\DataTypeTok{\textgreater{}}\NormalTok{Hello, World !}\DataTypeTok{\textless{}/}\KeywordTok{h1}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{h2}\DataTypeTok{\textgreater{}}\NormalTok{自己紹介}\DataTypeTok{\textless{}/}\KeywordTok{h2}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{ul}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{名前: }\DataTypeTok{\textless{}}\KeywordTok{strong}\DataTypeTok{\textgreater{}}\CommentTok{\textless{}!{-}{-} あなたの名前 {-}{-}{-}\textgreater{}}\DataTypeTok{\textless{}/}\KeywordTok{strong}\DataTypeTok{\textgreater{}\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{出身校: }\CommentTok{\textless{}!{-}{-} あなたの出身校 {-}{-}{-}\textgreater{}}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+\NormalTok{        好きな食べ物ランキング: }
+        \DataTypeTok{\textless{}}\KeywordTok{ol}\DataTypeTok{\textgreater{}}
+          \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\CommentTok{\textless{}!{-}{-} 好きなもの1位 {-}{-}{-}\textgreater{}}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+          \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\CommentTok{\textless{}!{-}{-} 好きなもの2位 {-}{-}{-}\textgreater{}}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+          \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\CommentTok{\textless{}!{-}{-} 好きなもの3位 {-}{-}{-}\textgreater{}}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+        \DataTypeTok{\textless{}/}\KeywordTok{ol}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}/}\KeywordTok{ul}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}/}\KeywordTok{body}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}/}\KeywordTok{html}\DataTypeTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+ここでは\texttt{\textless{}body\textgreater{}}要素の中身について、つまりページに表示されるコンテンツの表現について詳しく説明していきます。
+
+\paragraph{2-3-1.
+見出しと段落}\label{ux898bux51faux3057ux3068ux6bb5ux843d}
+
+文書を表現するとき、見やすく、わかりやすくするためには塊を作って構造化することが重要です。\\
+物語でも論文でも章立てで (k部-)n章-m節-l項
+というようにある程度の塊で分割、構造化されていますね。（もちろんこの資料もです）
+
+このような構造を表現する方法が見出しと段落です。すでに見出し要素は登場済みですね。\texttt{\textless{}h1\textgreater{}}要素がそうだと2-1.で説明しました。\\
+似たタグがコード中にありますね？このように、見出し要素はその章立てにおける大きさを表現できるよう\texttt{\textless{}h1\textgreater{}}\textasciitilde{}\texttt{\textless{}h6\textgreater{}}まで用意されています。
+
+↓のコードを追加してどんな表示になるか感覚を掴んでおきましょう。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{\textless{}}\KeywordTok{h1}\DataTypeTok{\textgreater{}}\NormalTok{Windowsでコンピューターの世界が広がります。1234567890}\DataTypeTok{\textless{}/}\KeywordTok{h1}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}}\KeywordTok{h2}\DataTypeTok{\textgreater{}}\NormalTok{Windowsでコンピューターの世界が広がります。1234567890}\DataTypeTok{\textless{}/}\KeywordTok{h2}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}}\KeywordTok{h3}\DataTypeTok{\textgreater{}}\NormalTok{Windowsでコンピューターの世界が広がります。1234567890}\DataTypeTok{\textless{}/}\KeywordTok{h3}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}}\KeywordTok{h4}\DataTypeTok{\textgreater{}}\NormalTok{Windowsでコンピューターの世界が広がります。1234567890}\DataTypeTok{\textless{}/}\KeywordTok{h4}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}}\KeywordTok{h5}\DataTypeTok{\textgreater{}}\NormalTok{Windowsでコンピューターの世界が広がります。1234567890}\DataTypeTok{\textless{}/}\KeywordTok{h5}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}}\KeywordTok{h6}\DataTypeTok{\textgreater{}}\NormalTok{Windowsでコンピューターの世界が広がります。1234567890}\DataTypeTok{\textless{}/}\KeywordTok{h6}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}}\KeywordTok{span}\DataTypeTok{\textgreater{}}\NormalTok{Windowsでコンピューターの世界が広がります。1234567890}\DataTypeTok{\textless{}/}\KeywordTok{span}\DataTypeTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{imgs/heading-tag-sample.png}
+\caption{見出しのサンプル}
+\end{figure}
+
+ここで比較対象として\texttt{\textless{}span\textgreater{}}要素を用意しました。この要素はコンテンツを囲む以外に意味を持たない、コンテンツをただ表示するだけの要素です。\\
+最も一般的なテキストの表示が\texttt{\textless{}span\textgreater{}}要素での表示になるので、これと比較することで見出し要素の見え方がよく分かるでしょう。
+
+見出し要素の使用にはいくつかのポイントがあります。
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{\textless{}h1\textgreater{}}要素はページに一つだけあるのが好ましいとされています。\texttt{\textless{}h1\textgreater{}}要素は最も大きな見出し、いうなれば物語や記事の題を表すための要素のようなもので、これが複数あることはありえないからです。\\
+\item
+  見出し要素の大きさを入れ替えて使用するべきではありません。節の中に章があるのはおかしいように、\texttt{\textless{}h3\textgreater{}}要素の下に\texttt{\textless{}h2\textgreater{}}要素があるのは望ましくありません。\\
+\item
+  見出し要素は本文中で多用されるものは3段階にとどめた方がよいです。一般に章-節-項が使われて、巨大な文書を分けるために部が使われることからもそのほうが適しているでしょう。部まで必要になるような場合にはページそのものを分割することを考えるべきです。
+\end{itemize}
+
+また、段落を表す\texttt{\textless{}p\textgreater{}}要素も合わせて使用しましょう。\\
+一般に日本語では行頭を一字下げることで表現されますが、HTMLでは\texttt{\textless{}p\textgreater{}}\textasciitilde{}\texttt{\textless{}/p\textgreater{}}で囲むことで段落を表現できます。
+
+\paragraph{2-3-2.
+箇条書き(リスト)}\label{ux7b87ux6761ux66f8ux304dux30eaux30b9ux30c8}
+
+説明文などを書いていると特に、箇条書きで事柄を列挙したいことがあります。
+これは\texttt{\textless{}ul\textgreater{}}要素とその子要素の\texttt{\textless{}li\textgreater{}}要素で表現できます。2-3-1.の見出し要素の使用のポイントや2-3.のサンプルの自己紹介でも登場していますね。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{\textless{}}\KeywordTok{ul}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{かけうどん}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{しょうゆうどん}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{ぶっかけうどん}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{ざるうどん}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{釜揚げうどん}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{釜玉うどん}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{カレーうどん}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{しっぽくうどん}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}/}\KeywordTok{ul}\DataTypeTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{imgs/list-sample.png}
+\caption{順序なし箇条書きのサンプル}
+\end{figure}
+
+このうどん屋のメニューの列挙のように、項目の並びが重要でないものには順序のない箇条書きで表現するのが良いです。\\
+それに対して、私の好きな順に並んだうどんのリストを表現したいときのように、順序が重要なものには\texttt{\textless{}ol\textgreater{}}要素とその子要素の\texttt{\textless{}li\textgreater{}}要素で記述できます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{\textless{}}\KeywordTok{strong}\DataTypeTok{\textgreater{}}\NormalTok{私の好きなうどんメニュー}\DataTypeTok{\textless{}/}\KeywordTok{strong}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}}\KeywordTok{ol}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{かけうどん}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{しっぽくうどん}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{ぶっかけうどん}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{カレーうどん}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{しょうゆうどん}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{ざるうどん}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{釜玉うどん}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{釜揚げうどん}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}/}\KeywordTok{ol}\DataTypeTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{imgs/ordered-list-sample.png}
+\caption{順序有り箇条書きのサンプル}
+\end{figure}
+
+また、箇条書きの中に箇条書きを書く(入れ子にする)ことで箇条書きでも階層を表現できます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{\textless{}}\KeywordTok{ul}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+\NormalTok{    材料(3\textasciitilde{}4人前): }
+    \DataTypeTok{\textless{}}\KeywordTok{ul}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{小麦粉: 400 g}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{塩: 20 g}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{水: 200 ml}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}/}\KeywordTok{ul}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+\NormalTok{    作り方}
+    \DataTypeTok{\textless{}}\KeywordTok{ol}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{分量通りの塩と水を混ぜて塩水をつくります。}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{大きめのボウルにあけた小麦粉に塩水を加え、そぼろ状になるように熊手様にした手で素早く混ぜます。}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{パラパラとした粒がおおよそひとかたまりになるようにこねます。}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{ひとかたまりになったら生地の橋から中心に向けて生地を折りたたむようにして更にこねます。（20回程度）}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{10\textasciitilde{}20分寝かせます。}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{4.の手順を再度行います。(30回程度)}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{10\textasciitilde{}20分寝かせます。}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{伸ばして切ります。このとき四角形に近い形に伸ばせるときれいな麺になる部分が増えます。}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{沸騰したたっぷりのお湯で10\textasciitilde{}12分茹でます。時々麺をつまんで茹で具合を確認してください。}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{氷水に取り、やさしくこすり合わせるようにしてぬめりを落とします。}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{一人前200g程度に玉を取ってうどんの完成です。}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}/}\KeywordTok{ol}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}/}\KeywordTok{ul}\DataTypeTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{imgs/nested-list-sample.png}
+\caption{入れ子になった箇条書きのサンプル}
+\end{figure}
+
+\paragraph{2-3-3.
+強調と重要の表現とその違い}\label{ux5f37ux8abfux3068ux91cdux8981ux306eux8868ux73feux3068ux305dux306eux9055ux3044}
+
+HTMLでも私達が普段話したり書いたりするのと同じように表現や意味を強調したり重要であることを伝えるための要素があります。
+
+\texttt{\textless{}em\textgreater{}}要素は強調を示す要素です。\\
+コンテンツはイタリック(斜体)で表示されますが、イタリックでの表示のみが目的ならば\texttt{\textless{}span\textgreater{}}要素とCSSでの表現を使用するべきです。
+
+例えば、以下のような例で重宝するでしょう。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{\textless{}}\KeywordTok{p}\DataTypeTok{\textgreater{}}
+\NormalTok{  クイズの問読みに置いて、パラレルと呼ばれる「ですが問題」では強調される部分の違いで,その後の問題分でどこが変化するのかがわかります。}
+  \DataTypeTok{\textless{}}\KeywordTok{ul}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{「日本で }\DataTypeTok{\textless{}}\KeywordTok{em}\DataTypeTok{\textgreater{}}\NormalTok{一番}\DataTypeTok{\textless{}/}\KeywordTok{em}\DataTypeTok{\textgreater{}}\NormalTok{ 高い山は富士山ですが、」となった場合、「一番」が変化する→「二番目に」なら北岳}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{「 }\DataTypeTok{\textless{}}\KeywordTok{em}\DataTypeTok{\textgreater{}}\NormalTok{日本で}\DataTypeTok{\textless{}/}\KeywordTok{em}\DataTypeTok{\textgreater{}}\NormalTok{ 一番高い山は富士山ですが、」となった場合、「日本で」が変化する→「世界で」ならエベレスト}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{li}\DataTypeTok{\textgreater{}}\NormalTok{「日本で一番 }\DataTypeTok{\textless{}}\KeywordTok{em}\DataTypeTok{\textgreater{}}\NormalTok{高い}\DataTypeTok{\textless{}/}\KeywordTok{em}\DataTypeTok{\textgreater{}}\NormalTok{ 山は富士山ですが、」となった場合、「高い」が変化する→「低い」なら日和山（国土地理院の地形図に山として掲載されているものの中で）}\DataTypeTok{\textless{}/}\KeywordTok{li}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}/}\KeywordTok{ul}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}/}\KeywordTok{p}\DataTypeTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{imgs/emphasize-sample.png}
+\caption{強調のサンプル}
+\end{figure}
+
+これに対して\texttt{\textless{}strong\textgreater{}}要素は重要性の高い言葉の表現にもちいます。\\
+コンテンツは太字で表示されますが、\texttt{\textless{}em\textgreater{}}要素と同様に太字での表示のみが目的ならば\texttt{\textless{}span\textgreater{}}要素とCSSでなんとかするべきです。（ここまでの資料中で使っていましたが、重要性を示す意図がない場合は誤用ですね。）
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{\textless{}}\KeywordTok{p}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{strong}\DataTypeTok{\textgreater{}}\NormalTok{静的型付け}\DataTypeTok{\textless{}/}\KeywordTok{strong}\DataTypeTok{\textgreater{}}\NormalTok{、私の好きな言葉です。}
+\DataTypeTok{\textless{}/}\KeywordTok{p}\DataTypeTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{imgs/strong-sample.png}
+\caption{重要表現のサンプル}
+\end{figure}
+
+\subsubsection{2-4.
+画像を利用しよう}\label{ux753bux50cfux3092ux5229ux7528ux3057ux3088ux3046}
+
+普段私達が目にするwebサイトは画像を利用しているところがほとんどでしょう。HTMLでは以下のコードのようにして画像をページに表示できます。\\
+\textgreater{} ※
+StackBlitzは\href{https://github.com/stackblitz/core/issues/1687}{バグ}があり、アップロードしたローカル画像を表示できません。そのため、ここでは自分のGitHubのプロフィールページからアイコンの画像アドレスを取得して表示させてみてください。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{\textless{}}\KeywordTok{img}\OtherTok{ src}\OperatorTok{=}\StringTok{"}\ErrorTok{\textless{}}\StringTok{アイコンの画像アドレス\textgreater{}"}\OtherTok{ }\DataTypeTok{/\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{imgs/image-sample.png}
+\caption{imgタグサンプル}
+\end{figure}
+
+このように\texttt{\textless{}img\textgreater{}}タグの\texttt{src}属性に表示させたい画像までのパスを指定することで、画像を取得してページに埋め込んで表示してくれます。\\
+このとき\texttt{src}に指定されているURLをすべて書くパスを
+\emph{絶対パス} 、それに対してHTMLファイルから見たファイルの位置を
+\emph{相対パス} と言います。\\
+外部にあるファイルへのアクセスでは絶対パスを使い、内部にあるファイルへのアクセスでは相対パスを使います。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/image-src-relative-path.png}
+\caption{相対パス}
+\end{figure}
+
+また、\texttt{\textless{}img\textgreater{}}要素に追加できる属性として\texttt{alt}属性があります。\\
+これは画像が取得できなかったときなどに表示される\emph{代替テキスト}で、設定されている方が望ましいです。
+
+空要素
+
+HTML要素の一部は\texttt{\textless{}}\textasciitilde{}\texttt{/\textgreater{}}で囲まれた一つのタグだけで記述できます。このような要素を空要素と言います。
+
+\subsubsection{2-5.
+リンクを貼ろう}\label{ux30eaux30f3ux30afux3092ux8cbcux308dux3046}
+
+webにおけるリンクと呼ばれるものは、正式にはハイパーリンクと言います。\\
+このハイパーリンクによって様々な文書が相互にリンクされる要素をクモの巣になぞらえてwebと呼ばれるようになったほど、webにおいて欠かせないものです。
+
+そんなハイパーリンクですが、↓のようにして記述できます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{\textless{}}\KeywordTok{a}\OtherTok{ href}\OperatorTok{=}\StringTok{"https://jig.jp"}\DataTypeTok{\textgreater{}}\NormalTok{株式会社 jig.jp ホームページ}\DataTypeTok{\textless{}/}\KeywordTok{a}\DataTypeTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{\textless{}a\textgreater{}}と\texttt{\textless{}/a\textgreater{}}で囲まれた間の文字がリンクテキストとして表示され、\texttt{href}属性でリンク先アドレスを指定します。\\
+この他に\texttt{target}属性を指定することがあり、\texttt{target="\_blank"}とすることで新しいタブでページを開くことができます。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/hyper-link-sample.gif}
+\caption{ハイパーリンクのサンプル}
+\end{figure}
+
+\subsubsection{2-6.
+よくあるページのレイアウトとそのためのHTML要素を知ろう}\label{ux3088ux304fux3042ux308bux30daux30fcux30b8ux306eux30ecux30a4ux30a2ux30a6ux30c8ux3068ux305dux306eux305fux3081ux306ehtmlux8981ux7d20ux3092ux77e5ux308dux3046}
+
+ここまでで一般的な表示に用いるHTML要素はおおよそ説明できたでしょう。\\
+では実際に最近良く見るwebページの構造を考えてみましょう。\\
+みなさんよく↓の図のようなサイトを見ると思います。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/usually-website-layout.png}
+\caption{よくあるレイアウト}
+\end{figure}
+
+このレイアウトは、大きく分けるとヘッダー、右カラム、メインコンテンツ、左カラム、フッターで構成されています。\\
+このようなレイアウトを聖杯レイアウトと言います。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/usually-website-layout-with-description.png}
+\caption{説明付き}
+\end{figure}
+
+この表示上の大きな塊を表現するためのHTML要素があります。
+
+\begin{itemize}
+\tightlist
+\item
+  ヘッダー: \texttt{\textless{}header\textgreater{}}要素
+\item
+  サイドバー: \texttt{\textless{}aside\textgreater{}}要素
+\item
+  メインコンテンツ: \texttt{\textless{}main\textgreater{}}要素
+\item
+  フッター: \texttt{\textless{}footer\textgreater{}}要素
+\item
+  ナビゲーション: \texttt{\textless{}nav\textgreater{}}要素
+\end{itemize}
+
+これらは、ブラウザに要素がどんなコンテンツを内包しているかをより詳細に伝えることができる要素です。\\
+詳細な説明は省きますが、これらの要素を適切に使うことで、よりアクセス性の良いwebコンテンツを作ることができます。
+
+\subsubsection{\texorpdfstring{2-7. 何でもない便利要素
+\texttt{\textless{}div\textgreater{}}}{2-7. 何でもない便利要素 \textless div\textgreater{}}}\label{ux4f55ux3067ux3082ux306aux3044ux4fbfux5229ux8981ux7d20-div}
+
+最後に最も使用機会が多い要素として \texttt{\textless{}div\textgreater{}}
+要素を説明します。\\
+この要素は本質的に何も表しません(ブラウザが解釈する際に、ただの囲い以上の意味を持ちません)。\\
+文字列を囲んでCSSで装飾できる要素が\texttt{\textless{}span\textgreater{}}だとすれば、要素を囲んでCSSで装飾できる要素が\texttt{\textless{}div\textgreater{}}で、基本そのように利用されます。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/div-sample.gif}
+\caption{divは何もしない}
+\end{figure}
+
+\subsection{3.
+レイアウトとデザインを考えよう}\label{ux30ecux30a4ux30a2ux30a6ux30c8ux3068ux30c7ux30b6ux30a4ux30f3ux3092ux8003ux3048ux3088ux3046}
+
+2. ではHTMLでの記述について学んできました。\\
+HTMLを丁寧に書くことはブラウザに内容の意味をより正確に解釈させる事につながります。\\
+この章では、より見た目を細かく調整できる \texttt{CSS}
+について説明します。
+
+\subsubsection{3-1.
+CSSを始めよう}\label{cssux3092ux59cbux3081ux3088ux3046}
+
+CSS(カスケーディングスタイルシート)はHTMLで記述された文書の文字の大きさや色、背景や配置など、その見た目を設定する言語です。
+
+StackBlitzで実際にCSSを書いて見た目を適用してみましょう。\\
+\texttt{index.html}は↓のように書いておいてください。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{\textless{}!DOCTYPE }\NormalTok{html}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}}\KeywordTok{html}\OtherTok{ lang}\OperatorTok{=}\StringTok{"ja"}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{head}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{meta}\OtherTok{ charset}\OperatorTok{=}\StringTok{"UTF{-}8"}\OtherTok{ }\DataTypeTok{/\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{meta}\OtherTok{ name}\OperatorTok{=}\StringTok{"viewport"}\OtherTok{ content}\OperatorTok{=}\StringTok{"width=device{-}width, initial{-}scale=1.0"}\OtherTok{ }\DataTypeTok{/\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{title}\DataTypeTok{\textgreater{}}\NormalTok{Blog}\DataTypeTok{\textless{}/}\KeywordTok{title}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}/}\KeywordTok{head}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{body}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{h1}\DataTypeTok{\textgreater{}}\NormalTok{Hello, World !}\DataTypeTok{\textless{}/}\KeywordTok{h1}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}/}\KeywordTok{body}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}/}\KeywordTok{html}\DataTypeTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+このときのh1タグの文字色を変更してみます。\\
+まず右のファイルビューアから新規ファイルとして\texttt{style.css}を作成してください。\\
+このCSSファイルを\texttt{index.html}から読み込んで使います。\\
+↓のコードを\texttt{index.html}の\texttt{\textless{}head\textgreater{}}要素に追記してください。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{\textless{}}\KeywordTok{link}\OtherTok{ rel}\OperatorTok{=}\StringTok{"stylesheet"}\OtherTok{ href}\OperatorTok{=}\StringTok{"style.css"}\OtherTok{ }\DataTypeTok{/\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+これでHTMLからCSSを読み込めるようになったので、\texttt{style.css}を編集して見た目を変更していきます。\\
+↓のコードを追記してください。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{h1 \{}
+  \KeywordTok{color}\NormalTok{: }\ConstantTok{red}\OperatorTok{;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+↓の画像のように「Hello, World !」が赤字で表示されれば成功です。
+
+このとき、\texttt{h1}のように表示を設定する要素を識別するものを\textbf{セレクタ}、\texttt{color}のように値が設定されるものを\textbf{プロパティ}、\texttt{red}のようにプロパティに設定するものを\textbf{値}といいます。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/hello-css-sample.gif}
+\caption{cssでh1を赤字にする}
+\end{figure}
+
+\subsubsection{\texorpdfstring{3-2.
+ボックスモデルと\texttt{box-sizing}}{3-2. ボックスモデルとbox-sizing}}\label{ux30dcux30c3ux30afux30b9ux30e2ux30c7ux30ebux3068box-sizing}
+
+CSSでHTMLを装飾してページの見た目を変更していく上で、必ず知っておく必要があるものの一つがボックスモデルです。\\
+CSSで表現できるものはすべてボックス、四角形の領域を持ちます。(たとえ見かけ上円形に見えてもです)
+
+\begin{figure}
+\centering
+\includegraphics{imgs/box-model.png}
+\caption{ボックスモデル}
+\end{figure}
+
+すでにこんな表示のものを見たことがあるはずです。そう、1-1-3.で紹介した開発者ツールのComputedタブです。\\
+また、開発者ツールでの要素選択中にマウスホバーした要素にも↑のような表示が見えることがあります。
+
+それぞれ\texttt{margin}プロパティで設定する要素間の余白部分が「Margin
+Box」、\texttt{border}プロパティで設定する境界線部分が「Border
+Box」、\texttt{padding}プロパティで設定する要素内の余白部分が「Padding
+Box」、そしてコンテンツの領域が「Content Box」です。\\
+↓のように額に入った絵画を思い浮かべると捉えやすいです。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/box-model-in-art.png}
+\caption{額に入った絵で考えるボックスモデル}
+\end{figure}
+
+ところで、CSSでは\texttt{width}プロパティ、\texttt{height}プロパティでコンテンツの大きさを指定できます。\\
+しかし、デフォルトでは↑のContent
+Boxの大きさとして指定されてしまい、人間が扱うには直感的でないです。
+
+これを解決するCSSプロパティが\texttt{box-sizing}です。\\
+\texttt{box-sizing}プロパティには\texttt{content-box}と\texttt{border-box}が指定できますが、これは\texttt{width}と\texttt{height}がContent
+Boxの大きさとして指定されるか、Border
+Boxの大きさとして指定されるかが変わります。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/content-border-box-diff.png}
+\caption{box-sizingで大きさを指定できる領域が変わる}
+\end{figure}
+
+例えば、↑の図のように額に入った絵を飾る場合、絵そのものの大きさ（\texttt{content-box}）ではなく、額を含めた大きさ（\texttt{border-box}）を指定できる方が配置しやすいと考えられます。\\
+しかし、デフォルトでは\texttt{content-box}を指定する設定になっています。\\
+そのため、現在web開発では \emph{全称セレクタ}\texttt{*}
+を用いて以下のように設定するのが一般的です。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{*}\NormalTok{ \{}
+  \KeywordTok{box{-}sizing}\NormalTok{: }\DecValTok{border{-}box}\OperatorTok{;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+margin
+
+Margin Box
+の大きさはいわば額と額の間の距離です。HTML的には要素間の間隔・距離になります。\\
+つまり2つの要素から別々に指定したりもできてしまいます。(通常、Aに16pxのmargin、Bに32pxのmarginを指定するとA-B間の間隔は48pxあることになります。)\\
+これだと要素間の間隔に計算が必要なので、レイアウトによりますが、上下左右ではなく上と左のみ、下と右のみなど指定を工夫することでわかりやすくなると思います。
+
+また、marginはコンテンツの大きさに影響を与えないため、box-sizingには
+margin-box が存在しません。
+
+padding
+
+Padding
+Boxはいわば額の中の余白です。これに関する逸話として、box-sizingプロパティに
+padding-box
+が指定できる案もあったそうです。今はありません。使いみちがあんまりなかったんですね\ldots.🥺
+
+\subsubsection{3-3.
+スタイルシートの種類と優先度}\label{ux30b9ux30bfux30a4ux30ebux30b7ux30fcux30c8ux306eux7a2eux985eux3068ux512aux5148ux5ea6}
+
+ここで、スタイルシートは私達開発者が書くものだけではない事を説明しておきます。\\
+基本的にスタイルシートは3種類あります。
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  ユーザーエージェントスタイルシート(UAスタイルシート)
+
+  \begin{itemize}
+  \tightlist
+  \item
+    ブラウザがもつスタイルシート
+  \end{itemize}
+\item
+  オーサースタイルシート
+
+  \begin{itemize}
+  \tightlist
+  \item
+    開発者が自由に設定できるスタイルシート
+  \item
+    オーサー: Auther/著者
+  \end{itemize}
+\item
+  ユーザースタイルシート
+
+  \begin{itemize}
+  \tightlist
+  \item
+    ページの閲覧者が設定しているスタイルシート
+  \end{itemize}
+\end{enumerate}
+
+この内、開発者が気にしなければならないのはUAスタイルシートとオーサースタイルシート、CSSの初期値です。\\
+例えば\texttt{\textless{}h1\textgreater{}}要素などはUAスタイルシートで見た目が設定されているため2-1.で何も設定せずに利用しても見た目が変わったのです。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/ua-stylesheet-effect.png}
+\caption{UAスタイルシートが仕事してるとこ}
+\end{figure}
+
+また、3-2.で説明した\texttt{box-sizing}プロパティはCSSの初期値によって\texttt{content-box}が指定されています。\\
+デフォルトでは\texttt{content-box}を指定する設定になっているので、\texttt{border-box}を指定し直すことを推奨しました。
+
+UAスタイルシートやCSS初期値に対して、オーサースタイルシートのほうが優先度が高いため↑のように設定することで上書きできます。\\
+オーサースタイルシートより優先度が高いものにユーザースタイルシートがあります。例えばブラウザの設定で拡大率を上げて表示するときなどがこれに該当します。
+
+オーサースタイルシートで見た目が設定されない要素はUAスタイルシートやCSS初期値によって表示されます。\\
+意図しない表示になったときは、設定したセレクタが間違っていないか確かめましょう。
+
+cssリセット
+
+UAスタイルシートやCSS初期値を上書きしたいとき、要素ごとに毎回CSSで修正するのは大変です。\\
+世の中にはCSSリセットと呼ばれるこれらの値を扱いやすい状態にしてくれるものがあり、おおよその場合はCSSファイルとして用意されています。\\
+webアプリケーション開発などで重宝することもあるので頭の片隅にでもおいておいてください。
+
+\subsubsection{3-4.
+セレクタでもっと限定的にスタイルを適用できるようになろう}\label{ux30bbux30ecux30afux30bfux3067ux3082ux3063ux3068ux9650ux5b9aux7684ux306bux30b9ux30bfux30a4ux30ebux3092ux9069ux7528ux3067ux304dux308bux3088ux3046ux306bux306aux308dux3046}
+
+3-1.で説明した通り、CSSはセレクタを指定することでそのセレクタ以下に見た目を設定します。\\
+ここではセレクタについて詳しく説明します。
+
+\paragraph{3-4-1.
+基本セレクタと結合子}\label{ux57faux672cux30bbux30ecux30afux30bfux3068ux7d50ux5408ux5b50}
+
+セレクタには以下のものがあります。
+
+\begin{itemize}
+\tightlist
+\item
+  全称セレクタ
+
+  \begin{itemize}
+  \tightlist
+  \item
+    全ての要素を選択するセレクタ
+  \item
+    \texttt{*}と表します。
+  \end{itemize}
+\item
+  要素型セレクタ
+
+  \begin{itemize}
+  \tightlist
+  \item
+    あるHTML要素を選択するセレクタ
+  \item
+    \texttt{\textless{}h1\textgreater{}}要素なら\texttt{h1}と表します。
+  \end{itemize}
+\item
+  クラスセレクタ
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{class="\textless{}クラス名\textgreater{}"}とclass属性が指定された要素を選択するセレクタ
+  \item
+    クラス名が\texttt{class-name}なら\texttt{.class-name}と表します。
+  \end{itemize}
+\item
+  IDセレクタ
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{id="\textless{}id名\textgreater{}"}とid属性が指定された要素を選択するセレクタ
+  \item
+    id名が\texttt{id-name}なら\texttt{\#id-name}と表します。
+  \item
+    id名は重複してはいけません
+  \end{itemize}
+\item
+  属性セレクタ
+
+  \begin{itemize}
+  \tightlist
+  \item
+    HTML要素に付与された任意の属性\texttt{attr}が付与されたすべての要素を選択するセレクタ
+  \item
+    \texttt{attr}属性が付与された要素なら\texttt{{[}attr{]}}と表します。
+  \item
+    \texttt{attr}に特定の値\texttt{value}が指定されている場合、\texttt{{[}attr=value{]}}として\texttt{attr}に\texttt{value}が指定された要素を選択できます。
+  \end{itemize}
+\item
+  グループ化セレクタ
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{,}でこれまでのセレクタをつなげる、例えば\texttt{header,\ footer}とすることで、\texttt{\textless{}header\textgreater{}}要素と\texttt{\textless{}footer\textgreater{}}要素の両方を選択します
+  \end{itemize}
+\end{itemize}
+
+結合子はこれ以外にもありますが、使用機会が少ないため省きます。知りたい方は\href{https://developer.mozilla.org/ja/docs/Web/CSS/CSS_selectors\#\%E7\%B5\%90\%E5\%90\%88\%E5\%AD\%90}{こちらへ}。
+
+これらのセレクタと以下の結合子を用いることで要素をより限定できます。
+
+\begin{itemize}
+\tightlist
+\item
+  子孫結合子
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{⎵}(スペース)
+  \item
+    \texttt{p\ span}として指定すると、\texttt{\textless{}p\textgreater{}}要素の
+    \emph{子孫にある}
+    全ての\texttt{\textless{}span\textgreater{}}要素を選択します
+  \end{itemize}
+\item
+  子結合子
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{\textgreater{}}
+  \item
+    \texttt{p\textgreater{}span}として指定すると、\texttt{\textless{}p\textgreater{}}要素の
+    \emph{子にある}
+    全ての\texttt{\textless{}span\textgreater{}}要素を選択します。
+  \end{itemize}
+\end{itemize}
+
+\paragraph{3-4-2. 疑似表記}\label{ux7591ux4f3cux8868ux8a18}
+
+ここまでのセレクタはHTMLファイルに記述されている情報のみをもって要素を選択するものでした。\\
+ここで説明する疑似表記は、HTMLファイルにかかれていない情報も使って要素を選択できるものです。
+
+\begin{itemize}
+\tightlist
+\item
+  擬似クラス
+
+  \begin{itemize}
+  \item
+    \texttt{:\textless{}擬似クラス名\textgreater{}}で表します。
+  \item
+    \texttt{.reaction:hover}とすると、マウスホバー中の\texttt{class="reaction"}が指定された要素を選択します。
+  \item
+    \begin{figure}
+    \centering
+    \includegraphics{imgs/pseudo-class-sample.gif}
+    \caption{擬似クラスサンプル}
+    \end{figure}
+  \end{itemize}
+\item
+  疑似要素
+
+  \begin{itemize}
+  \item
+    \texttt{::\textless{}疑似要素名\textgreater{}}で表します。
+  \item
+    \texttt{p::first-letter}とすると、\texttt{\textless{}p\textgreater{}}要素の最初の文字のみを選択します。
+  \item
+    \begin{figure}
+    \centering
+    \includegraphics{imgs/pseudo-element-sample.png}
+    \caption{疑似要素サンプル}
+    \end{figure}
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{3-5.
+思いどおりの見た目を作ろう}\label{ux601dux3044ux3069ux304aux308aux306eux898bux305fux76eeux3092ux4f5cux308dux3046}
+
+ここまで長い前置きでしたね。いよいよ楽しい楽しいCSSの始まりです！
+
+\paragraph{3-5-1.
+CSSカスタムプロパティを使おう}\label{cssux30abux30b9ux30bfux30e0ux30d7ux30edux30d1ux30c6ux30a3ux3092ux4f7fux304aux3046}
+
+CSSには(JavaScriptでいう定数のような)設定して特定の値として利用できる\emph{カスタムプロパティ}があります。\\
+↓のようにして宣言できます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\InformationTok{:root}\NormalTok{ \{}
+\NormalTok{  \textless{}カスタムプロパティ名}\OperatorTok{\textgreater{}}\InformationTok{: \textless{}値\textgreater{}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+カスタムプロパティ名は\texttt{-\/-}から始まる必要があることに注意してください。\\
+ここでセレクタとして\texttt{:root}疑似要素を使用しています。これはルート要素セレクタと同等の働きをします。\\
+このように宣言することで文書中の適当な場所からもカスタムプロパティを利用できるようになります。\\
+また、カラーコードやキーワードでの指定に比べて、色の持つ意味等もカスタムプロパティ名で伝えられるので、可読性に良い影響を与えるでしょう。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\InformationTok{:root}\NormalTok{ \{}
+  \VariableTok{{-}{-}color{-}greeting}\NormalTok{: }\ConstantTok{\#668844}\OperatorTok{;}
+\NormalTok{\}}
+
+\NormalTok{h1 \{}
+  \KeywordTok{color}\NormalTok{: }\FunctionTok{var(}\VariableTok{{-}{-}color{-}greeting}\FunctionTok{)}\OperatorTok{;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+↑のように、設定したカスタムプロパティに\texttt{var(\textless{}カスタムプロパティ名\textgreater{});}とすることで値にアクセスできます。
+
+\begin{figure}
+\centering
+\includegraphics{imgs/css-custom-property.png}
+\caption{カスタムプロパティ}
+\end{figure}
+
+\paragraph{3-5-2.
+文字の見た目を変更しよう}\label{ux6587ux5b57ux306eux898bux305fux76eeux3092ux5909ux66f4ux3057ux3088ux3046}
+
+ここまででも文字色の変更はやってますね。あんなふうに文字の見た目を変更するプロパティを紹介します。
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+プロパティ
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+影響箇所
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+実行結果
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{color} & 色 & \includegraphics{imgs/css-color-sample.png} \\
+\texttt{font-size} & 文字の大きさ &
+\includegraphics{imgs/css-font-size-sample.png} \\
+\texttt{font-weight} & 文字の太さ &
+\includegraphics{imgs/css-font-weight-sample.png} \\
+\texttt{font-style} & 書体(斜体) &
+\includegraphics{imgs/css-font-style-sample.png} \\
+\texttt{text-decoration} & 線 &
+\includegraphics{imgs/css-text-decoration-sample.png} \\
+\texttt{font-family} & フォント &
+\includegraphics{igms/../imgs/css-font-family-smple.png} \\
+\end{longtable}
+
+↑の例以外のプロパティや値もたくさんあるので、\href{https://developer.mozilla.org/ja/docs/Web/CSS}{mdn
+web docs}やGoogle先生に聞いたりして調べて使ってください。
+
+\paragraph{3-5-3.
+要素の見た目を変更しよう}\label{ux8981ux7d20ux306eux898bux305fux76eeux3092ux5909ux66f4ux3057ux3088ux3046}
+
+ここで言う要素の見た目は例えば境界線や要素の背景などです。
+
+要素の背景や境界線に関するプロパティと実行結果を表に示します。
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+プロパティ
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+影響箇所
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+実行結果
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{background-color} & 背景色 &
+\includegraphics{imgs/css-background-color-sample.png} \\
+\texttt{background-image} & 背景画像 &
+\includegraphics{imgs/css-background-image-sample.png} \\
+\texttt{background-size} & 背景画像の大きさ &
+\includegraphics{imgs/css-background-size-sample.png} \\
+\texttt{background-repeat} & 背景画像の繰り返し &
+\includegraphics{imgs/css-background-repeat-sample.png} \\
+\texttt{background-position} & 背景画像の位置 &
+\includegraphics{imgs/css-background-position-sample.png} \\
+\texttt{background-blend-mode} & 背景色と背景画像の混色 &
+\includegraphics{imgs/css-background-blend-mode-sample.png} \\
+\texttt{border} & 境界線 &
+\includegraphics{imgs/css-border-sample.png} \\
+\texttt{border-radius} & 境界線の角の丸め &
+\includegraphics{imgs/css-border-radius-sample.png} \\
+\end{longtable}
+
+文字の見た目と同様に、背景や境界線に関するプロパティや値ももっとたくさんあります。\\
+↑に示したのは一例なので、実際に使うときに調べながら開発してください。
+
+\paragraph{3-5-4.
+形をつくろう}\label{ux5f62ux3092ux3064ux304fux308dux3046}
+
+↓に見かけ上の形を変えるサンプルをいくつか置いておきます。（サンプルのように書かなければならない、というものではないです。）
+
+\begin{itemize}
+\item
+  楕円
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  div \{}
+    \KeywordTok{width}\NormalTok{: }\DecValTok{300}\DataTypeTok{px}\OperatorTok{;}
+    \KeywordTok{height}\NormalTok{: }\DecValTok{200}\DataTypeTok{px}\OperatorTok{;}
+
+    \KeywordTok{background{-}color}\NormalTok{: }\ConstantTok{lightblue}\OperatorTok{;}
+
+    \KeywordTok{border{-}radius}\NormalTok{: }\DecValTok{50}\DataTypeTok{\%}\OperatorTok{;}
+\NormalTok{  \}}
+\end{Highlighting}
+\end{Shaded}
+\end{itemize}
+
+\begin{itemize}
+\item
+  角丸四角形
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{  div \{}
+    \KeywordTok{width}\NormalTok{: }\DecValTok{300}\DataTypeTok{px}\OperatorTok{;}
+    \KeywordTok{height}\NormalTok{: }\DecValTok{200}\DataTypeTok{px}\OperatorTok{;}
+
+    \KeywordTok{background{-}color}\NormalTok{: }\ConstantTok{lightblue}\OperatorTok{;}
+
+    \KeywordTok{border{-}radius}\NormalTok{: }\DecValTok{100}\DataTypeTok{vh}\OperatorTok{;}
+\NormalTok{  \}}
+\end{Highlighting}
+\end{Shaded}
+\end{itemize}
+
+\begin{itemize}
+\item
+  吹き出し(1)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \OperatorTok{*}\NormalTok{ \{}
+    \KeywordTok{box{-}sizing}\NormalTok{: }\DecValTok{border{-}box}\OperatorTok{;}
+\NormalTok{  \}}
+
+\NormalTok{  div \{}
+    \KeywordTok{width}\NormalTok{: }\DecValTok{300}\DataTypeTok{px}\OperatorTok{;}
+    \KeywordTok{height}\NormalTok{: }\DecValTok{200}\DataTypeTok{px}\OperatorTok{;}
+
+    \KeywordTok{position}\NormalTok{: }\DecValTok{relative}\OperatorTok{;}
+
+    \KeywordTok{background{-}color}\NormalTok{: }\ConstantTok{\#add8e6}\OperatorTok{;}
+
+    \KeywordTok{border}\NormalTok{: }\DecValTok{5}\DataTypeTok{px} \DecValTok{solid} \ConstantTok{midnightblue}\OperatorTok{;}
+    \KeywordTok{border{-}radius}\NormalTok{: }\DecValTok{20}\DataTypeTok{px}\OperatorTok{;}
+\NormalTok{  \}}
+
+\NormalTok{  div}\InformationTok{::before}\NormalTok{ \{}
+    \KeywordTok{position}\NormalTok{: }\DecValTok{absolute}\OperatorTok{;}
+    \KeywordTok{top}\NormalTok{: }\FunctionTok{calc(}\DecValTok{200}\DataTypeTok{px} \OperatorTok{{-}} \DecValTok{5}\DataTypeTok{px} \OperatorTok{*} \DecValTok{2} \OperatorTok{{-}} \DecValTok{5}\DataTypeTok{px}\FunctionTok{)}\OperatorTok{;}
+    \KeywordTok{left}\NormalTok{: }\DecValTok{20}\DataTypeTok{px}\OperatorTok{;}
+    \KeywordTok{content}\NormalTok{: }\StringTok{\textquotesingle{}\textquotesingle{}}\OperatorTok{;}
+    \KeywordTok{width}\NormalTok{: }\DecValTok{20}\DataTypeTok{px}\OperatorTok{;}
+    \KeywordTok{height}\NormalTok{: }\DecValTok{20}\DataTypeTok{px}\OperatorTok{;}
+    \KeywordTok{background{-}color}\NormalTok{: }\ConstantTok{midnightblue}\OperatorTok{;}
+    \KeywordTok{transform}\NormalTok{: }\FunctionTok{rotate(}\DecValTok{45}\DataTypeTok{deg}\FunctionTok{)}\OperatorTok{;}
+    \KeywordTok{z{-}index}\NormalTok{: }\DecValTok{{-}1}\OperatorTok{;}
+\NormalTok{  \}}
+
+\NormalTok{  div}\InformationTok{::after}\NormalTok{ \{}
+    \KeywordTok{position}\NormalTok{: }\DecValTok{absolute}\OperatorTok{;}
+    \KeywordTok{top}\NormalTok{: }\FunctionTok{calc(}\DecValTok{200}\DataTypeTok{px} \OperatorTok{{-}} \DecValTok{5}\DataTypeTok{px} \OperatorTok{*} \DecValTok{2} \OperatorTok{{-}} \DecValTok{11}\DataTypeTok{px}\FunctionTok{)}\OperatorTok{;}
+    \KeywordTok{left}\NormalTok{: }\DecValTok{20}\DataTypeTok{px}\OperatorTok{;}
+    \KeywordTok{content}\NormalTok{: }\StringTok{\textquotesingle{}\textquotesingle{}}\OperatorTok{;}
+    \KeywordTok{width}\NormalTok{: }\DecValTok{20}\DataTypeTok{px}\OperatorTok{;}
+    \KeywordTok{height}\NormalTok{: }\DecValTok{20}\DataTypeTok{px}\OperatorTok{;}
+    \KeywordTok{background{-}color}\NormalTok{: }\ConstantTok{lightblue}\OperatorTok{;}
+    \KeywordTok{transform}\NormalTok{: }\FunctionTok{rotate(}\DecValTok{45}\DataTypeTok{deg}\FunctionTok{)}\OperatorTok{;}
+    \KeywordTok{z{-}index}\NormalTok{: }\DecValTok{1}\OperatorTok{;}
+\NormalTok{  \}}
+
+\NormalTok{  span \{}
+    \KeywordTok{font{-}family}\NormalTok{: }\DecValTok{cursive}\OperatorTok{;}
+\NormalTok{  \}}
+\end{Highlighting}
+\end{Shaded}
+\end{itemize}
+
+\begin{itemize}
+\item
+  吹き出し(2)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \OperatorTok{*}\NormalTok{ \{}
+    \KeywordTok{box{-}sizing}\NormalTok{: }\DecValTok{border{-}box}\OperatorTok{;}
+\NormalTok{  \}}
+
+\NormalTok{  div \{}
+    \KeywordTok{width}\NormalTok{: }\DecValTok{300}\DataTypeTok{px}\OperatorTok{;}
+    \KeywordTok{height}\NormalTok{: }\DecValTok{200}\DataTypeTok{px}\OperatorTok{;}
+
+    \KeywordTok{position}\NormalTok{: }\DecValTok{relative}\OperatorTok{;}
+
+    \KeywordTok{background{-}color}\NormalTok{: }\ConstantTok{\#add8e6}\OperatorTok{;}
+
+    \KeywordTok{border}\NormalTok{: }\DecValTok{5}\DataTypeTok{px} \DecValTok{solid} \ConstantTok{midnightblue}\OperatorTok{;}
+    \KeywordTok{border{-}radius}\NormalTok{: }\DecValTok{20}\DataTypeTok{px}\OperatorTok{;}
+\NormalTok{  \}}
+
+\NormalTok{  div}\InformationTok{::before}\NormalTok{ \{}
+    \KeywordTok{box{-}sizing}\NormalTok{: }\DecValTok{border{-}box}\OperatorTok{;}
+    \KeywordTok{content}\NormalTok{: }\StringTok{\textquotesingle{}\textquotesingle{}}\OperatorTok{;}
+    \KeywordTok{position}\NormalTok{: }\DecValTok{absolute}\OperatorTok{;}
+    \KeywordTok{top}\NormalTok{: }\DecValTok{195}\DataTypeTok{px}\OperatorTok{;}
+    \KeywordTok{left}\NormalTok{: }\DecValTok{20}\DataTypeTok{px}\OperatorTok{;}
+    \KeywordTok{border}\NormalTok{: }\DecValTok{10}\DataTypeTok{px} \DecValTok{solid}\OperatorTok{;}
+    \KeywordTok{border{-}color}\NormalTok{: }\ConstantTok{midnightblue} \DecValTok{transparent} \DecValTok{transparent} \DecValTok{transparent}\OperatorTok{;}
+\NormalTok{  \}}
+
+\NormalTok{  div}\InformationTok{::after}\NormalTok{ \{}
+    \KeywordTok{box{-}sizing}\NormalTok{: }\DecValTok{border{-}box}\OperatorTok{;}
+    \KeywordTok{content}\NormalTok{: }\StringTok{\textquotesingle{}\textquotesingle{}}\OperatorTok{;}
+    \KeywordTok{position}\NormalTok{: }\DecValTok{absolute}\OperatorTok{;}
+    \KeywordTok{top}\NormalTok{: }\DecValTok{190}\DataTypeTok{px}\OperatorTok{;}
+    \KeywordTok{left}\NormalTok{: }\DecValTok{22}\DataTypeTok{px}\OperatorTok{;}
+    \KeywordTok{border}\NormalTok{: }\DecValTok{8}\DataTypeTok{px} \DecValTok{solid}\OperatorTok{;}
+    \KeywordTok{border{-}color}\NormalTok{: }\ConstantTok{lightblue} \DecValTok{transparent} \DecValTok{transparent} \DecValTok{transparent}\OperatorTok{;}
+\NormalTok{  \}}
+
+\NormalTok{  span \{}
+    \KeywordTok{font{-}family}\NormalTok{: }\DecValTok{cursive}\OperatorTok{;}
+\NormalTok{  \}}
+\end{Highlighting}
+\end{Shaded}
+\end{itemize}
+
+CSSをうまく使うと様々な図形を作れます。自分の想像力次第なのでぜひ気合で頑張ってみてください。
+\includegraphics{imgs/css-balloon-sample.png}
+
+\subsubsection{3-6.
+思いどおりに配置しよう}\label{ux601dux3044ux3069ux304aux308aux306bux914dux7f6eux3057ux3088ux3046}
+
+ここまでで要素そのものはかなり自由に編集できるようになったと思います。\\
+ここで、ページそのものをデザイン・レイアウトするためのCSSについて説明します。
+
+現在主に使うレイアウトは\textbf{グリッドレイアウト}と\textbf{フレックスボックス}です。
+
+この節では、以下のHTMLを装飾して聖杯レイアウトを実装することを考えます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{\textless{}!DOCTYPE }\NormalTok{html}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}}\KeywordTok{html}\OtherTok{ lang}\OperatorTok{=}\StringTok{"ja"}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{head}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{meta}\OtherTok{ charset}\OperatorTok{=}\StringTok{"UTF{-}8"}\OtherTok{ }\DataTypeTok{/\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{meta}\OtherTok{ name}\OperatorTok{=}\StringTok{"viewport"}\OtherTok{ content}\OperatorTok{=}\StringTok{"width=device{-}width, initial{-}scale=1.0"}\OtherTok{ }\DataTypeTok{/\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{title}\DataTypeTok{\textgreater{}}\NormalTok{サンプルページ}\DataTypeTok{\textless{}/}\KeywordTok{title}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{link}\OtherTok{ rel}\OperatorTok{=}\StringTok{"stylesheet"}\OtherTok{ href}\OperatorTok{=}\StringTok{"style.css"}\DataTypeTok{/\textgreater{}}
+  \DataTypeTok{\textless{}/}\KeywordTok{head}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{body}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{header}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{p}\DataTypeTok{\textgreater{}}\NormalTok{ヘッダー}\DataTypeTok{\textless{}/}\KeywordTok{p}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}/}\KeywordTok{header}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{aside}\OtherTok{ id}\OperatorTok{=}\StringTok{"left"}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{p}\DataTypeTok{\textgreater{}}\NormalTok{左カラム}\DataTypeTok{\textless{}/}\KeywordTok{p}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}/}\KeywordTok{aside}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{main}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{p}\DataTypeTok{\textgreater{}}\NormalTok{メインコンテンツ}\DataTypeTok{\textless{}/}\KeywordTok{p}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}/}\KeywordTok{main}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{aside}\OtherTok{ id}\OperatorTok{=}\StringTok{"right"}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{p}\DataTypeTok{\textgreater{}}\NormalTok{右カラム}\DataTypeTok{\textless{}/}\KeywordTok{p}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}/}\KeywordTok{aside}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{footer}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{p}\DataTypeTok{\textgreater{}}\NormalTok{フッター}\DataTypeTok{\textless{}/}\KeywordTok{p}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}/}\KeywordTok{footer}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}/}\KeywordTok{body}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}/}\KeywordTok{html}\DataTypeTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+\paragraph{3-4-1.
+グリッドレイアウト}\label{ux30b0ux30eaux30c3ux30c9ux30ecux30a4ux30a2ux30a6ux30c8}
+
+グリッドレイアウトは\texttt{display}プロパティに\texttt{grid}を指定することで利用できるレイアウトです。\\
+行と列を用いた2次元的なレイアウト方法で、行と列の中に配置するものです。\\
+これを用いて聖杯レイアウトを実装してみます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{*}\NormalTok{ \{}
+  \KeywordTok{box{-}sizing}\NormalTok{: }\DecValTok{border{-}box}\OperatorTok{;}
+  \KeywordTok{margin}\NormalTok{: }\DecValTok{0}\OperatorTok{;}
+\NormalTok{\}}
+
+\NormalTok{body \{}
+  \KeywordTok{display}\NormalTok{: }\DecValTok{grid}\OperatorTok{;}
+  \KeywordTok{grid{-}template}\NormalTok{:}
+    \StringTok{\textquotesingle{}header header header\textquotesingle{}} \DecValTok{40}\DataTypeTok{px}
+    \StringTok{\textquotesingle{}left{-}column main right{-}colmun\textquotesingle{}} \BuiltInTok{auto}
+    \StringTok{\textquotesingle{}footer footer footer\textquotesingle{}} \DecValTok{40}\DataTypeTok{px}\NormalTok{ / }\DecValTok{200}\DataTypeTok{px} \BuiltInTok{auto} \DecValTok{200}\DataTypeTok{px}\OperatorTok{;}
+\NormalTok{\}}
+
+\NormalTok{header \{}
+  \KeywordTok{grid{-}area}\NormalTok{: header}\OperatorTok{;}
+  \KeywordTok{background{-}color}\NormalTok{: }\ConstantTok{lightblue}\OperatorTok{;}
+\NormalTok{\}}
+\NormalTok{aside}\PreprocessorTok{\#left}\NormalTok{ \{}
+  \KeywordTok{grid{-}area}\NormalTok{: left{-}column}\OperatorTok{;}
+  \KeywordTok{background{-}color}\NormalTok{: }\ConstantTok{lightsalmon}\OperatorTok{;}
+\NormalTok{\}}
+\NormalTok{main \{}
+  \KeywordTok{height}\NormalTok{: }\FunctionTok{calc(}\DecValTok{100}\DataTypeTok{vh} \OperatorTok{{-}} \DecValTok{80}\DataTypeTok{px}\FunctionTok{)}\OperatorTok{;}
+  \KeywordTok{grid{-}area}\NormalTok{: main}\OperatorTok{;}
+  \KeywordTok{background{-}color}\NormalTok{: }\ConstantTok{lightgreen}\OperatorTok{;}
+\NormalTok{\}}
+\NormalTok{aside}\PreprocessorTok{\#right}\NormalTok{ \{}
+  \KeywordTok{grid{-}area}\NormalTok{: right{-}colmun}\OperatorTok{;}
+  \KeywordTok{background{-}color}\NormalTok{: }\ConstantTok{lightsalmon}\OperatorTok{;}
+\NormalTok{\}}
+\NormalTok{footer \{}
+  \KeywordTok{grid{-}area}\NormalTok{: footer}\OperatorTok{;}
+  \KeywordTok{background{-}color}\NormalTok{: }\ConstantTok{lightblue}\OperatorTok{;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{imgs/grid-sample.png}
+\caption{gridサンプル}
+\end{figure}
+
+ここで重要なプロパティは以下のものです。
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{display:\ grid}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    指定された要素の子に対してグリッドレイアウトによる配置を適用します。
+  \end{itemize}
+\item
+  \texttt{grid-template:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    グリッドレイアウトでの要素の配置を指定します。
+  \item
+    \texttt{grid-template-areas}、\texttt{grid-template-rows}、\texttt{grid-template-columns}を一括指定するプロパティです。
+  \end{itemize}
+\item
+  \texttt{grid-area:}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{grid-template-areas}で指定した文字列を指定することで、\texttt{template}中の該当文字列部分に要素が入ることを示します。
+  \end{itemize}
+\end{itemize}
+
+グリッドレイアウトにより親しみたいあなたは\href{https://cssgridgarden.com/\#ja}{Grid
+Garden}に取り組んでみてください。
+
+\paragraph{3-4-2.
+フレックスボックス}\label{ux30d5ux30ecux30c3ux30afux30b9ux30dcux30c3ux30afux30b9}
+
+フレックスボックスは\texttt{display}プロパティに\texttt{flex}を指定することで利用できるレイアウトです。
+
+フレックスボックスは要素を行または列のどちらかに一次元に配置するレイアウトです。\\
+この性質から、聖杯レイアウトのような縦のレイアウトの中に横のレイアウトがあるものは、階層構造を取って表現する必要があります。
+
+3-4.にあるHTMLに追記してください。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+    \DataTypeTok{\textless{}/}\KeywordTok{header}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{div}\OtherTok{ class}\OperatorTok{=}\StringTok{"mid"}\DataTypeTok{\textgreater{}} \CommentTok{\textless{}!{-}{-} 追加 {-}{-}{-}\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{aside}\OtherTok{ id}\OperatorTok{=}\StringTok{"left"}\DataTypeTok{\textgreater{}}
+        \DataTypeTok{\textless{}}\KeywordTok{p}\DataTypeTok{\textgreater{}}\NormalTok{左カラム}\DataTypeTok{\textless{}/}\KeywordTok{p}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}/}\KeywordTok{aside}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{main}\DataTypeTok{\textgreater{}}
+        \DataTypeTok{\textless{}}\KeywordTok{p}\DataTypeTok{\textgreater{}}\NormalTok{メインコンテンツ}\DataTypeTok{\textless{}/}\KeywordTok{p}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}/}\KeywordTok{main}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{aside}\OtherTok{ id}\OperatorTok{=}\StringTok{"right"}\DataTypeTok{\textgreater{}}
+        \DataTypeTok{\textless{}}\KeywordTok{p}\DataTypeTok{\textgreater{}}\NormalTok{右カラム}\DataTypeTok{\textless{}/}\KeywordTok{p}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}/}\KeywordTok{aside}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}/}\KeywordTok{div}\DataTypeTok{\textgreater{}} \CommentTok{\textless{}!{-}{-} 追加 {-}{-}{-}\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{footer}\DataTypeTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+↑のhtmlに対して以下のCSSを適用することで聖杯レイアウトを実現できます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{*}\NormalTok{ \{}
+  \KeywordTok{box{-}sizing}\NormalTok{: }\DecValTok{border{-}box}\OperatorTok{;}
+  \KeywordTok{margin}\NormalTok{: }\DecValTok{0}\OperatorTok{;}
+\NormalTok{\}}
+
+\NormalTok{body \{}
+  \KeywordTok{display}\NormalTok{: }\DecValTok{flex}\OperatorTok{;}
+  \KeywordTok{flex{-}direction}\NormalTok{: }\DecValTok{column}\OperatorTok{;}
+\NormalTok{\}}
+
+\NormalTok{header \{}
+  \KeywordTok{height}\NormalTok{: }\DecValTok{40}\DataTypeTok{px}\OperatorTok{;}
+  \KeywordTok{background{-}color}\NormalTok{: }\ConstantTok{lightblue}\OperatorTok{;}
+\NormalTok{\}}
+\FunctionTok{.mid}\NormalTok{ \{}
+  \KeywordTok{display}\NormalTok{: }\DecValTok{flex}\OperatorTok{;}
+\NormalTok{\}}
+\NormalTok{aside}\PreprocessorTok{\#left}\NormalTok{ \{}
+  \KeywordTok{width}\NormalTok{: }\DecValTok{200}\DataTypeTok{px}\OperatorTok{;}
+  \KeywordTok{background{-}color}\NormalTok{: }\ConstantTok{lightsalmon}\OperatorTok{;}
+\NormalTok{\}}
+\NormalTok{main \{}
+  \KeywordTok{height}\NormalTok{: }\FunctionTok{calc(}\DecValTok{100}\DataTypeTok{vh} \OperatorTok{{-}} \DecValTok{80}\DataTypeTok{px}\FunctionTok{)}\OperatorTok{;}
+  \KeywordTok{width}\NormalTok{: }\DecValTok{100}\DataTypeTok{\%}\OperatorTok{;}
+  \KeywordTok{background{-}color}\NormalTok{: }\ConstantTok{lightgreen}\OperatorTok{;}
+\NormalTok{\}}
+\NormalTok{aside}\PreprocessorTok{\#right}\NormalTok{ \{}
+  \KeywordTok{width}\NormalTok{: }\DecValTok{200}\DataTypeTok{px}\OperatorTok{;}
+  \KeywordTok{background{-}color}\NormalTok{: }\ConstantTok{lightsalmon}\OperatorTok{;}
+\NormalTok{\}}
+\NormalTok{footer \{}
+  \KeywordTok{height}\NormalTok{: }\DecValTok{40}\DataTypeTok{px}\OperatorTok{;}
+  \KeywordTok{background{-}color}\NormalTok{: }\ConstantTok{lightblue}\OperatorTok{;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{imgs/flexbox-sample.png}
+\caption{フレックスボックスのサンプル}
+\end{figure}
+
+フレックスボックスを使ったレイアウトの面倒なところは、先述の通り、水平方向に要素を並べるか垂直方向に要素を並べるかの\emph{どちらかしかできない}ところです。\\
+今回の聖杯レイアウトでは、二行目の水平に並んだレイアウトがあり、ヘッダー・フッターにその要素が挟まれているため、二行目を\texttt{\textless{}div\textgreater{}}要素で囲むことで実現しています。
+
+フレックスボックスにより親しみたいあなたは\href{https://flexboxfroggy.com/\#ja}{FlexBox
+Floggy}に取り組んでみてください。
+
+グリッドレイアウトとフレックスボックス、どちらを利用してレイアウトを実装するかは好みの部分もあります。\\
+しかし、一般にフレックスボックスのみを使ったレイアウトのほうがHTMLの構造は複雑になりやすいです。\\
+複雑な文書はパフォーマンスの低下を招くことに注意するべきでしょう。\\
+かといって、すべてのデザインでgridが優れているわけではないので、あくまでデザインにあった方法で実装するようにしましょう。
+
+\subsection{4.
+ページに変更を加えよう}\label{ux30daux30fcux30b8ux306bux5909ux66f4ux3092ux52a0ux3048ux3088ux3046}
+
+ここでは閲覧者の入力に合わせてページの表示を変える方法を説明します。
+
+\subsubsection{4-1.
+HTMLでユーザーの入力を受け取ろう}\label{htmlux3067ux30e6ux30fcux30b6ux30fcux306eux5165ux529bux3092ux53d7ux3051ux53d6ux308dux3046}
+
+webページは、閲覧者が著者によって提供された情報を一方的に受け取るだけのものではありません。\\
+以下のようなHTML要素を利用することで閲覧者からの入力を受け取ることができます。
+
+\paragraph{4-1-1. ボタン要素}\label{ux30dcux30bfux30f3ux8981ux7d20}
+
+閲覧者からの入力を受け取るモノの代表がボタンでしょう。webサイトにもよく登場する要素の一つです。\\
+HTMLではボタン要素は以下のようにして記述できます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{\textless{}}\KeywordTok{button}\DataTypeTok{\textgreater{}}\NormalTok{ボタンです}\DataTypeTok{\textless{}/}\KeywordTok{button}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}}\KeywordTok{button}\OtherTok{ disabled}\DataTypeTok{\textgreater{}}\NormalTok{無効なボタンです}\DataTypeTok{\textless{}/}\KeywordTok{button}\DataTypeTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{imgs/button-element-sample.gif}
+\caption{ボタン要素のサンプル}
+\end{figure}
+
+\paragraph{4-1-2.
+要素のイベントを処理する}\label{ux8981ux7d20ux306eux30a4ux30d9ux30f3ux30c8ux3092ux51e6ux7406ux3059ux308b}
+
+ボタンは置いただけでは何にもなりません。\\
+閲覧者による入力、例えばクリックを処理するには、JavaScriptを用いて要素のクリックを取得して処理する必要があります。
+
+まずはJavaScriptを記述する\texttt{main.js}ファイルを用意してください。\\
+用意したJavaScriptファイルをHTMLから読み込みます。\texttt{index.html}を以下の内容に書き換えてください。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{\textless{}!DOCTYPE }\NormalTok{html}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}}\KeywordTok{html}\OtherTok{ lang}\OperatorTok{=}\StringTok{"ja"}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{head}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{meta}\OtherTok{ charset}\OperatorTok{=}\StringTok{"UTF{-}8"}\OtherTok{ }\DataTypeTok{/\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{meta}\OtherTok{ name}\OperatorTok{=}\StringTok{"viewport"}\OtherTok{ content}\OperatorTok{=}\StringTok{"width=device{-}width, initial{-}scale=1.0"}\OtherTok{ }\DataTypeTok{/\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{title}\DataTypeTok{\textgreater{}}\NormalTok{サンプルページ}\DataTypeTok{\textless{}/}\KeywordTok{title}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{script}\OtherTok{ src}\OperatorTok{=}\StringTok{"main.js"}\OtherTok{ defer}\DataTypeTok{\textgreater{}\textless{}/}\KeywordTok{script}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}/}\KeywordTok{head}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{body}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{button}\OtherTok{ id}\OperatorTok{=}\StringTok{"main{-}button"}\DataTypeTok{\textgreater{}}\NormalTok{ボタンです}\DataTypeTok{\textless{}/}\KeywordTok{button}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}/}\KeywordTok{body}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}/}\KeywordTok{html}\DataTypeTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+JavaScriptでは以下のようにしてHTML要素を取得できます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{document}\OperatorTok{.}\FunctionTok{querySelector}\NormalTok{(}\StringTok{"\textless{}セレクタ\textgreater{}"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{\textless{}セレクタ\textgreater{}}にはCSSのセレクタを使えます。これを使って、ボタンがクリックされたときにアラートを出すようにします。\\
+以下のコードを\texttt{main.js}に書き込んでください。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{const}\NormalTok{ mainButton }\OperatorTok{=} \BuiltInTok{document}\OperatorTok{.}\FunctionTok{querySelector}\NormalTok{(}\StringTok{\textquotesingle{}\#main{-}button\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+
+\KeywordTok{const}\NormalTok{ showAlert }\OperatorTok{=} \KeywordTok{function}\NormalTok{ () \{}
+  \BuiltInTok{window}\OperatorTok{.}\FunctionTok{alert}\NormalTok{(}\StringTok{\textquotesingle{}ボタンがクリックされました。\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+\NormalTok{\}}
+
+\NormalTok{mainButton}\OperatorTok{.}\FunctionTok{addEventListener}\NormalTok{(}\StringTok{\textquotesingle{}click\textquotesingle{}}\OperatorTok{,}\NormalTok{ showAlert)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{imgs/alert-sample.gif}
+\caption{ボタンクリックでアラートが出るサンプル}
+\end{figure}
+
+このように、HTML要素に対して閲覧者が特定の操作をすることを、JavaScriptでは\textbf{イベント}として扱います。\\
+閲覧者がボタンをクリックしたとき、\texttt{\textquotesingle{}click\textquotesingle{}}イベントが\emph{発火}すると言います。\\
+この例ではid属性に\texttt{main-button}が設定されたボタンに対して、\texttt{\textquotesingle{}click\textquotesingle{}}イベントの購読を行っていて、イベントが発生したときに処理を行う\textbf{イベントハンドラ}に\texttt{showAlert}関数を呼び出すように設定しています。
+
+\texttt{defer}属性の意味
+
+この\texttt{\textless{}script\textgreater{}}要素に追加した\texttt{defer}属性は、文書の解析語にスクリプトを実行するように遅延する意味があります。\\
+\texttt{defer}属性、\texttt{async}属性か、\texttt{type="module"}属性を持たない場合、スクリプトは読み込まれた順に即時実行されます。\\
+今回はページに表示される要素を取得する必要があり、実行時に要素がない（表示されていない）とエラーになってしまうため、\texttt{defer}属性を与えています。
+
+\texttt{async}属性や\texttt{type="module"}属性は、\texttt{defer}属性とは違った意味を持ちます。詳しくは\href{https://developer.mozilla.org/ja/docs/Web/HTML/Element/script\#\%E5\%B1\%9E\%E6\%80\%A7}{mdn
+web docs}を見てみてください。
+
+\subsubsection{4-２.
+JavaScriptで要素に変更を加えよう}\label{javascriptux3067ux8981ux7d20ux306bux5909ux66f4ux3092ux52a0ux3048ux3088ux3046}
+
+ここでは、操作を受け取って処理した結果を閲覧者に見せるために、JavaScriptで要素に変更を加える方法を説明します。
+
+\paragraph{4-2-1.
+コンテンツに変更を加えよう}\label{ux30b3ux30f3ux30c6ux30f3ux30c4ux306bux5909ux66f4ux3092ux52a0ux3048ux3088ux3046}
+
+JavaScriptで取得した要素は、様々なプロパティを持つオブジェクト(\href{https://developer.mozilla.org/ja/docs/Web/API/HTMLElement}{HTMLElement})です。\\
+コンテンツを変更するときに使用するプロパティには以下のようなものがあります。
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{innerHTML}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    要素内のHTMLタグを\textbf{含む}、全てのテキストを扱う
+  \end{itemize}
+\item
+  \texttt{innerText}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    要素内のHTMLタグを\textbf{含まない}、\textbf{非表示でない}テキストを扱う
+  \item
+    \texttt{\textbackslash{}n}で改行が表現できる
+  \end{itemize}
+\item
+  \texttt{textContent}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    要素内のHTMLタグを\textbf{含まない}、全てのテキストを扱う
+  \end{itemize}
+\end{itemize}
+
+今回は\texttt{innerText}を用いて、ボタンがクリックされるたびにクリックされた回数をページに追記するページをサンプルに示します。
+
+\begin{itemize}
+\item
+  HTML
+
+  \begin{itemize}
+  \item
+\begin{Shaded}
+\begin{Highlighting}[]
+    \DataTypeTok{\textless{}!DOCTYPE }\NormalTok{html}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{html}\OtherTok{ lang}\OperatorTok{=}\StringTok{"ja"}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{head}\DataTypeTok{\textgreater{}}
+        \DataTypeTok{\textless{}}\KeywordTok{meta}\OtherTok{ charset}\OperatorTok{=}\StringTok{"UTF{-}8"}\OtherTok{ }\DataTypeTok{/\textgreater{}}
+        \DataTypeTok{\textless{}}\KeywordTok{meta}\OtherTok{ name}\OperatorTok{=}\StringTok{"viewport"}\OtherTok{ content}\OperatorTok{=}\StringTok{"width=device{-}width, initial{-}scale=1.0"}\OtherTok{ }\DataTypeTok{/\textgreater{}}
+        \DataTypeTok{\textless{}}\KeywordTok{title}\DataTypeTok{\textgreater{}}\NormalTok{サンプルページ}\DataTypeTok{\textless{}/}\KeywordTok{title}\DataTypeTok{\textgreater{}}
+        \DataTypeTok{\textless{}}\KeywordTok{script}\OtherTok{ src}\OperatorTok{=}\StringTok{"main.js"}\OtherTok{ defer}\DataTypeTok{\textgreater{}\textless{}/}\KeywordTok{script}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}/}\KeywordTok{head}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{body}\DataTypeTok{\textgreater{}}
+        \DataTypeTok{\textless{}}\KeywordTok{button}\OtherTok{ id}\OperatorTok{=}\StringTok{"main{-}button"}\DataTypeTok{\textgreater{}}\NormalTok{ボタンです}\DataTypeTok{\textless{}/}\KeywordTok{button}\DataTypeTok{\textgreater{}}
+        \DataTypeTok{\textless{}}\KeywordTok{p}\OtherTok{ id}\OperatorTok{=}\StringTok{"messages"}\DataTypeTok{\textgreater{}\textless{}/}\KeywordTok{p}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}/}\KeywordTok{body}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}/}\KeywordTok{html}\DataTypeTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+  \end{itemize}
+\item
+  JavaScript
+
+  \begin{itemize}
+  \item
+\begin{Shaded}
+\begin{Highlighting}[]
+  \KeywordTok{let}\NormalTok{ clickCount }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}
+
+  \KeywordTok{const}\NormalTok{ mainButton }\OperatorTok{=} \BuiltInTok{document}\OperatorTok{.}\FunctionTok{querySelector}\NormalTok{(}\StringTok{\textquotesingle{}\#main{-}button\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+  \KeywordTok{const}\NormalTok{ messages }\OperatorTok{=} \BuiltInTok{document}\OperatorTok{.}\FunctionTok{querySelector}\NormalTok{(}\StringTok{\textquotesingle{}\#messages\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+
+  \KeywordTok{const}\NormalTok{ updateMessage }\OperatorTok{=} \KeywordTok{function}\NormalTok{ () \{}
+\NormalTok{    clickCount}\OperatorTok{++;}
+\NormalTok{    messages}\OperatorTok{.}\AttributeTok{innerText} \OperatorTok{+=} \VerbatimStringTok{\textasciigrave{}}\SpecialCharTok{$\{}\NormalTok{clickCount}\SpecialCharTok{\}}\VerbatimStringTok{回クリックされました。}\SpecialCharTok{\textbackslash{}n}\VerbatimStringTok{\textasciigrave{}}\OperatorTok{;}
+\NormalTok{  \}}\OperatorTok{;}
+
+\NormalTok{  mainButton}\OperatorTok{.}\FunctionTok{addEventListener}\NormalTok{(}\StringTok{\textquotesingle{}click\textquotesingle{}}\OperatorTok{,}\NormalTok{ updateMessage)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+  \end{itemize}
+\end{itemize}
+
+\begin{figure}
+\centering
+\includegraphics{imgs/edit-content.gif}
+\caption{コンテンツを変更するサンプル}
+\end{figure}
+
+\paragraph{4-2-2.
+見た目に変更を加えよう}\label{ux898bux305fux76eeux306bux5909ux66f4ux3092ux52a0ux3048ux3088ux3046}
+
+続いて、見た目にも変更を加えて見ましょう。ここでは\texttt{style}プロパティを用います。\\
+以下にサンプルを示します。(HTMLは4-2-1.と同じものです)
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{const}\NormalTok{ colorList }\OperatorTok{=}\NormalTok{ [}\StringTok{\textquotesingle{}pink\textquotesingle{}}\OperatorTok{,} \StringTok{\textquotesingle{}cyan\textquotesingle{}}\OperatorTok{,} \StringTok{\textquotesingle{}yellow\textquotesingle{}}\NormalTok{]}\OperatorTok{;}
+\KeywordTok{let}\NormalTok{ clickCount }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}
+
+\KeywordTok{const}\NormalTok{ mainButton }\OperatorTok{=} \BuiltInTok{document}\OperatorTok{.}\FunctionTok{querySelector}\NormalTok{(}\StringTok{\textquotesingle{}\#main{-}button\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+\KeywordTok{const}\NormalTok{ messages }\OperatorTok{=} \BuiltInTok{document}\OperatorTok{.}\FunctionTok{querySelector}\NormalTok{(}\StringTok{\textquotesingle{}\#messages\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+
+\KeywordTok{const}\NormalTok{ updateMessage }\OperatorTok{=} \KeywordTok{function}\NormalTok{ () \{}
+\NormalTok{  clickCount}\OperatorTok{++;}
+\NormalTok{  messages}\OperatorTok{.}\AttributeTok{innerText} \OperatorTok{+=} \VerbatimStringTok{\textasciigrave{}}\SpecialCharTok{$\{}\NormalTok{clickCount}\SpecialCharTok{\}}\VerbatimStringTok{回クリックされました。}\SpecialCharTok{\textbackslash{}n}\VerbatimStringTok{\textasciigrave{}}\OperatorTok{;}
+\NormalTok{  messages}\OperatorTok{.}\AttributeTok{style}\OperatorTok{.}\AttributeTok{backgroundColor} \OperatorTok{=}\NormalTok{ colorList[clickCount }\OperatorTok{\%} \DecValTok{3}\NormalTok{]}\OperatorTok{;}
+\NormalTok{\}}\OperatorTok{;}
+
+\NormalTok{mainButton}\OperatorTok{.}\FunctionTok{addEventListener}\NormalTok{(}\StringTok{\textquotesingle{}click\textquotesingle{}}\OperatorTok{,}\NormalTok{ updateMessage)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{imgs/edit-view.gif}
+\caption{見た目を変更するサンプル}
+\end{figure}
+
+\subsubsection{4-3.
+CSSで要素の変化を魅せよう}\label{cssux3067ux8981ux7d20ux306eux5909ux5316ux3092ux9b45ux305bux3088ux3046}
+
+最後に説明するのは簡単なCSSでのアニメーション、\texttt{transition}プロパティを用いたアニメーションを説明しておきます。\\
+\textgreater{} 注: 一般にこれをCSSアニメーションとは言いません。\\
+\textgreater{}
+CSSアニメーションについては\href{https://developer.mozilla.org/ja/docs/Web/CSS/CSS_animations/Using_CSS_animations}{こちら}を確認してください。
+
+以下にサンプルを示します。この例では、ボタンがクリックされるたびに移動する四角形が、移動時にアニメーションします。
+
+\begin{itemize}
+\item
+  HTML
+
+  \begin{itemize}
+  \item
+\begin{Shaded}
+\begin{Highlighting}[]
+    \DataTypeTok{\textless{}!DOCTYPE }\NormalTok{html}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{html}\OtherTok{ lang}\OperatorTok{=}\StringTok{"ja"}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{head}\DataTypeTok{\textgreater{}}
+        \DataTypeTok{\textless{}}\KeywordTok{meta}\OtherTok{ charset}\OperatorTok{=}\StringTok{"UTF{-}8"}\OtherTok{ }\DataTypeTok{/\textgreater{}}
+        \DataTypeTok{\textless{}}\KeywordTok{meta}\OtherTok{ name}\OperatorTok{=}\StringTok{"viewport"}\OtherTok{ content}\OperatorTok{=}\StringTok{"width=device{-}width, initial{-}scale=1.0"}\OtherTok{ }\DataTypeTok{/\textgreater{}}
+        \DataTypeTok{\textless{}}\KeywordTok{title}\DataTypeTok{\textgreater{}}\NormalTok{サンプルページ}\DataTypeTok{\textless{}/}\KeywordTok{title}\DataTypeTok{\textgreater{}}
+        \DataTypeTok{\textless{}}\KeywordTok{script}\OtherTok{ src}\OperatorTok{=}\StringTok{"main.js"}\OtherTok{ defer}\DataTypeTok{\textgreater{}\textless{}/}\KeywordTok{script}\DataTypeTok{\textgreater{}}
+        \DataTypeTok{\textless{}}\KeywordTok{link}\OtherTok{ rel}\OperatorTok{=}\StringTok{"stylesheet"}\OtherTok{ href}\OperatorTok{=}\StringTok{"style.css"}\DataTypeTok{/\textgreater{}}
+      \DataTypeTok{\textless{}/}\KeywordTok{head}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}}\KeywordTok{body}\DataTypeTok{\textgreater{}}
+        \DataTypeTok{\textless{}}\KeywordTok{button}\OtherTok{ id}\OperatorTok{=}\StringTok{"main{-}button"}\DataTypeTok{\textgreater{}}\NormalTok{ボタンです}\DataTypeTok{\textless{}/}\KeywordTok{button}\DataTypeTok{\textgreater{}}
+        \DataTypeTok{\textless{}}\KeywordTok{div}\OtherTok{ id}\OperatorTok{=}\StringTok{"field"}\DataTypeTok{\textgreater{}}
+          \DataTypeTok{\textless{}}\KeywordTok{div}\OtherTok{ id}\OperatorTok{=}\StringTok{"box"}\DataTypeTok{\textgreater{}}\NormalTok{0}\DataTypeTok{\textless{}/}\KeywordTok{div}\DataTypeTok{\textgreater{}}
+        \DataTypeTok{\textless{}/}\KeywordTok{div}\DataTypeTok{\textgreater{}}
+      \DataTypeTok{\textless{}/}\KeywordTok{body}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}/}\KeywordTok{html}\DataTypeTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+  \end{itemize}
+\item
+  CSS
+
+  \begin{itemize}
+  \item
+\begin{Shaded}
+\begin{Highlighting}[]
+  \PreprocessorTok{\#main{-}button}\NormalTok{ \{}
+    \KeywordTok{margin{-}bottom}\NormalTok{: }\DecValTok{16}\DataTypeTok{px}\OperatorTok{;}
+\NormalTok{  \}}
+
+  \PreprocessorTok{\#field}\NormalTok{ \{}
+    \KeywordTok{position}\NormalTok{: }\DecValTok{relative}\OperatorTok{;}
+    \KeywordTok{width}\NormalTok{: }\DecValTok{300}\DataTypeTok{px}\OperatorTok{;}
+    \KeywordTok{height}\NormalTok{: }\DecValTok{300}\DataTypeTok{px}\OperatorTok{;}
+    \KeywordTok{border}\NormalTok{: }\DecValTok{2}\DataTypeTok{px} \DecValTok{solid} \ConstantTok{gray}\OperatorTok{;}
+\NormalTok{  \}}
+
+  \PreprocessorTok{\#box}\NormalTok{ \{}
+    \KeywordTok{position}\NormalTok{: }\DecValTok{absolute}\OperatorTok{;}
+    \KeywordTok{top}\NormalTok{: }\DecValTok{0}\DataTypeTok{px}\OperatorTok{;}
+    \KeywordTok{left}\NormalTok{: }\DecValTok{0}\DataTypeTok{px}\OperatorTok{;}
+    \KeywordTok{width}\NormalTok{: }\DecValTok{100}\DataTypeTok{px}\OperatorTok{;}
+    \KeywordTok{height}\NormalTok{: }\DecValTok{100}\DataTypeTok{px}\OperatorTok{;}
+    \KeywordTok{display}\NormalTok{: }\DecValTok{grid}\OperatorTok{;}
+    \KeywordTok{place{-}content}\NormalTok{: }\DecValTok{center}\OperatorTok{;}
+    \KeywordTok{background{-}color}\NormalTok{: }\ConstantTok{pink}\OperatorTok{;}
+    \KeywordTok{transition}\NormalTok{: }\DecValTok{all} \DecValTok{ease} \DecValTok{0.2}\DataTypeTok{s}\OperatorTok{;}
+\NormalTok{  \}}
+\end{Highlighting}
+\end{Shaded}
+  \end{itemize}
+\item
+  JavaScript
+
+  \begin{itemize}
+  \item
+\begin{Shaded}
+\begin{Highlighting}[]
+  \KeywordTok{const}\NormalTok{ colorList }\OperatorTok{=}\NormalTok{ [}\StringTok{\textquotesingle{}pink\textquotesingle{}}\OperatorTok{,} \StringTok{\textquotesingle{}cyan\textquotesingle{}}\OperatorTok{,} \StringTok{\textquotesingle{}yellow\textquotesingle{}}\NormalTok{]}\OperatorTok{;}
+  \KeywordTok{let}\NormalTok{ clickCount }\OperatorTok{=} \DecValTok{0}\OperatorTok{;}
+
+  \KeywordTok{const}\NormalTok{ mainButton }\OperatorTok{=} \BuiltInTok{document}\OperatorTok{.}\FunctionTok{querySelector}\NormalTok{(}\StringTok{\textquotesingle{}\#main{-}button\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+  \KeywordTok{const}\NormalTok{ box }\OperatorTok{=} \BuiltInTok{document}\OperatorTok{.}\FunctionTok{querySelector}\NormalTok{(}\StringTok{\textquotesingle{}\#box\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+
+  \KeywordTok{const}\NormalTok{ moveBox }\OperatorTok{=} \KeywordTok{function}\NormalTok{ () \{}
+\NormalTok{    clickCount}\OperatorTok{++;}
+\NormalTok{    box}\OperatorTok{.}\AttributeTok{textContent} \OperatorTok{=} \VerbatimStringTok{\textasciigrave{}}\SpecialCharTok{$\{}\NormalTok{clickCount }\OperatorTok{\%} \DecValTok{4}\SpecialCharTok{\}}\VerbatimStringTok{\textasciigrave{}}\OperatorTok{;}
+\NormalTok{    box}\OperatorTok{.}\AttributeTok{style}\OperatorTok{.}\AttributeTok{top} \OperatorTok{=}\NormalTok{ [}\DecValTok{0}\OperatorTok{,} \DecValTok{1}\NormalTok{]}\OperatorTok{.}\FunctionTok{includes}\NormalTok{(clickCount }\OperatorTok{\%} \DecValTok{4}\NormalTok{) }\OperatorTok{?} \StringTok{\textquotesingle{}0px\textquotesingle{}} \OperatorTok{:} \StringTok{\textquotesingle{}200px\textquotesingle{}}\OperatorTok{;}
+\NormalTok{    box}\OperatorTok{.}\AttributeTok{style}\OperatorTok{.}\AttributeTok{left} \OperatorTok{=}\NormalTok{ [}\DecValTok{0}\OperatorTok{,} \DecValTok{3}\NormalTok{]}\OperatorTok{.}\FunctionTok{includes}\NormalTok{(clickCount }\OperatorTok{\%} \DecValTok{4}\NormalTok{) }\OperatorTok{?} \StringTok{\textquotesingle{}0px\textquotesingle{}} \OperatorTok{:} \StringTok{\textquotesingle{}200px\textquotesingle{}}\OperatorTok{;}
+\NormalTok{  \}}\OperatorTok{;}
+
+\NormalTok{  mainButton}\OperatorTok{.}\FunctionTok{addEventListener}\NormalTok{(}\StringTok{\textquotesingle{}click\textquotesingle{}}\OperatorTok{,}\NormalTok{ moveBox)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+  \end{itemize}
+\end{itemize}
+
+\begin{figure}
+\centering
+\includegraphics{imgs/transition-sample.gif}
+\caption{transitionサンプル}
+\end{figure}
+
+このサンプルで重要な記述は↓です
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \PreprocessorTok{\#box}\NormalTok{ \{}
+    \FunctionTok{...}
+    \KeywordTok{transition}\NormalTok{: }\DecValTok{all} \DecValTok{ease} \DecValTok{0.2}\DataTypeTok{s}\OperatorTok{;}
+\NormalTok{  \}}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{transition}プロパティは、プロパティと時間を指定することで、指定したプロパティの値が切り替わったときにその変化に指定した時間かけてゆっくり行わせるものです。\\
+今回は\texttt{all}で全てのプロパティに対して変化をゆるやかにするように指定し、変化には\texttt{0.2s}かけるよう指定しています。\\
+\texttt{ease}は変化をゆっくりはじめ、中頃は急で、終わりはまたゆっくりになるような変化をするように指定するタイミング関数というものです。他に線形的に変化する\texttt{linear}などもあります。
+
+\subsection{5. 終わりに}\label{ux7d42ux308fux308aux306b}
+
+この記事では、HTML/CSSの初歩からJavaScriptを組み合わせた動的なページの変更までを説明しました。\\
+この資料では説明しきれていないHTML要素やCSSプロパティも多数あります。\\
+それらは利用するときに適宜mdn web
+docsやGoogle検索などのちからを借りて調べながら書いてみてください。
+
+\subsection{6. 参考文献}\label{ux53c2ux8003ux6587ux732e}
+
+\begin{itemize}
+\tightlist
+\item
+  mdn web docs
+
+  \begin{itemize}
+  \tightlist
+  \item
+    html: \url{https://developer.mozilla.org/ja/docs/Web/html}
+  \item
+    css: \url{https://developer.mozilla.org/ja/docs/Web/css}
+  \end{itemize}
+\end{itemize}

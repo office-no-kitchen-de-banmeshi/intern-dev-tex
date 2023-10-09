@@ -1,0 +1,381 @@
+\section{そもそもAPIとは}\label{ux305dux3082ux305dux3082apiux3068ux306f}
+
+Application Programming Interfaceの略。
+
+アプリケーションが別のアプリケーションを呼び出しために使用するインターフェース。
+
+すでに実装されているアプリケーションのAPIの呼び出しを行うことで、無駄な実装をする必要がなくなる。
+
+また、呼び出し側はAPIの裏側にあるコードの動作を意識せず使用することができる。
+
+主にAPIという言葉が使用されるのは
+webアプリケーションにおけるサーバ側の処理の呼び出しであるが、APIはこれに限らずOSとアプリケーションの間や、Javaなどのライブラリでも使用される。
+
+\section{実際にAPIを叩いてみる}\label{ux5b9fux969bux306bapiux3092ux53e9ux3044ux3066ux307fux308b}
+
+サンプルコードにボタンを追加し、そのボタンを押したらサーバの\texttt{/welcome-message}\hyperref[tipsux5cux25E3ux5cux2582ux5cux25A8ux5cux25E3ux5cux2583ux5cux25B3ux5cux25E3ux5cux2583ux5cux2589ux5cux25E3ux5cux2583ux5cux259Dux5cux25E3ux5cux2582ux5cux25A4ux5cux25E3ux5cux2583ux5cux25B3ux5cux25E3ux5cux2583ux5cux2588]{エンドポイント}を叩くコードを用意する。
+
+まずは以下のコードを\texttt{/public/index.html}のbodyタグ中に追加し、\texttt{message(click\ me)}と書かれたボタンを用意する。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \DataTypeTok{\textless{}}\KeywordTok{div}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{h1}\OtherTok{ id}\OperatorTok{=}\StringTok{"welcome\_message"}\DataTypeTok{\textgreater{}\textless{}/}\KeywordTok{h1}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{button}\OtherTok{ id}\OperatorTok{=}\StringTok{"welcome\_button"}\DataTypeTok{\textgreater{}}\NormalTok{message(click me)}\DataTypeTok{\textless{}/}\KeywordTok{button}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}/}\KeywordTok{div}\DataTypeTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+サーバで用意したAPIのエンドポイントを叩くには \textbf{fetch
+API}を使用する。
+
+使い方はシンプルで\texttt{fetch("\{叩きたいエンドポイント\}")}と書けば好きなAPIのエンドポイントを叩くことができる。\\
+なお、\texttt{fetch}は非同期処理を行うので、通信が終了するまで(データが返ってくるまで)待ちたい場合は\texttt{await}をつける必要がある。\\
+ボタンがクリックされたらAPIを叩き、戻り値を先ほど用意した、\texttt{welcome\_message}のidを持つh1タグに表示する。
+
+先ほど追加したコードの下に以下のコードを追加する
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \DataTypeTok{\textless{}}\KeywordTok{script}\OtherTok{ type=}\StringTok{"module"}\DataTypeTok{\textgreater{}}
+    \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"welcome\_button"}\NormalTok{)}\OperatorTok{.}\AttributeTok{onclick} \OperatorTok{=} \KeywordTok{async}\NormalTok{ () }\KeywordTok{=\textgreater{}}\NormalTok{ \{}
+      \KeywordTok{const}\NormalTok{ response }\OperatorTok{=} \ControlFlowTok{await} \FunctionTok{fetch}\NormalTok{(}\StringTok{"/welcome{-}message"}\NormalTok{)}\OperatorTok{;}
+      \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"welcome\_message"}\NormalTok{)}\OperatorTok{.}\AttributeTok{innerText} \OperatorTok{=} \ControlFlowTok{await}\NormalTok{ response}\OperatorTok{.}\FunctionTok{text}\NormalTok{()}\OperatorTok{;}
+\NormalTok{    \}}\OperatorTok{;}
+  \DataTypeTok{\textless{}/}\KeywordTok{script}\DataTypeTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+これでクライアントからAPIを叩く実装ができたので、実際に動かしてみる。
+
+まず、 \texttt{deno\ run\ -A\ -\/-watch\ server.js}を実行。\\
+次に、ブラウザを開いて\texttt{localhost:8000}にアクセスし、ボタンを押してみる(ページが開けない場合はターミナルにエラーが出ていないか確認)。\\
+最後に、ボタンを押して\texttt{jigインターンへようこそ！}が表示されていれば成功。
+
+\begin{quote}
+\subsubsection{TIPS:エンドポイント}\label{tipsux30a8ux30f3ux30c9ux30ddux30a4ux30f3ux30c8}
+
+APIの呼び出し側から見て、APIの接続先を指す。
+例えば、APIを\texttt{http://hoge.com/fuga}と\texttt{http://hoge.com/piyo}(それぞれの処理は異なる)で呼び出せる場合、このそれぞれをエンドポイントと呼ぶ。
+なお、APIのオリジン(プロトコルとホストとポート名をまとめたもの、今回の例では\texttt{http://hoge.com}にあたる)は基本同一であるため、オリジン以降の\texttt{/fuga}や\texttt{/piyo}のみでエンドポイントと呼ぶことがある。
+\end{quote}
+
+\section{APIを追加してみる}\label{apiux3092ux8ffdux52a0ux3057ux3066ux307fux308b}
+
+APIの叩き方がわかったところで、今度はサーバー側に手を入れてAPIを追加してみる。
+
+\subsection{GETメソッドでAPIを追加し、叩く}\label{getux30e1ux30bdux30c3ux30c9ux3067apiux3092ux8ffdux52a0ux3057ux53e9ux304f}
+
+まず初めにクエリパラメータなしのGETメソッドのAPIを作成する。
+
+動作としては\texttt{/greeting}のエンドポイントを叩くとHelloが返ってくるAPIを作成する。\\
+以下のコードを\texttt{server.js}に追加する。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+  \ControlFlowTok{if}\NormalTok{( req}\OperatorTok{.}\AttributeTok{method} \OperatorTok{===} \StringTok{"GET"} \OperatorTok{\&\&}\NormalTok{ pathname }\OperatorTok{===} \StringTok{"/greeting"}\NormalTok{ )\{}
+    \ControlFlowTok{return} \KeywordTok{new} \FunctionTok{Response}\NormalTok{(}\StringTok{"Hello!!"}\NormalTok{)}
+\NormalTok{  \}}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{req.method}でクライアントが使用したメソッドを取得することができる。\\
+アクセス先のパスは\texttt{URL}クラスの\texttt{pathname}プロパティにあるため、これを確認することで叩かれたエンドポイントを判定することができる。(パスの取得はサンプルプログラムを流用)
+
+これでサーバ側に新たなAPIを生やすことができたので、今度はクライアント側にこれを叩く実装を追加する。
+
+先ほどのAPIを叩いてみるのコードを参考に実装する。
+
+以下に一例を載せておく。
+
+クラアントのコード
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{\textless{}!DOCTYPE }\NormalTok{html}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}}\KeywordTok{html}\DataTypeTok{\textgreater{}}
+
+\DataTypeTok{\textless{}}\KeywordTok{head}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{meta}\OtherTok{ charset}\OperatorTok{=}\StringTok{"utf{-}8"}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{link}\OtherTok{ rel}\OperatorTok{=}\StringTok{"stylesheet"}\OtherTok{ href}\OperatorTok{=}\StringTok{"styles.css"}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}/}\KeywordTok{head}\DataTypeTok{\textgreater{}}
+
+\DataTypeTok{\textless{}}\KeywordTok{body}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{div}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{h1}\OtherTok{ id}\OperatorTok{=}\StringTok{"welcome\_message"}\DataTypeTok{\textgreater{}\textless{}/}\KeywordTok{h1}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{button}\OtherTok{ id}\OperatorTok{=}\StringTok{"welcome\_button"}\DataTypeTok{\textgreater{}}\NormalTok{message(click me)}\DataTypeTok{\textless{}/}\KeywordTok{button}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}/}\KeywordTok{div}\DataTypeTok{\textgreater{}}
+
+  \CommentTok{\textless{}!{-}{-} /greetingのAPIを叩く用のボタン {-}{-}\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{div}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{button}\OtherTok{ id}\OperatorTok{=}\StringTok{"greeting"}\DataTypeTok{\textgreater{}}\NormalTok{Hello}\DataTypeTok{\textless{}/}\KeywordTok{button}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}/}\KeywordTok{div}\DataTypeTok{\textgreater{}}
+
+\NormalTok{  Server:}\DataTypeTok{\textless{}}\KeywordTok{span}\OtherTok{ id}\OperatorTok{=}\StringTok{"server\_response"}\DataTypeTok{\textgreater{}\textless{}/}\KeywordTok{span}\DataTypeTok{\textgreater{}}
+
+  \DataTypeTok{\textless{}}\KeywordTok{script}\OtherTok{ type=}\StringTok{"module"}\DataTypeTok{\textgreater{}}
+
+    \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"welcome\_button"}\NormalTok{)}\OperatorTok{.}\AttributeTok{onclick} \OperatorTok{=} \KeywordTok{async}\NormalTok{ () }\KeywordTok{=\textgreater{}}\NormalTok{ \{}
+      \KeywordTok{const}\NormalTok{ response }\OperatorTok{=} \ControlFlowTok{await} \FunctionTok{fetch}\NormalTok{(}\StringTok{"/welcome{-}message"}\NormalTok{)}\OperatorTok{;}
+      \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"welcome\_message"}\NormalTok{)}\OperatorTok{.}\AttributeTok{innerText} \OperatorTok{=} \ControlFlowTok{await}\NormalTok{ response}\OperatorTok{.}\FunctionTok{text}\NormalTok{()}\OperatorTok{;}
+\NormalTok{    \}}\OperatorTok{;}
+    
+    \CommentTok{// greetingを叩くためのjavascriptの実装}
+    \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"greeting"}\NormalTok{)}\OperatorTok{.}\AttributeTok{onclick} \OperatorTok{=} \KeywordTok{async}\NormalTok{ () }\KeywordTok{=\textgreater{}}\NormalTok{ \{}
+      \KeywordTok{const}\NormalTok{ response }\OperatorTok{=} \ControlFlowTok{await} \FunctionTok{fetch}\NormalTok{(}\StringTok{"/greeting"}\NormalTok{)}\OperatorTok{;}
+      \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"server\_response"}\NormalTok{)}\OperatorTok{.}\AttributeTok{innerText} \OperatorTok{=} \ControlFlowTok{await}\NormalTok{ response}\OperatorTok{.}\FunctionTok{text}\NormalTok{()}\OperatorTok{;}
+\NormalTok{    \}}\OperatorTok{;}
+  \DataTypeTok{\textless{}/}\KeywordTok{script}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}/}\KeywordTok{body}\DataTypeTok{\textgreater{}}
+
+\DataTypeTok{\textless{}/}\KeywordTok{html}\DataTypeTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+実装ができたら、実際にブラウザで開いてボタンを押してみる。\\
+想定したレスポンスがあれば成功。\\
+もし表示されない場合は開発者ツールを開いてコンソールのタブにエラーが出ていないか確認する。\\
+コンソールにエンドポイント名の404のエラーがあり、間違いなくそのエンドポイントが実装されている場合は、denoの再起動で直る可能性がある。
+
+\subsection{GETメソッドをクエリパラメータ付きで追加し、叩く}\label{getux30e1ux30bdux30c3ux30c9ux3092ux30afux30a8ux30eaux30d1ux30e9ux30e1ux30fcux30bfux4ed8ux304dux3067ux8ffdux52a0ux3057ux53e9ux304f}
+
+次にGETメソッドをクエリパラメータ付きで叩くAPIを実装する。\\
+先ほど作ったAPIは消さずに追加していく。
+
+仕様としては\texttt{/greeting-me}というエンドポイントを作成。\\
+これにクエリパラメータ\texttt{name}をつけて送信すると\texttt{Hello,\ \{name\}}を返す。\\
+クライアント側ではテキストボックスとボタンを表示し、ボタンが押されたら入力された値をクエリパラメータとして送信する。
+
+まずサーバ側から実装する。\\
+クライアントから送られてきたクエリパラメータは以下のように取得できる。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{const}\NormalTok{ param }\OperatorTok{=} \KeywordTok{new} \FunctionTok{URL}\NormalTok{(req}\OperatorTok{.}\AttributeTok{url}\NormalTok{)}\OperatorTok{.}\AttributeTok{searchParams}\OperatorTok{.}\FunctionTok{get}\NormalTok{(}\StringTok{"クエリパラメータ名"}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+上記を参考に、リクエストを受け取って使用を満たすようなレスポンスを返す処理を追加する。\\
+以下に実装の一例を示す。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \ControlFlowTok{if}\NormalTok{( req}\OperatorTok{.}\AttributeTok{method} \OperatorTok{===} \StringTok{"GET"} \OperatorTok{\&\&}\NormalTok{ pathname }\OperatorTok{===} \StringTok{"/greeting{-}me"}\NormalTok{ )\{}
+    \KeywordTok{const}\NormalTok{ param }\OperatorTok{=} \KeywordTok{new} \FunctionTok{URL}\NormalTok{(req}\OperatorTok{.}\AttributeTok{url}\NormalTok{)}\OperatorTok{.}\AttributeTok{searchParams}\OperatorTok{.}\FunctionTok{get}\NormalTok{(}\StringTok{"name"}\NormalTok{)}\OperatorTok{;}
+    \ControlFlowTok{return} \KeywordTok{new} \FunctionTok{Response}\NormalTok{(}\StringTok{"Hello, "} \OperatorTok{+}\NormalTok{ param)}\OperatorTok{;}
+\NormalTok{  \}}
+\end{Highlighting}
+\end{Shaded}
+
+続いてクライアント側を実装する。\\
+今回は入力した名前をクエリパラメータとして渡すので、入力欄の作成とそれを送信するボタンを作成する。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \DataTypeTok{\textless{}}\KeywordTok{input}\OtherTok{ type}\OperatorTok{=}\StringTok{"text"}\OtherTok{ id}\OperatorTok{=}\StringTok{"name"}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{button}\OtherTok{ id}\OperatorTok{=}\StringTok{"greeting\_me"}\DataTypeTok{\textgreater{}}\NormalTok{ greeting me }\DataTypeTok{\textless{}/}\KeywordTok{button}\DataTypeTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+入力された内容をクエリパラメータとして、GETリクエストを送るコードを用意する。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+    \CommentTok{// greeting{-}meを叩くためのjavascriptの実装}
+    \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"greeting\_me"}\NormalTok{)}\OperatorTok{.}\AttributeTok{onclick} \OperatorTok{=} \KeywordTok{async}\NormalTok{ () }\KeywordTok{=\textgreater{}}\NormalTok{ \{}
+      \KeywordTok{const}\NormalTok{ name }\OperatorTok{=} \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"name"}\NormalTok{)}\OperatorTok{.}\AttributeTok{value}\OperatorTok{;}
+      \KeywordTok{const}\NormalTok{ response }\OperatorTok{=} \ControlFlowTok{await} \FunctionTok{fetch}\NormalTok{(}\StringTok{"/greeting{-}me?name="} \OperatorTok{+}\NormalTok{ name)}\OperatorTok{;}
+      \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"server\_response"}\NormalTok{)}\OperatorTok{.}\AttributeTok{innerText} \OperatorTok{=} \ControlFlowTok{await}\NormalTok{ response}\OperatorTok{.}\FunctionTok{text}\NormalTok{()}\OperatorTok{;}
+\NormalTok{    \}}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+ここまで実装したら、動作確認を行う。
+
+作成した入力フォームに適当な名前を入れて、ボタンを押し、レスポンスが表示されるのを確認する。
+
+\subsection{POSTメソッドをペイロードありで叩く}\label{postux30e1ux30bdux30c3ux30c9ux3092ux30daux30a4ux30edux30fcux30c9ux3042ux308aux3067ux53e9ux304f}
+
+続いて、POSTメソッドを利用して認証のようなものを作る。
+
+エンドポイントは\texttt{/auth}とし、ペイロードの中に\texttt{pass}というパラメータを持たせる。\\
+サーバ側であらかじめ決めたパスワードと一致していれば\texttt{Authentication\ Successful!!}を返し、異なっていたら\texttt{Authentication\ Failure}を返す。
+
+まず、サーバの方から実装する。
+
+POSTメソッドで送信されたパラメータは以下のような実装で取得することができる。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+    \KeywordTok{const}\NormalTok{ reqJson }\OperatorTok{=} \ControlFlowTok{await}\NormalTok{ req}\OperatorTok{.}\FunctionTok{json}\NormalTok{()}\OperatorTok{;}
+    \KeywordTok{const}\NormalTok{ pass }\OperatorTok{=}\NormalTok{ reqJson}\OperatorTok{.}\AttributeTok{pass}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{json()}メソッドでリクエストのbodyに入ってるjson形式のデータを取り出すことができる。\\
+しかし、これが非同期で行われるため、\texttt{await}を利用して一度jsonとして全てのbodyのデータを取り出し、その後必要なパラメータを取り出す流れで行う。
+
+パラメータが取り出せたら、そのパスワードとハードコーディングしたパスワードを比較して、一致しているかどうかで処理を変える。
+
+以下にサーバ側のコードの実装の一例を示す。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \ControlFlowTok{if}\NormalTok{( req}\OperatorTok{.}\AttributeTok{method} \OperatorTok{===} \StringTok{"POST"} \OperatorTok{\&\&}\NormalTok{ pathname }\OperatorTok{===} \StringTok{"/auth"}\NormalTok{ )\{}
+    \KeywordTok{const}\NormalTok{ reqJson }\OperatorTok{=} \ControlFlowTok{await}\NormalTok{ req}\OperatorTok{.}\FunctionTok{json}\NormalTok{()}\OperatorTok{;}
+    \KeywordTok{const}\NormalTok{ pass }\OperatorTok{=}\NormalTok{ reqJson}\OperatorTok{.}\AttributeTok{pass}
+    \ControlFlowTok{if}\NormalTok{( pass }\OperatorTok{===} \StringTok{"jigjp"}\NormalTok{ )\{}
+      \ControlFlowTok{return} \KeywordTok{new} \FunctionTok{Response}\NormalTok{(}\StringTok{"Authentication Successful!!"}\NormalTok{)}
+\NormalTok{    \}}\ControlFlowTok{else}\NormalTok{\{}
+      \ControlFlowTok{return} \KeywordTok{new} \FunctionTok{Response}\NormalTok{(}\StringTok{"Authentication Failure"}\NormalTok{)}
+\NormalTok{    \}}
+\NormalTok{  \}}
+\end{Highlighting}
+\end{Shaded}
+
+次にクライアント側の実装を行う。
+
+まず、先ほどまでの実装を参考にパスワードの入力欄とAPIを叩くボタンを作成する。\\
+入力欄はパスワードを扱いたいので \texttt{type=password}とする。
+
+fetch
+APIでPOSTメソッドを利用する場合、第二引数のオプション指定でメソッドを指定する必要がある。\\
+また、今回はbodyも送信し、その中身はJSONで送るため、以下のようになる。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+      \KeywordTok{const}\NormalTok{ response }\OperatorTok{=} \ControlFlowTok{await} \FunctionTok{fetch}\NormalTok{(}\StringTok{"/auth"}\OperatorTok{,}\NormalTok{\{}
+        \DataTypeTok{method}\OperatorTok{:} \StringTok{\textquotesingle{}POST\textquotesingle{}}\OperatorTok{,}
+        \DataTypeTok{headers}\OperatorTok{:}\NormalTok{ \{}\StringTok{\textquotesingle{}Content{-}Type\textquotesingle{}}\OperatorTok{:} \StringTok{\textquotesingle{}application/json\textquotesingle{}}\NormalTok{\}}\OperatorTok{,}
+        \DataTypeTok{body}\OperatorTok{:} \BuiltInTok{JSON}\OperatorTok{.}\FunctionTok{stringify}\NormalTok{(\{}\DataTypeTok{pass}\OperatorTok{:}\NormalTok{ pass\})}
+\NormalTok{      \})}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+最後に今までの実装を参考に、レスポンスを表示する。
+
+これでPOSTのAPI実装とクライアントの実装が完了したため、実際に動作確認を行う。
+
+\section{終わりに}\label{ux7d42ux308fux308aux306b}
+
+最後に、ここまでの実装を終えたクライアントのコードをサーバのコードを一例として載せておく。\\
+もちろんこれと異なっていても、意図した動作を行えるのであれば問題ない。
+
+クラアントのコード
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{\textless{}!DOCTYPE }\NormalTok{html}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}}\KeywordTok{html}\DataTypeTok{\textgreater{}}
+
+\DataTypeTok{\textless{}}\KeywordTok{head}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{meta}\OtherTok{ charset}\OperatorTok{=}\StringTok{"utf{-}8"}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{link}\OtherTok{ rel}\OperatorTok{=}\StringTok{"stylesheet"}\OtherTok{ href}\OperatorTok{=}\StringTok{"styles.css"}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}/}\KeywordTok{head}\DataTypeTok{\textgreater{}}
+
+\DataTypeTok{\textless{}}\KeywordTok{body}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{div}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{h1}\OtherTok{ id}\OperatorTok{=}\StringTok{"welcome\_message"}\DataTypeTok{\textgreater{}\textless{}/}\KeywordTok{h1}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{button}\OtherTok{ id}\OperatorTok{=}\StringTok{"welcome\_button"}\DataTypeTok{\textgreater{}}\NormalTok{message(click me)}\DataTypeTok{\textless{}/}\KeywordTok{button}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}/}\KeywordTok{div}\DataTypeTok{\textgreater{}}
+
+  \CommentTok{\textless{}!{-}{-} /greetingのAPIを叩く用のボタン {-}{-}\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{div}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{button}\OtherTok{ id}\OperatorTok{=}\StringTok{"greeting"}\DataTypeTok{\textgreater{}}\NormalTok{Hello}\DataTypeTok{\textless{}/}\KeywordTok{button}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}/}\KeywordTok{div}\DataTypeTok{\textgreater{}}
+
+  \CommentTok{\textless{}!{-}{-} /greeting\_meのAPIを叩く用のボタン {-}{-}\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{div}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{input}\OtherTok{ type}\OperatorTok{=}\StringTok{"text"}\OtherTok{ id}\OperatorTok{=}\StringTok{"name"}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{button}\OtherTok{ id}\OperatorTok{=}\StringTok{"greeting\_me"}\DataTypeTok{\textgreater{}}\NormalTok{ greeting me }\DataTypeTok{\textless{}/}\KeywordTok{button}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}/}\KeywordTok{div}\DataTypeTok{\textgreater{}}
+
+  \CommentTok{\textless{}!{-}{-} /authのAPIを叩く用のボタンと入力欄 {-}{-}\textgreater{}}
+  \DataTypeTok{\textless{}}\KeywordTok{div}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{input}\OtherTok{ type}\OperatorTok{=}\StringTok{"password"}\OtherTok{ id}\OperatorTok{=}\StringTok{"password"}\DataTypeTok{\textgreater{}}
+    \DataTypeTok{\textless{}}\KeywordTok{button}\OtherTok{ id}\OperatorTok{=}\StringTok{"auth"}\DataTypeTok{\textgreater{}}\NormalTok{Authentication}\DataTypeTok{\textless{}/}\KeywordTok{button}\DataTypeTok{\textgreater{}}
+  \DataTypeTok{\textless{}/}\KeywordTok{div}\DataTypeTok{\textgreater{}}
+
+\NormalTok{  Server:}\DataTypeTok{\textless{}}\KeywordTok{span}\OtherTok{ id}\OperatorTok{=}\StringTok{"server\_response"}\DataTypeTok{\textgreater{}\textless{}/}\KeywordTok{span}\DataTypeTok{\textgreater{}}
+
+
+  \DataTypeTok{\textless{}}\KeywordTok{script}\OtherTok{ type=}\StringTok{"module"}\DataTypeTok{\textgreater{}}
+
+    \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"welcome\_button"}\NormalTok{)}\OperatorTok{.}\AttributeTok{onclick} \OperatorTok{=} \KeywordTok{async}\NormalTok{ () }\KeywordTok{=\textgreater{}}\NormalTok{ \{}
+      \KeywordTok{const}\NormalTok{ response }\OperatorTok{=} \ControlFlowTok{await} \FunctionTok{fetch}\NormalTok{(}\StringTok{"/welcome{-}message"}\NormalTok{)}\OperatorTok{;}
+      \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"welcome\_message"}\NormalTok{)}\OperatorTok{.}\AttributeTok{innerText} \OperatorTok{=} \ControlFlowTok{await}\NormalTok{ response}\OperatorTok{.}\FunctionTok{text}\NormalTok{()}\OperatorTok{;}
+\NormalTok{    \}}\OperatorTok{;}
+    
+    \CommentTok{// greetingを叩くためのjavascriptの実装}
+    \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"greeting"}\NormalTok{)}\OperatorTok{.}\AttributeTok{onclick} \OperatorTok{=} \KeywordTok{async}\NormalTok{ () }\KeywordTok{=\textgreater{}}\NormalTok{ \{}
+      \KeywordTok{const}\NormalTok{ response }\OperatorTok{=} \ControlFlowTok{await} \FunctionTok{fetch}\NormalTok{(}\StringTok{"/greeting"}\NormalTok{)}\OperatorTok{;}
+      \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"server\_response"}\NormalTok{)}\OperatorTok{.}\AttributeTok{innerText} \OperatorTok{=} \ControlFlowTok{await}\NormalTok{ response}\OperatorTok{.}\FunctionTok{text}\NormalTok{()}\OperatorTok{;}
+\NormalTok{    \}}\OperatorTok{;}
+
+    \CommentTok{// greeting\_meを叩くためのjavascriptの実装}
+    \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"greeting\_me"}\NormalTok{)}\OperatorTok{.}\AttributeTok{onclick} \OperatorTok{=} \KeywordTok{async}\NormalTok{ () }\KeywordTok{=\textgreater{}}\NormalTok{ \{}
+      \KeywordTok{const}\NormalTok{ name }\OperatorTok{=} \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"name"}\NormalTok{)}\OperatorTok{.}\AttributeTok{value}\OperatorTok{;}
+      \KeywordTok{const}\NormalTok{ response }\OperatorTok{=} \ControlFlowTok{await} \FunctionTok{fetch}\NormalTok{(}\StringTok{"/greeting{-}me?name="} \OperatorTok{+}\NormalTok{ name)}\OperatorTok{;}
+      \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"server\_response"}\NormalTok{)}\OperatorTok{.}\AttributeTok{innerText} \OperatorTok{=} \ControlFlowTok{await}\NormalTok{ response}\OperatorTok{.}\FunctionTok{text}\NormalTok{()}\OperatorTok{;}
+\NormalTok{    \}}\OperatorTok{;}
+
+    \CommentTok{// authを叩くためのjavascriptの実装}
+    \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"auth"}\NormalTok{)}\OperatorTok{.}\AttributeTok{onclick} \OperatorTok{=} \KeywordTok{async}\NormalTok{ () }\KeywordTok{=\textgreater{}}\NormalTok{ \{}
+      \KeywordTok{const}\NormalTok{ pass }\OperatorTok{=} \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"password"}\NormalTok{)}\OperatorTok{.}\AttributeTok{value}\OperatorTok{;}
+      \KeywordTok{const}\NormalTok{ response }\OperatorTok{=} \ControlFlowTok{await} \FunctionTok{fetch}\NormalTok{(}\StringTok{"/auth"}\OperatorTok{,}\NormalTok{\{}
+        \DataTypeTok{method}\OperatorTok{:} \StringTok{\textquotesingle{}POST\textquotesingle{}}\OperatorTok{,}
+        \DataTypeTok{headers}\OperatorTok{:}\NormalTok{ \{}\StringTok{\textquotesingle{}Content{-}Type\textquotesingle{}}\OperatorTok{:} \StringTok{\textquotesingle{}application/json\textquotesingle{}}\NormalTok{\}}\OperatorTok{,}
+        \DataTypeTok{body}\OperatorTok{:} \BuiltInTok{JSON}\OperatorTok{.}\FunctionTok{stringify}\NormalTok{(\{}\DataTypeTok{pass}\OperatorTok{:}\NormalTok{ pass\})}
+\NormalTok{      \})}\OperatorTok{;}
+      \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"server\_response"}\NormalTok{)}\OperatorTok{.}\AttributeTok{innerText} \OperatorTok{=} \ControlFlowTok{await}\NormalTok{ response}\OperatorTok{.}\FunctionTok{text}\NormalTok{()}\OperatorTok{;}
+\NormalTok{    \}}\OperatorTok{;}
+  \DataTypeTok{\textless{}/}\KeywordTok{script}\DataTypeTok{\textgreater{}}
+\DataTypeTok{\textless{}/}\KeywordTok{body}\DataTypeTok{\textgreater{}}
+
+\DataTypeTok{\textless{}/}\KeywordTok{html}\DataTypeTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+サーバーのコード
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ \{ serve \} }\ImportTok{from} \StringTok{"https://deno.land/std@0.180.0/http/server.ts"}\OperatorTok{;}
+\ImportTok{import}\NormalTok{ \{ serveDir \} }\ImportTok{from} \StringTok{"https://deno.land/std@0.180.0/http/file\_server.ts"}\OperatorTok{;}
+
+\FunctionTok{serve}\NormalTok{(}\KeywordTok{async}\NormalTok{ (req) }\KeywordTok{=\textgreater{}}\NormalTok{ \{}
+  \KeywordTok{const}\NormalTok{ pathname }\OperatorTok{=} \KeywordTok{new} \FunctionTok{URL}\NormalTok{(req}\OperatorTok{.}\AttributeTok{url}\NormalTok{)}\OperatorTok{.}\AttributeTok{pathname}\OperatorTok{;}
+  \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(pathname)}\OperatorTok{;}
+
+  \ControlFlowTok{if}\NormalTok{ ( req}\OperatorTok{.}\AttributeTok{method} \OperatorTok{===} \StringTok{"GET"} \OperatorTok{\&\&}\NormalTok{ pathname }\OperatorTok{===} \StringTok{"/welcome{-}message"}\NormalTok{ ) \{}
+    \ControlFlowTok{return} \KeywordTok{new} \FunctionTok{Response}\NormalTok{(}\StringTok{"jigインターンへようこそ！"}\NormalTok{)}\OperatorTok{;}
+\NormalTok{  \}}
+
+  \ControlFlowTok{if}\NormalTok{( req}\OperatorTok{.}\AttributeTok{method} \OperatorTok{===} \StringTok{"GET"} \OperatorTok{\&\&}\NormalTok{ pathname }\OperatorTok{===} \StringTok{"/greeting"}\NormalTok{ )\{}
+    \ControlFlowTok{return} \KeywordTok{new} \FunctionTok{Response}\NormalTok{(}\StringTok{"Hello!!"}\NormalTok{)}
+\NormalTok{  \}}
+
+  \ControlFlowTok{if}\NormalTok{( req}\OperatorTok{.}\AttributeTok{method} \OperatorTok{===} \StringTok{"GET"} \OperatorTok{\&\&}\NormalTok{ pathname }\OperatorTok{===} \StringTok{"/greeting{-}me"}\NormalTok{ )\{}
+    \KeywordTok{const}\NormalTok{ param }\OperatorTok{=} \KeywordTok{new} \FunctionTok{URL}\NormalTok{(req}\OperatorTok{.}\AttributeTok{url}\NormalTok{)}\OperatorTok{.}\AttributeTok{searchParams}\OperatorTok{.}\FunctionTok{get}\NormalTok{(}\StringTok{"name"}\NormalTok{)}\OperatorTok{;}
+    \ControlFlowTok{return} \KeywordTok{new} \FunctionTok{Response}\NormalTok{(}\StringTok{"Hello, "} \OperatorTok{+}\NormalTok{ param)}\OperatorTok{;}
+\NormalTok{  \}}
+
+  \ControlFlowTok{if}\NormalTok{( req}\OperatorTok{.}\AttributeTok{method} \OperatorTok{===} \StringTok{"POST"} \OperatorTok{\&\&}\NormalTok{ pathname }\OperatorTok{===} \StringTok{"/auth"}\NormalTok{ )\{}
+    \KeywordTok{const}\NormalTok{ reqJson }\OperatorTok{=} \ControlFlowTok{await}\NormalTok{ req}\OperatorTok{.}\FunctionTok{json}\NormalTok{()}\OperatorTok{;}
+    \KeywordTok{const}\NormalTok{ pass }\OperatorTok{=}\NormalTok{ reqJson}\OperatorTok{.}\AttributeTok{pass}
+    \ControlFlowTok{if}\NormalTok{( pass }\OperatorTok{===} \StringTok{"jigjp"}\NormalTok{ )\{}
+      \ControlFlowTok{return} \KeywordTok{new} \FunctionTok{Response}\NormalTok{(}\StringTok{"Authentication Successful!!"}\NormalTok{)}
+\NormalTok{    \}}\ControlFlowTok{else}\NormalTok{\{}
+      \ControlFlowTok{return} \KeywordTok{new} \FunctionTok{Response}\NormalTok{(}\StringTok{"Authentication Failure"}\NormalTok{)}
+\NormalTok{    \}}
+\NormalTok{  \}}
+  \ControlFlowTok{return} \FunctionTok{serveDir}\NormalTok{(req}\OperatorTok{,}\NormalTok{ \{}
+    \DataTypeTok{fsRoot}\OperatorTok{:} \StringTok{"public"}\OperatorTok{,}
+    \DataTypeTok{urlRoot}\OperatorTok{:} \StringTok{""}\OperatorTok{,}
+    \DataTypeTok{showDirListing}\OperatorTok{:} \KeywordTok{true}\OperatorTok{,}
+    \DataTypeTok{enableCors}\OperatorTok{:} \KeywordTok{true}\OperatorTok{,}
+\NormalTok{  \})}\OperatorTok{;}
+\NormalTok{\})}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}

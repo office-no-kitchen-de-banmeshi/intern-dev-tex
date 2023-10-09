@@ -1,0 +1,1111 @@
+\section{intern-dev-tutorial}\label{intern-dev-tutorial}
+
+\section{目次}\label{ux76eeux6b21}
+
+\begin{itemize}
+\tightlist
+\item
+  \hyperref[1-denoux3063ux3066ux4f55]{1. Denoって何？}
+\item
+  \hyperref[2-deno-ux3092ux30a4ux30f3ux30b9ux30c8ux30fcux30ebux3057ux3088ux3046]{2.
+  Denoをインストールしよう}
+\item
+  \hyperref[3-ux30b5ux30f3ux30d7ux30ebux30d7ux30edux30b8ux30a7ux30afux30c8ux3092ux89e6ux3063ux3066ux307fux3088ux3046]{3.
+  Denoのサンプルプロジェクトを触ってよう}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \hyperref[3-1-ux4e0bux6e96ux5099]{3-1. 下準備}
+  \item
+    \hyperref[3-2-javascriptux306eux30b3ux30fcux30c9ux3092ux5b9fux884cux3057ux3066ux307fux3088ux3046]{3-2.
+    JavaScriptのコードを実行してみよう}
+  \item
+    \hyperref[3-3-ux6bceux56deux6253ux3061ux8fbcux3080ux30b3ux30deux30f3ux30c9ux304cux9577ux3044]{3-3.
+    毎回打ち込むコマンドが長い}
+  \item
+    \hyperref[3-4-javascriptux30d5ux30a1ux30a4ux30ebux3092ux30eaux30f3ux30c8ux3057ux3066ux307fux3088ux3046]{3-4.
+    JavaScriptファイルをリントしてみよう}
+  \item
+    \hyperref[3-5-javascriptux30d5ux30a1ux30a4ux30ebux3092ux30d5ux30a9ux30fcux30deux30c3ux30c8ux3057ux3066ux307fux3088ux3046]{3-5.
+    JavaScriptファイルをフォーマットしてみよう}
+  \item
+    \hyperref[3-6-javascriptux30d5ux30a1ux30a4ux30ebux3092ux30c6ux30b9ux30c8ux3057ux3066ux307fux3088ux3046]{3-6.
+    JavaScriptファイルをテストしてみよう}
+  \end{itemize}
+\item
+  \hyperref[4-ux30b5ux30f3ux30d7ux30ebux30d7ux30edux30b8ux30a7ux30afux30c8ux306eux30b3ux30fcux30c9ux3092ux8aadux3093ux3067ux307fux3088ux3046]{4.
+  サンプルプロジェクトのコードを読んでみよう}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \hyperref[4-1-ux30d5ux30a1ux30a4ux30ebux69cbux9020ux3092ux898bux3066ux307fux3088ux3046]{4-1.
+    ファイル構造を見てみよう}
+  \item
+    \hyperref[4-2-serverjsux3092ux8aadux3093ux3067ux307fux3088ux3046]{4-2.
+    server.jsを読んでみよう}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      \hyperref[4-2-1-esmoduleux306eux5f62ux3067ux30d5ux30a1ux30a4ux30ebux3092ux8aadux307fux8fbcux3080]{4-2-1.
+      ESModuleの形でファイルを読み込む}
+    \item
+      \hyperref[4-2-2-import-mapux3092ux4f7fux3063ux3066ux307fux3088ux3046]{4-2-2.
+      import mapを使ってみよう}
+    \item
+      \hyperref[4-2-2-ux30afux30e9ux30a4ux30a2ux30f3ux30c8ux5074ux304bux3089ux306eapiux30eaux30afux30a8ux30b9ux30c8ux3092ux51e6ux7406]{4-2-2.
+      クライアント側からのAPIリクエストを処理}
+    \end{itemize}
+  \item
+    \hyperref[4-3-publicindexjsux3092ux8aadux3093ux3067ux307fux3088ux3046]{4-3.
+    public/index.jsを読んでみよう}
+  \end{itemize}
+\item
+  \hyperref[5-ux307eux3068ux3081]{5. まとめ}
+\end{itemize}
+
+\section{1. Denoって何？}\label{denoux3063ux3066ux4f55}
+
+\href{https://deno.land/}{公式サイト}
+
+「\textbf{Deno}」は、JavaScriptやTypeScriptを実行する環境です。
+
+\texttt{Deno}には様々な機能がありますが、このセクションでは以下の内容を学びます。
+
+\begin{itemize}
+\item
+  \texttt{Deno}でJavaScriptファイルを\textbf{実行する}方法
+\item
+  \texttt{Deno}でJavaScriptファイルを\textbf{リントする}方法
+\item
+  \texttt{Deno}でJavaScriptファイルを\textbf{フォーマットする}方法
+\item
+  \texttt{Deno}でJavaScriptファイルを\textbf{テストする}方法
+\end{itemize}
+
+また、このセクションではサンプルプロジェクトを通じて、以下の内容も学びます。
+
+\begin{itemize}
+\item
+  ESModuleの形でファイルを読み込む方法
+\item
+  クライアント側からサーバー側へAPIリクエストを送る方法(\textbf{fetch
+  API})
+\item
+  クライアント側からのAPIリクエストに対して、ファイルや文字列を返す方法
+\end{itemize}
+
+\section{2. Deno
+をインストールしよう}\label{deno-ux3092ux30a4ux30f3ux30b9ux30c8ux30fcux30ebux3057ux3088ux3046}
+
+\href{https://deno.land/manual@v1.35.0/getting_started/installation}{公式サイト
+- Denoのインストール方法}
+
+早速、Denoをインストールしてみましょう。
+
+基本的には公式サイトの手順を参考にします。
+
+ターミナルを準備してから、公式サイトのコマンドをコピーしてターミナルに貼り付けてインストールしてみましょう。
+
+\textbf{ターミナル}は\textbf{Windows}なら\texttt{powershell}、\textbf{MacOS}なら\texttt{ターミナル}などがありますが、なんでも大丈夫です。
+
+MacOSの人は\texttt{homebrew}というパッケージ管理ツールをインストールして、その\texttt{homebrew}を使用して\texttt{Deno}をインストールすると今後も便利そうです。
+
+\href{https://brew.sh/index_ja}{homebrewの公式サイト}
+
+\section{3.
+サンプルプロジェクトを触ってみよう}\label{ux30b5ux30f3ux30d7ux30ebux30d7ux30edux30b8ux30a7ux30afux30c8ux3092ux89e6ux3063ux3066ux307fux3088ux3046}
+
+サンプルプロジェクトの中のコードをDenoで実行してみよう。
+
+\subsection{3-1. 下準備}\label{ux4e0bux6e96ux5099}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  まずカレントディレクトリを\texttt{intern-dev-tutorial/deno}に移動しましょう。
+\item
+  VScodeの拡張機能のタブから「Deno」を検索してインストールしよう
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  VScodeの上のヘッダーの「\textbf{表示}」から「\textbf{コマンドパレット(Command
+  Palette)}」を押して、「\textbf{Deno: Initialize Workspace
+  Configuration}」を選択して、すべて\textbf{yes}を選択して、Denoを使用できるようにしよう
+\end{enumerate}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  VScodeの上のヘッダーの「\textbf{ターミナル}」から「\textbf{new
+  Terminal}」を押して、ターミナルを表示しておこう
+\end{enumerate}
+
+3を行うと現在のフォルダに\texttt{.vscode}というフォルダが作成されて、中に\texttt{settings.json}というファイルが作成されると思います。
+
+今回はVScodeでDenoを快適に使用できるようにするためにこのような設定をします。
+
+\texttt{settings.json}でVScode上でDenoを使用する上で様々な設定を登録できますが、一旦中身は以下のようなもので問題ないです。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{\{}
+  \DataTypeTok{"deno.enable"}\FunctionTok{:} \KeywordTok{true}\FunctionTok{,}
+  \DataTypeTok{"deno.lint"}\FunctionTok{:} \KeywordTok{true}
+\FunctionTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{3-2.
+JavaScriptのコードを実行してみよう}\label{javascriptux306eux30b3ux30fcux30c9ux3092ux5b9fux884cux3057ux3066ux307fux3088ux3046}
+
+このセクションでは、DenoでJavaScriptファイルを\textbf{実行する}方法を学びます。
+
+DenoではJavaScriptファイルを\texttt{run}コマンドを用いて以下のようにして実行できます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{deno run \textless{}ファイル名\textgreater{}.js}
+\end{Highlighting}
+\end{Shaded}
+
+では、早速Denoでこのプロジェクトの直下にある\texttt{server.js}を実行してみましょう。
+
+ターミナルで以下のテキストを入力してEnterを押してみましょう。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{deno run server.js}
+\end{Highlighting}
+\end{Shaded}
+
+実行すると以下のような文言がターミナルに表示されると思います。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{┌ ⚠️  Deno requests net access to "0.0.0.0:8000".}
+\NormalTok{├ Requested by \textasciigrave{}Deno.listen()\textasciigrave{} API.}
+\NormalTok{├ Run again with {-}{-}allow{-}net to bypass this prompt.}
+\NormalTok{└ Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all net permissions) \textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+一旦は深く考えずに\texttt{y}を入力していきましょう。
+
+そうすると以下のような文言がターミナルに表示されると思います。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Listening on http://localhost:8000/}
+\end{Highlighting}
+\end{Shaded}
+
+では、ブラウザのアドレスバーにhttp://localhost:8000/のアドレスを入力して検索してみましょう。
+
+検索してみても画面が切り替わらないと思います。\\
+ここでターミナルの方を見てみましょう。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{┌ ⚠️  Deno requests read access to "public".}
+\NormalTok{├ Requested by \textasciigrave{}Deno.stat()\textasciigrave{} API.}
+\NormalTok{├ Run again with {-}{-}allow{-}read to bypass this prompt.}
+\NormalTok{└ Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all read permissions) \textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+このような文言が表示されていると思うので、先ほど同様に\texttt{y}を押してみましょう。
+
+ブラウザに戻ってみて、以下のような画面が表示されれば成功です🙆‍♀️
+
+Denoで\texttt{server.js}を無事実行できました！簡単ですね！
+
+では、先ほど\texttt{y}を入力したところの説明をします。
+
+Denoは、以下のような処理はデフォルトでは一切実行することができません -
+ファイルの読み込み - ファイルの書き込み - ネットワーク通信
+
+この仕組みにより、Denoでは\textbf{高いセキュリティ}が期待できます。
+
+もしJavScriptファイル内のコードでファイルの読み込みなどを行いたいときは、\\
+それぞれ権限を許可してあげる必要があります。
+
+この「権限を許可」をする工程が先ほど\texttt{y}を入力した工程になります。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{deno run server.js}
+\end{Highlighting}
+\end{Shaded}
+
+を実行した時に表示された以下の文言は、\\
+「実行するJavaScriptファイルでネットワーク通信を行おうとしているので、権限を許可してください」\\
+と言う内容でした。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{┌ ⚠️  Deno requests net access to "0.0.0.0:8000".}
+\NormalTok{├ Requested by \textasciigrave{}Deno.listen()\textasciigrave{} API.}
+\NormalTok{├ Run again with {-}{-}allow{-}net to bypass this prompt.}
+\NormalTok{└ Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all net permissions) \textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+一方で、ブラウザでhttp://localhost:8000/にアクセスした時に表示された以下の文言は\\
+「実行するJavaScriptファイルでファイルの読み込みを行おうとしているので、権限を許可してください」
+と言う内容でした。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{┌ ⚠️  Deno requests read access to "public".}
+\NormalTok{├ Requested by \textasciigrave{}Deno.stat()\textasciigrave{} API.}
+\NormalTok{├ Run again with {-}{-}allow{-}read to bypass this prompt.}
+\NormalTok{└ Allow? [y/n/A] (y = yes, allow; n = no, deny; A = allow all read permissions) \textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+しかし、毎回実行するたびに\texttt{y}を入力するのは面倒ですので、\textbf{run}コマンドのオプション指定をしてみましょう。
+
+\texttt{deno\ run}をするときに、それぞれ以下のような対応のオプション指定をしてあげると、権限を許可することができます。
+
+\begin{itemize}
+\item
+  ファイルの読み込み -\textgreater{} \texttt{-\/-allow-read}
+\item
+  ファイルの書き込み -\textgreater{} \texttt{-\/-allow-write}
+\item
+  ネットワーク通信 -\textgreater{} \texttt{-\/-allow-net}
+\end{itemize}
+
+今回の場合「ファイルの読み込み」と「ネットワーク通信」の権限を与える必要があったので
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{deno run {-}{-}allow{-}read {-}{-}allow{-}net server.js}
+\end{Highlighting}
+\end{Shaded}
+
+で実行してあげるとターミナルに警告文が表示されずに実行できます！
+
+追加で一つ\texttt{-\/-watch}オプション指定を知っておくと良さそうです。
+
+\texttt{-\/-watch}オプション指定をしておくことで、\\
+\texttt{server.js}を書き換えた時に再度実行しなくてもDenoが勝手に再実行してくれるので便利です。
+
+\texttt{-\/-watch}オプション指定を加えると最終的に以下のようなコマンドで\texttt{server.js}を実行します。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{deno run {-}{-}watch {-}{-}allow{-}read {-}{-}allow{-}net server.js}
+\end{Highlighting}
+\end{Shaded}
+
+このセクションでは、DenoでJavaScriptファイルを\textbf{実行する}方法を学びました。\\
+\textbf{run}コマンドで実行したいファイルを実行して、ファイルの読み書き等の権限を与えることに注意しましょう！
+
+\subsection{3-3.
+毎回打ち込むコマンドが長い\ldots{}}\label{ux6bceux56deux6253ux3061ux8fbcux3080ux30b3ux30deux30f3ux30c9ux304cux9577ux3044}
+
+前のセクションでは以下のコマンドで\texttt{server.js}が実行できることを学びました。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{deno run {-}{-}watch {-}{-}allow{-}read {-}{-}allow{-}net server.js}
+\end{Highlighting}
+\end{Shaded}
+
+しかし、このコマンドで実行すると以下のようなデメリットが考えられます
+
+\begin{itemize}
+\tightlist
+\item
+  長い
+\item
+  どの権限を許可していたか忘れたら、一度実行しないといけない
+\item
+  結局このコマンドをどこかにメモなどに保存する流れになりそう
+\end{itemize}
+
+このようなデメリットを解決する方法として、\textbf{task}コマンドがあります！
+
+このセクションでは\textbf{task}コマンドについて学んでいきますが、\\
+チーム開発する際には、無理に使う必要はなく最悪\textbf{run}コマンドで毎回実行するのでも問題ないです🙆‍♀️
+
+\textbf{task}コマンドは以下のようにして実行します。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{deno task \textless{}タスク名\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+では、このタスク名は\texttt{deno.json}ファイルで設定しています。
+
+\texttt{deno.json}ファイルの以下の部分をみてみましょう。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \ErrorTok{"tasks":} \FunctionTok{\{}
+    \DataTypeTok{"start"}\FunctionTok{:} \StringTok{"deno run {-}{-}watch {-}{-}allow{-}net {-}{-}allow{-}read server.js"}
+  \FunctionTok{\}}\ErrorTok{,}
+\end{Highlighting}
+\end{Shaded}
+
+ここには、実行したいコマンドに別名を与えています。
+
+\texttt{deno\ run\ -\/-watch\ -\/-allow-net\ -\/-allow-read\ server.js}に\texttt{start}と言う別名を与えるように設定しています。
+
+よって以下のように実行すると\texttt{deno\ run\ -\/-watch\ -\/-allow-net\ -\/-allow-read\ server.js}を実行していることと同じになります。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{deno task start}
+\end{Highlighting}
+\end{Shaded}
+
+とてもスッキリして良さそうです！
+
+しかももし追加でファイルの書き込み権限を与えるために\texttt{-\/-allow-write}オプションを追加したいとなっても\\
+\texttt{deno.json}の\texttt{start}部分のコードを修正するだけでよくて、実行するときは
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{deno task start}
+\end{Highlighting}
+\end{Shaded}
+
+のままなので便利です。
+
+このセクションでは\textbf{task}コマンドについて学びましたが、便利コマンドなのでぜひ使ってみてください！
+
+\subsection{3-4.
+JavaScriptファイルをリントしてみよう}\label{javascriptux30d5ux30a1ux30a4ux30ebux3092ux30eaux30f3ux30c8ux3057ux3066ux307fux3088ux3046}
+
+このセクションでは、DenoでJavaScriptファイルを\textbf{リント}する方法を学びます。
+
+\texttt{Deno}にはJavaScriptファイルをリントする機能が標準で備わっています。
+
+\textbf{リント}とは、「\textbf{潜在的にバグとなりうるかもしれないソースコードをcheckすること}」です。
+
+例えば - ソースコード内に未使用の変数が存在する -
+ソースコード内に初期化されていない変数が存在する
+などのような箇所を指摘してくれるものです。
+
+この機能を使うことで意図してないミスを未然に警告してくれて大変に役立ちます。
+
+JavaScriptファイルをリントするには以下のようなコマンドでできます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{deno lint}
+\end{Highlighting}
+\end{Shaded}
+
+このリントには\textbf{ルール}が必要で、\\
+\texttt{deno.json}の\texttt{lint}部分で設定されています。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \ErrorTok{"lint":} \FunctionTok{\{}
+    \DataTypeTok{"include"}\FunctionTok{:} \OtherTok{[}\StringTok{"./**/*.js"}\OtherTok{]}\FunctionTok{,}
+    \DataTypeTok{"rules"}\FunctionTok{:} \FunctionTok{\{}
+      \DataTypeTok{"tags"}\FunctionTok{:} \OtherTok{[}\StringTok{"recommended"}\OtherTok{]}\FunctionTok{,}
+      \DataTypeTok{"include"}\FunctionTok{:} \OtherTok{[}\StringTok{"ban{-}untagged{-}todo"}\OtherTok{]}\FunctionTok{,}
+      \DataTypeTok{"exclude"}\FunctionTok{:} \OtherTok{[}\StringTok{"no{-}unused{-}vars"}\OtherTok{]}
+    \FunctionTok{\}}
+  \FunctionTok{\}}\ErrorTok{,}
+\end{Highlighting}
+\end{Shaded}
+
+今回のこの設定は\href{https://deno.land/manual@v1.36.0/getting_started/configuration_file\#lint}{Deno公式サイト}のものをそのままコピーしているのです。
+
+\texttt{rules}の\texttt{tags}の位置に\texttt{recommended}が指定されていると思いますが、\\
+\texttt{recommended}ルールは, \href{https://eslint.org/}{ESLint} や
+\href{https://typescript-eslint.io/}{typescript-eslint} で
+\texttt{recommended}
+として扱われているルールの多くをサポートしています。
+
+では、\texttt{server.js}を開いて一番下の行に
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{var}\NormalTok{ message }\OperatorTok{=} \StringTok{\textquotesingle{}Jig.jpインターンへようこそ！\textquotesingle{}}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+を追加して、\texttt{Ctrl\ +\ S}で保存してみましょう。\\
+保存ができたらターミナルで
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{deno lint}
+\end{Highlighting}
+\end{Shaded}
+
+を実行してみましょう。
+
+そうすると
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{(no{-}var) \textasciigrave{}var\textasciigrave{} keyword is not allowed.}
+\NormalTok{var message = \textquotesingle{}Jig.jpインターンへようこそ！\textquotesingle{};}
+\NormalTok{\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}\^{}}
+\NormalTok{    at /Users/fujii/dev/deno{-}sample{-}project/server.js:27:1}
+
+\NormalTok{    help: for further information visit https://lint.deno.land/\#no{-}var}
+
+\NormalTok{Found 1 problem}
+\NormalTok{Checked 3 files}
+\end{Highlighting}
+\end{Shaded}
+
+のような結果が表示されるかと思います。
+
+これは「varは使わないでください」といった警告文です。
+
+どのファイルの何行目まで表示してくれて便利です。
+
+このように、\textbf{lint}コマンドを実行すると、あらかじめ決めておいた「ルール」を元に、それにそぐわないコードがないかcheckします。
+
+開発する時に\textbf{リント}コマンドを実行してみて、自分のコードをチェックしてみて潜在的に不具合につながりそうなコードがないかチェックしてみましょう！
+
+\subsection{3-5.
+JavaScriptファイルをフォーマットしてみよう}\label{javascriptux30d5ux30a1ux30a4ux30ebux3092ux30d5ux30a9ux30fcux30deux30c3ux30c8ux3057ux3066ux307fux3088ux3046}
+
+このセクションでは、DenoでJavaScriptファイルを\textbf{フォーマット}する方法を学びます。
+
+\texttt{Deno}にはファイルを\textbf{フォーマット}する機能も標準で備わっています。
+
+\texttt{フォーマットする}とは「\textbf{コードの形を整える}」ことです。
+
+この\textbf{フォーマット}を使用することでどの人がコードを書いても同じようにコードを整えられるので、\\
+人によってコードの形がバラバラになるといったことが起こらず便利です。
+
+JavaScriptファイルをフォーマットするには以下のようなコマンドでできます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{deno fmt}
+\end{Highlighting}
+\end{Shaded}
+
+このコマンドを実行するとカレントディレクトリ以下のJavaScriptファイル全てに対してフォーマットします。
+
+フォーマットの設定は以下のように、\texttt{deno.json}の\texttt{fmt}で設定しています。
+フォーマットするルールを変更したい時には、こちらの設定をいじりましょう。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \ErrorTok{"fmt":} \FunctionTok{\{}
+    \DataTypeTok{"useTabs"}\FunctionTok{:} \KeywordTok{false}\FunctionTok{,} \ErrorTok{//} \ErrorTok{タブを使用するか}
+    \DataTypeTok{"lineWidth"}\FunctionTok{:} \DecValTok{80}\FunctionTok{,} \ErrorTok{//} \ErrorTok{線の幅}
+    \DataTypeTok{"indentWidth"}\FunctionTok{:} \DecValTok{2}\FunctionTok{,} \ErrorTok{//} \ErrorTok{インデントの文字数}
+    \DataTypeTok{"semiColons"}\FunctionTok{:} \KeywordTok{false}\FunctionTok{,} \ErrorTok{//} \ErrorTok{セミコロンをつけるかどうか}
+    \DataTypeTok{"singleQuote"}\FunctionTok{:} \KeywordTok{true}\FunctionTok{,} \ErrorTok{//} \ErrorTok{シングルクウォートを使用するかどうか}
+    \DataTypeTok{"proseWrap"}\FunctionTok{:} \StringTok{"preserve"}\FunctionTok{,}
+    \DataTypeTok{"include"}\FunctionTok{:} \OtherTok{[}\StringTok{"./**/*.js"}\OtherTok{]}
+  \FunctionTok{\}}\ErrorTok{,}
+\end{Highlighting}
+\end{Shaded}
+
+設定できるフォーマッタの種類については\href{https://deno.land/manual@v1.35.1/tools/formatter}{公式サイト}から確認できます。
+
+では、実際にフォーマットしてみましょう！
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{deno fmt}
+\end{Highlighting}
+\end{Shaded}
+
+をターミナルに打ち込んでEnterをしてみましょう。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{Checked 3 files}
+\end{Highlighting}
+\end{Shaded}
+
+のような文言が表示されました。
+
+では、\texttt{server.js}の中身を見て何か変化はありましたでしょうか？
+
+おそらくないはずです。
+
+すでに指定されたルールに則って、フォーマット(整形)してあったからです。
+
+では試しに、フォーマットのルールを変えてみましょう。
+
+\texttt{deno.json}の\texttt{fmt}部分の\\
+\texttt{semiColons}の部分を\texttt{true},
+\texttt{singleQuote}の部分を\texttt{false}に書き換えてみましょう。
+
+以下のようになります。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \ErrorTok{"fmt":} \FunctionTok{\{}
+    \DataTypeTok{"useTabs"}\FunctionTok{:} \KeywordTok{false}\FunctionTok{,} \ErrorTok{//} \ErrorTok{タブを使用するか}
+    \DataTypeTok{"lineWidth"}\FunctionTok{:} \DecValTok{80}\FunctionTok{,} \ErrorTok{//} \ErrorTok{線の幅}
+    \DataTypeTok{"indentWidth"}\FunctionTok{:} \DecValTok{2}\FunctionTok{,} \ErrorTok{//} \ErrorTok{インデントの文字数}
+    \DataTypeTok{"semiColons"}\FunctionTok{:} \KeywordTok{true}\FunctionTok{,} \ErrorTok{//} \ErrorTok{セミコロンをつけるかどうか}
+    \DataTypeTok{"singleQuote"}\FunctionTok{:} \KeywordTok{false}\FunctionTok{,} \ErrorTok{//} \ErrorTok{シングルクウォートを使用するかどうか}
+    \DataTypeTok{"proseWrap"}\FunctionTok{:} \StringTok{"preserve"}\FunctionTok{,}
+    \DataTypeTok{"include"}\FunctionTok{:} \OtherTok{[}\StringTok{"./**/*.js"}\OtherTok{]}
+  \FunctionTok{\}}\ErrorTok{,}
+\end{Highlighting}
+\end{Shaded}
+
+そして再度、
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{deno fmt}
+\end{Highlighting}
+\end{Shaded}
+
+を実行してみると, \texttt{server.js}の中身を見ると
+
+\begin{itemize}
+\item
+  行末にセミコロン(;)がついている
+\item
+  文字列はすべて(``\,``)で囲まれている のようになっていると思います。
+\end{itemize}
+
+このように\texttt{deno\ fmt}を使用することでコードを整えてくれます。
+
+チーム開発でもこのフォーマット機能を利用してきれいなコードにしていきましょう！
+
+\subsection{3-6.
+JavaScriptファイルをテストしてみよう}\label{javascriptux30d5ux30a1ux30a4ux30ebux3092ux30c6ux30b9ux30c8ux3057ux3066ux307fux3088ux3046}
+
+このセクションでは、DenoでJavaScriptファイルを\textbf{テスト}する方法を学びます。
+
+DenoにはJavaScriptファイルを\texttt{テスト}を実行する環境も標準で備わっています。
+
+\textbf{テスト}には手動テストと自動テストがあります。 -
+手動テストは、実際にブラウザで手を動かして動作確認するもの
+
+\begin{itemize}
+\tightlist
+\item
+  自動テストは、コードが正しく動作されるかテストする、\textbf{テスト専用のコード}が書かれたファイルを実行すること
+\end{itemize}
+
+で、Denoに備わっているのは「自動テスト」が行える環境です。
+
+自動テストが行える環境を構築するのはやや大変ですが、Denoでは標準で備わっているためとても便利です。
+
+自動テストコードを書いてテストを実行することで、以下のようなメリットがあります。
+- コードが適切に動作することに安心できる -
+一回の実行で全てのテストファイルを実行できるので手動でテストするよりも効率がいい
+- 自分が修正した範囲以外で悪影響がないことを安心できる
+
+JavaScriptファイルをテストするには以下のようなコマンドでできます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{deno test}
+\end{Highlighting}
+\end{Shaded}
+
+テストの設定に関しても以下のように、\texttt{deno.json}の\texttt{test}の部分に記載があります。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \ErrorTok{"test":} \FunctionTok{\{}
+    \DataTypeTok{"include"}\FunctionTok{:} \OtherTok{[}
+      \StringTok{"./**/*.test.js"}
+    \OtherTok{]}
+  \FunctionTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+では早速テストコードを実行してみましょう。
+
+ターミナルに
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{deno test}
+\end{Highlighting}
+\end{Shaded}
+
+を入力してEnterを押してみましょう。
+
+すると、以下のような文言が表示されると思います。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{running 1 test from ./server.test.js}
+\NormalTok{1 + 1 は 2 である ... ok (9ms)}
+
+\NormalTok{ok | 1 passed | 0 failed (89ms)}
+\end{Highlighting}
+\end{Shaded}
+
+「1+1は2である」というテストが1つ実行され、OKでしたと表示されています。
+
+では\texttt{server.test.ts}の中身を
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{assertEquals}\NormalTok{(}\DecValTok{1} \OperatorTok{+} \DecValTok{1}\OperatorTok{,} \DecValTok{2}\NormalTok{)}\OperatorTok{;}
+
+\NormalTok{↓}
+
+\FunctionTok{assertEquals}\NormalTok{(}\DecValTok{1} \OperatorTok{+} \DecValTok{1}\OperatorTok{,} \DecValTok{3}\NormalTok{)}\OperatorTok{;} \CommentTok{// 3に修正}
+\end{Highlighting}
+\end{Shaded}
+
+のように修正して、保存し
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{deno test}
+\end{Highlighting}
+\end{Shaded}
+
+を実行してみましょう。
+
+すると今度は以下のような文言が表示されます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{1 + 1 は 2 である ... FAILED (10ms)}
+
+\NormalTok{ ERRORS}
+
+\NormalTok{1 + 1 は 2 である =\textgreater{} ./server.test.js:3:6}
+\NormalTok{error: AssertionError: Values are not equal.}
+
+
+\NormalTok{    [Diff] Actual / Expected}
+
+
+\NormalTok{{-}   2}
+\NormalTok{+   3}
+
+\NormalTok{  throw new AssertionError(message);}
+\NormalTok{        \^{}}
+\NormalTok{    at assertEquals (https://deno.land/std@0.193.0/testing/asserts.ts:188:9)}
+\NormalTok{    at file:///Users/fujii/dev/deno{-}sample{-}project/server.test.js:5:3}
+
+\NormalTok{ FAILURES}
+
+\NormalTok{1 + 1 は 2 である =\textgreater{} ./server.test.js:3:6}
+
+\NormalTok{FAILED | 0 passed | 1 failed (24ms)}
+
+\NormalTok{error: Test failed}
+\end{Highlighting}
+\end{Shaded}
+
+このようにもし自動テストで失敗したテストがあれば、以下の情報が表示されます。\\
+- 自動テストが失敗したこと
+
+\begin{itemize}
+\item
+  どのテストが失敗したか
+\item
+  失敗した箇所
+\item
+  期待された値とテスト時に渡されたか
+\end{itemize}
+
+このように\texttt{Deno}では、テストを行える環境が標準で備わっています。
+
+\section{4.
+サンプルプロジェクトのコードを読んでみよう}\label{ux30b5ux30f3ux30d7ux30ebux30d7ux30edux30b8ux30a7ux30afux30c8ux306eux30b3ux30fcux30c9ux3092ux8aadux3093ux3067ux307fux3088ux3046}
+
+ここからはいままで実行してきた\texttt{server.js}やこのディレクトリのファイル構造についてみていきましょう。
+
+\subsection{4-1.
+ファイル構造を見てみよう}\label{ux30d5ux30a1ux30a4ux30ebux69cbux9020ux3092ux898bux3066ux307fux3088ux3046}
+
+それぞれのファイルの役割を説明していきます。
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{deno.json}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{Deno}であれこれ続行させるときに必要な設定ファイル
+  \item
+    \texttt{task}, \texttt{lint}, \texttt{fmt},
+    \texttt{test}などの様々な設定ができます。
+  \item
+    \texttt{imports}に関しては後ほど説明
+  \end{itemize}
+\item
+  \texttt{server.js}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    このサンプルプロジェクトのサーバー部分。
+  \item
+    ブラウザからのアクセスに対して、表示させたいファイルや文言を返す処理が書かれています。
+  \item
+    先ほど\texttt{deno\ task\ start}で実行させていたファイル
+  \end{itemize}
+\item
+  \texttt{sample.test.js}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    テストコードが書かれたファイル
+  \item
+    \texttt{deno\ test}で実行させていたファイル
+  \end{itemize}
+\item
+  \texttt{public/}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    ブラウザからリクエストが来た時に、\texttt{server.js}内の処理によってブラウザに返されるファイル類
+  \item
+    \texttt{index.html}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      ブラウザに表示するファイル
+    \end{itemize}
+  \item
+    \texttt{styles.css}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      スタイリングを指定するファイル
+    \end{itemize}
+  \item
+    \texttt{index.js}
+
+    \begin{itemize}
+    \tightlist
+    \item
+      ブラウザからサーバーにアクセスする処理が書かれたファイル
+    \item
+      後ほど説明します。
+    \end{itemize}
+  \end{itemize}
+\end{itemize}
+
+\subsection{4-2.
+server.jsを読んでみよう}\label{server.jsux3092ux8aadux3093ux3067ux307fux3088ux3046}
+
+このセクションでは\texttt{server.js}を読みながら以下のことを学んでいきましょう！
+- ESModuleの形でファイルを読み込む方法
+
+\begin{itemize}
+\item
+  import mapを使う方法
+\item
+  クライアント側からのAPIリクエストに対して、ファイルや文字列を返す方法
+\end{itemize}
+
+\subsection{4-2-1.
+ESModuleの形でファイルを読み込む}\label{esmoduleux306eux5f62ux3067ux30d5ux30a1ux30a4ux30ebux3092ux8aadux307fux8fbcux3080}
+
+まずは「ESModuleの形でファイルを読み込む方法」について学んでいきます。
+
+Denoで「ファイルを外部から取り込む」時は\textbf{ESModule}というファイルの読み込みの仕組みを採用しています。
+
+\textbf{ESModule}の特徴は - \texttt{import},
+\texttt{export}を用いて取り入れ/公開を制御 -
+ファイルを実行するときに、勝手に\texttt{import}先からコードを参照するため、複数のファイルを読み込む必要がなくなります。
+
+以下のようにしてそのJavaScriptファイルに必要な外部の変数やメソッドを取り込むことができます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ \{ }\OperatorTok{\textless{}}\NormalTok{変数}\OperatorTok{\textgreater{},} \OperatorTok{\textless{}}\NormalTok{メソッド}\OperatorTok{\textgreater{}}\NormalTok{ \} }\ImportTok{from} \StringTok{"JavaScriptファイルのPathやUrl"}
+\end{Highlighting}
+\end{Shaded}
+
+また、\texttt{html}ファイルからJavScriptファイルを読み込みたい時がありますが、\\
+その場合は\texttt{type="module"}を付与して以下のようにします。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{\textless{}}\KeywordTok{script}\OtherTok{ type=}\StringTok{"module"}\OtherTok{ src}\OperatorTok{=}\StringTok{"}\ErrorTok{\textless{}}\StringTok{JavaScriptファイルのPathやUrl\textgreater{}"}\DataTypeTok{\textgreater{}\textless{}/}\KeywordTok{script}\DataTypeTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{server.js}の最初の行で行っているように外部の\texttt{serve}と\texttt{serveDir}メソッドを取り込むことは以下のようにしてできます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ \{ serve \} }\ImportTok{from} \StringTok{"https://deno.land/std@0.194.0/http/server.ts"}\OperatorTok{;}
+\ImportTok{import}\NormalTok{ \{ serveDir \} }\ImportTok{from} \StringTok{"https://deno.land/std@0.194.0/http/file\_server.ts"}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+しかし、実際の\texttt{server.js}で書かれているコードは少し違っていますね。
+そのことに関しては次のセクションで学びましょう。
+
+上記のコードで書いても問題なく動くため安心してください。
+
+このセクションでは\textbf{ESModule}と言う形で外部のファイルを取り込む方法を学びました！
+
+\subsection{4-2-2. import
+mapを使ってみよう}\label{import-mapux3092ux4f7fux3063ux3066ux307fux3088ux3046}
+
+前のセクションで以下のように外部の変数やメソッドを取り込む方法を学びました。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ \{ serve \} }\ImportTok{from} \StringTok{"https://deno.land/std@0.194.0/http/server.ts"}\OperatorTok{;}
+\ImportTok{import}\NormalTok{ \{ serveDir \} }\ImportTok{from} \StringTok{"https://deno.land/std@0.194.0/http/file\_server.ts"}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+全てURLを直書きで書こうとすると\\
+例えば以下のように一見同じバージョンのものを取り込んでいるように見えて実際には異なることが起きてもなかなか気づきにくいです。(\texttt{0.194.0}と\texttt{0.195.0})
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ \{ serve \} }\ImportTok{from} \StringTok{"https://deno.land/std@0.194.0/http/server.ts"}\OperatorTok{;}
+\ImportTok{import}\NormalTok{ \{ serveDir \} }\ImportTok{from} \StringTok{"https://deno.land/std@0.195.0/http/file\_server.ts"}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+ここで便利なのがDenoの\textbf{import map}と言う機能です。
+
+まず\texttt{deno.json}の\texttt{import}部分をみてみると以下のようになっています。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \ErrorTok{"imports":} \FunctionTok{\{}
+    \DataTypeTok{"http/"}\FunctionTok{:} \StringTok{"https://deno.land/std@0.194.0/http/"}
+  \FunctionTok{\}}\ErrorTok{,}
+\end{Highlighting}
+\end{Shaded}
+
+この設定によってJavaScriptファイルで外部のファイルにアクセスするとき、\\
+\texttt{https://deno.land/std@0.194.0/http/}は\texttt{http/}でアクセスできるようになりました。
+
+よって以下のように書き換えることができます！
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ \{ serve \} }\ImportTok{from} \StringTok{"http/server.ts"}\OperatorTok{;}
+\ImportTok{import}\NormalTok{ \{ serveDir \} }\ImportTok{from} \StringTok{"http/file\_server.ts"}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+スッキリして良さそうですね。
+
+\textbf{import
+map}と言う機能を使用することで以下のようなメリットがあります。 -
+毎回\texttt{https://}からURLを直書きする必要がなくなる
+
+\begin{itemize}
+\item
+  可読性が上がる
+\item
+  使用する外部のファイルのバージョンを固定できる
+\item
+  逆にバーションを上げたり下げたりするときは\texttt{deno.json}の\texttt{import}部分のURLの数字を変えるだけで全てのファイルに適用される
+\item
+  \texttt{deno.json}の\texttt{import}部分を見るだけで、このプロジェクトで使用されているライブラリの一覧が見れる
+\end{itemize}
+
+ぜひ使ってみましょう！
+
+このセクションでは\textbf{import
+map}と言う機能の使い方や使用するメリットを学びました。
+
+\subsection{4-2-3.
+クライアント側からのAPIリクエストを処理}\label{ux30afux30e9ux30a4ux30a2ux30f3ux30c8ux5074ux304bux3089ux306eapiux30eaux30afux30a8ux30b9ux30c8ux3092ux51e6ux7406}
+
+このセクションではクライアント側からのAPIリクエストに対する以下のような処理を学びましょう！
+- APIリクエストの種類を判別する処理
+
+\begin{itemize}
+\item
+  ファイルを返す処理
+\item
+  文字列を返す処理
+\end{itemize}
+
+まずクライアント側からのAPIリクエストを受け付ける処理は以下のように\texttt{serve}関数で行います
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{/**}
+\CommentTok{ * APIリクエストを処理する}
+\CommentTok{ */}
+\FunctionTok{serve}\NormalTok{((req) }\KeywordTok{=\textgreater{}}\NormalTok{ \{}
+  \CommentTok{// リクエストに対する処理の中身}
+\NormalTok{\})}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+この\texttt{req}変数を用いてAPIリクエストの\texttt{method}部分と\texttt{path}部分を見ていきます。
+
+APIリクエストには\texttt{method}というものがあり
+
+\begin{itemize}
+\item
+  GET (取得)
+\item
+  POST (送る)
+\item
+  PUT (置き換え)
+\item
+  DELETE (削除)
+\end{itemize}
+
+があります。
+
+またAPIリクエストの\textbf{path}というものはmethodが「GET」であるとした時に\\
+\texttt{GET\ http://localhost:8000/welcome-message}の\texttt{/welcome-message}部分を指します
+
+サンプルプロジェクトの\texttt{serve.js}では\\
+受け付けたAPIリクエストの\texttt{method}が\texttt{GET}で、\texttt{path}が\texttt{/welcome-message}の時に\texttt{return\ new\ Response(\textless{}文言\textgreater{})}で文言を返しています。
+
+以下の箇所で行っています。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \CommentTok{// URLのパスを取得}
+  \KeywordTok{const}\NormalTok{ pathname }\OperatorTok{=} \KeywordTok{new} \FunctionTok{URL}\NormalTok{(req}\OperatorTok{.}\AttributeTok{url}\NormalTok{)}\OperatorTok{.}\AttributeTok{pathname}\OperatorTok{;}
+  \CommentTok{// パスが"/welcome{-}message"だったら「"jigインターンへようこそ！"」の文字を返す}
+  \ControlFlowTok{if}\NormalTok{ (req}\OperatorTok{.}\AttributeTok{method} \OperatorTok{===} \StringTok{"GET"} \OperatorTok{\&\&}\NormalTok{ pathname }\OperatorTok{===} \StringTok{"/welcome{-}message"}\NormalTok{) \{}
+    \CommentTok{// 文言を返す}
+    \ControlFlowTok{return} \KeywordTok{new} \FunctionTok{Response}\NormalTok{(}\StringTok{"jig.jpインターンへようこそ！👍"}\NormalTok{)}\OperatorTok{;}
+\NormalTok{  \}}
+\end{Highlighting}
+\end{Shaded}
+
+それ以外の時、例えば\texttt{http://localhost:8000/}にアクセスした時は、\\
+pathが\texttt{/}なので以下のようにpublicフォルダをクライアントに返しています。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \CommentTok{// publicフォルダ内にあるファイルを返す}
+  \ControlFlowTok{return} \FunctionTok{serveDir}\NormalTok{(req}\OperatorTok{,}\NormalTok{ \{}
+    \DataTypeTok{fsRoot}\OperatorTok{:} \StringTok{"public"}\OperatorTok{,}
+    \DataTypeTok{urlRoot}\OperatorTok{:} \StringTok{""}\OperatorTok{,}
+    \DataTypeTok{showDirListing}\OperatorTok{:} \KeywordTok{true}\OperatorTok{,}
+    \DataTypeTok{enableCors}\OperatorTok{:} \KeywordTok{true}\OperatorTok{,}
+\NormalTok{  \})}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+よって、\texttt{deno\ run}を実行してから、\texttt{http://localhost:8000/}にアクセスすると\texttt{public}内の\texttt{index.html}のページが表示されるんですね。
+
+\subsection{4-3.
+public/index.jsを読んでみよう}\label{publicindex.jsux3092ux8aadux3093ux3067ux307fux3088ux3046}
+
+このセクションでは、\texttt{deno\ run}を実行してから\texttt{http://localhost:8000/}にアクセスした時にクライアント側に返されるpublicフォルダ内の\texttt{index.js}を読んでいきましょう。
+
+\texttt{public}内の\texttt{index.html}のページが表示されることを説明しましたが、\texttt{index.html}では\texttt{index.js}を読み込んでいます。
+
+読み込み方法は以下のように、ESModuleの形で読み込んでいます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DataTypeTok{\textless{}}\KeywordTok{script}\OtherTok{ type=}\StringTok{"module"}\OtherTok{ src}\OperatorTok{=}\StringTok{"./index.js"}\DataTypeTok{\textgreater{}\textless{}/}\KeywordTok{script}\DataTypeTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{index.js}をみてみましょう。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{window}\OperatorTok{.}\AttributeTok{onload} \OperatorTok{=} \KeywordTok{async}\NormalTok{ () }\KeywordTok{=\textgreater{}}\NormalTok{ \{}
+  \OperatorTok{...}
+\NormalTok{\}}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+この部分は「\texttt{画面がロードされたら中のコードを実行する}」というものです。
+中のコードを見ていきます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{const}\NormalTok{ response }\OperatorTok{=} \ControlFlowTok{await} \FunctionTok{fetch}\NormalTok{(}\StringTok{"/welcome{-}message"}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+ここでは\textbf{fetch API}を使用しています。
+fetchメソッドは引数で\textbf{path}を指定して、サーバーにリクエストを送ります。
+
+この場合、引数が\texttt{/welcome-message}になっているので、現在開いているアドレスの\texttt{http://localhost:8000/}にpathの\texttt{/welcome-message}をくっ付けて\texttt{http://localhost:8000/welcome-message}にアクセスします。
+
+クライアント側に\texttt{"jig.jpインターンへようこそ！👍"}という文字を返しています。
+
+サーバー側から返ってきた文字列をクライアント側のブラウザに表示する処理は\texttt{public}フォルダ内の\texttt{index.js}で行っています。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\BuiltInTok{document}\OperatorTok{.}\FunctionTok{querySelector}\NormalTok{(}\StringTok{"\#welcomeMessage"}\NormalTok{)}\OperatorTok{.}\AttributeTok{innerText} \OperatorTok{=} \ControlFlowTok{await}\NormalTok{ response}\OperatorTok{.}\FunctionTok{text}\NormalTok{()}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+にあたります。
+
+\texttt{index.html}内にある\texttt{id="welcomeMessage"}の要素を探して、そこの要素に返ってきた文字を入力しています。
+
+これで\texttt{http://localhost:8000/}にアクセスした時に、「jig.jpインターンへようこそ！👍」の文言が画面に表示されるサンプルプロジェクトの流れを追うことができました。
+
+\section{5. まとめ}\label{ux307eux3068ux3081}
+
+学んだことを整理してみましょう。
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{Deno}について
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{deno\ run\ **}
+  \item
+    \texttt{deno\ task\ **}
+  \item
+    \texttt{deno\ lint}
+  \item
+    \texttt{deno\ fmt}
+  \item
+    \texttt{deno\ test}
+  \item
+    \texttt{deno\ run}のパーミッション指定
+  \item
+    \texttt{import\ map}について
+  \end{itemize}
+\item
+  サンプルプロジェクトについて
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{ESModule}の形でのファイルの読み込み
+  \item
+    \texttt{server.js}から、クライアント側からのリクエストに対してファイルを返したり、文字列を返したりする処理
+  \item
+    サーバー側へリクエストを送る\texttt{fetch\ API}
+  \end{itemize}
+\end{itemize}
+
+ぜひ実際に開発を行う時にはDenoの様々な機能を活用してみてください！

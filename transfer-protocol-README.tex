@@ -1,0 +1,382 @@
+\section{サーバとの通信}\label{ux30b5ux30fcux30d0ux3068ux306eux901aux4fe1}
+
+ここではウェブ実装で必要となってくる知識について解説する -
+\hyperref[httpux3068ux306f]{HTTPとは} -
+\hyperref[urlux306eux69cbux6210]{URLの構成} -
+\hyperref[httpux30e1ux30bdux30c3ux30c9]{HTTPメソッド} -
+\hyperref[httpux306eux4e2dux8eab]{HTTPの中身} -
+\hyperref[corsux3068ux306f]{CORSとは}
+
+\section{HTTPとは}\label{httpux3068ux306f}
+
+HTTPとは（Hypertext Transfer
+Protocol)の略でwebの閲覧によく用いられるプロトコルである。\\
+もともとHTTPはWebブラウザとサーバ間の通信のために設計されたが、それ以外にも使用されている(WebAPIの呼び出しなど)。\\
+HTTPはステートレスであるがセッションレスではない。\\
+今回の解説は、このHTTPを前提に解説を行う。
+本筋から外れてしまうため解説はしないが、現在主流であるのは、このHTTPの通信を暗号化したHTTPS(Hypertext
+Transfer Protocol Secure)と呼ばれるプロトコルである。\\
+HTTPSについて気になる場合は、HTTPS、SSL、TLSなどの単語で調べると良い。
+
+\begin{quote}
+\subsubsection{TIPS:ステートレストとセッションレス}\label{tipsux30b9ux30c6ux30fcux30c8ux30ecux30b9ux30c8ux3068ux30bbux30c3ux30b7ux30e7ux30f3ux30ecux30b9}
+
+ステートレスとは \textbf{State}(ステート：状態)と言う単語に
+\textbf{less}(レス：ない)の意味を持った接尾辞がついた単語である。\\
+HTTPの通信におけるステートレスとは、2つ以上の通信において、それぞれに関係性がないことを指す。\\
+例えばログインのリクエストをサーバに対して行い、成功したとする。\\
+HTTPはログインが成功したと言う情報(state)を保持しないため、ログイン済み限定のページにアクセスしようとすると失敗する。\\
+もちろん、実際にはこのようになっておらず、HTTPがこのようになっていないのは、HTTPがセッションレス\textbf{ではない}からである。\\
+通信自体は状態を持たないが、通信にセッションの情報を乗せているため、HTTPはステートレスだがセッションレスではない。
+\end{quote}
+
+\section{URLの構成}\label{urlux306eux69cbux6210}
+
+インターネット上のリソースにアクセスする場合、その接続先の情報をブラウザ等に与える必要がある。
+ここで使用されるのがURL(Uniform Resource Locator)である。\\
+\texttt{http://example.com:8080/hoge/index.html/?name=Taro\#profile}\strut \\
+上記のようなURLがあったとき、以下のような呼び分けをする。 -
+スキーム　　　　：通信のプロトコルを指定する。\texttt{http} -
+ドメイン　　　　：接続先のアドレスを指定する。\texttt{example.com} -
+ポート　　　　　：接続先のサーバのポート番号を指定する。通常は省略される。\texttt{8080}
+-
+パス　　　　　　：ファイルが設置されている、サーバ内の場所を指定する。\texttt{hoge/index.html}
+-
+クエリパラメータ：クライアントからデータを渡すとき、URLに含めるならここに含める\texttt{name=Taro}
+-
+アンカーリンク　：主にwebページで用いられ、ページ内の特定の場所を指定する。\texttt{\#profile}
+
+また、スキーム、ドメイン、ポートまでをまとめて\textbf{オリジン}と呼ぶ。\\
+今回の例であれば\texttt{http://example.com:8080}がオリジンである。
+
+\begin{quote}
+\subsubsection{TIPS:オーソリティ}\label{tipsux30aaux30fcux30bdux30eaux30c6ux30a3}
+
+URLのスキーム以降、ポートまでをオーソリティと呼ぶ。\\
+あまり見かけないが、URLのドメイン名の前に認証のためのパスワードなどを含める場合があり、これもオーソリティに含まれる。\\
+\texttt{http://hoge:pass@example.com:8080/hoge}のようなURLであれば\texttt{hoge:pass@example.com:8080}を指す。\\
+\texttt{http://example.com:8080/hoge} であれあば
+\texttt{example.com:8080}である。
+\end{quote}
+
+\section{HTTPメソッド}\label{httpux30e1ux30bdux30c3ux30c9}
+
+HTTPで通信を行うとき、メソッドと呼ばれるアクションを指定する。
+仕様書で定義されているHTTPメソッドを以下に示す。
+
+\begin{itemize}
+\tightlist
+\item
+  GET
+\item
+  POST
+\item
+  PUT
+\item
+  DELETE
+\item
+  HEAD
+\item
+  CONNECT
+\item
+  OPTION
+\item
+  TRACE
+\item
+  PATCH
+\end{itemize}
+
+今回は頻繁に使用される\texttt{GET}と\texttt{POST}の二つについて解説する。
+\#\# GETとは
+サーバからデータを取得する際に使用する。URLにクエリパラメータを含めることもできる。\\
+クエリパラメータは人の目に触れやすい場所に付与されるため、他人に見られて困る内容(個人情報等)はGETで送信してはいけない。\\
+GETメソッドは、\textbf{HTTPメソッドとして}べき等であり安全であるとされる。
+
+ここで言う安全とはセキュリティ的な安全を指す言葉ではなく、サーバ側へ更新の要求をしないことを指す言葉である。\\
+\#\# POSTとは
+サーバのデータを更新する時に使用する。データ自体はbodyに含めて通信を行う。\\
+ただし、暗号化を行うわけではないので注意が必要である。\\
+個人情報などを扱う場合はHTTPSなどを利用して、通信そのものを暗号化する必要がある。\\
+\textbf{HTTPメソッドとして}、べき等ではなく安全でないとされる。
+
+なお、このbodyに含めた情報のことをペイロードと言う。
+
+\begin{quote}
+\subsubsection{TIPS:べき等とは}\label{tipsux3079ux304dux7b49ux3068ux306f}
+
+HTTPメソッドでは、ある一つのリクエストを複数回処理しても、一回リクエストを処理した時と、サーバのリソース(データ)が同一の状態になることをべき等性があるという。
+\end{quote}
+
+リクエストにおけるべき等と安全
+
+ここではHTTPメソッドにおける定義から、GETやPOSTについてべき等性・安全性を説明した。\\
+ただし、GETメソッドやPOSTメソッドを用いた\emph{APIリクエストについてのべき等性・安全性}は、メソッドの定義に依らず、\textbf{サーバー/クライアントの実装に依存する}ことに注意したい。
+
+\subsection{実際にやってみる}\label{ux5b9fux969bux306bux3084ux3063ux3066ux307fux308b}
+
+実際にGETとPOSTを使用した通信を見てみる\\
+まず、GETの通信を見てみる 1. 新しいタブを開いて開発者ツールを開く -
+もしそのブラウザで既にgithubにログインしている場合はシークレットブラウザを起動
+1. \texttt{Network}タブを開く \includegraphics{./image.png} 1.
+\texttt{github.com}にアクセス 1.
+開発者ツールに表示されている項目から\texttt{github.com}と表示されているものを探し、メソッドがGETであることを確認。
+1.
+ページをリロードしたり、左上のgithubのロゴマークを何度かクリックしてみてページの内容が変わらないことを確認(べき等であることを確認)
+1.
+github中央上部の検索窓に\texttt{jigintern}など好きな文字列をいれて検索をしてみる
+1.
+結果が表示されたら開発者ツールの中から\texttt{search}を探し、GETメソッドで呼び出されていること、Request
+URLの中に\texttt{jigintern}などの自分が入力したの文字列が含まれていることを確認
+1. 同じ文字列なら何度検索をかけても同じ内容が表示されることを確認
+
+続いてPOSTの通信を見てみる 1. githubのログインを行う 1.
+ログイン完了後、開発者ツールに表示されている項目から\texttt{session}を探し、POSTで呼び出されていること、URLにはパスワードが入っていないが、payloadタブを開くとパスワードが入っていることを確認
+
+\subsection{まとめ}\label{ux307eux3068ux3081}
+
+\begin{itemize}
+\item
+  GETで情報を送るときは、URLのパスの後ろにクエリパラメータとして付与される
+\item
+  GETで人に見られてはいけない情報は扱わない
+\item
+  GETはべき等であると定義されているので何度呼び出されても変わらない処理のみに使う
+\item
+  POSTは情報を送るとき、bodyの中にペイロードとして持つ
+\item
+  POSTはパスワードなど人に知られてはいけない情報で使う
+\item
+  ただし、POST自体は暗号化を行わない
+\item
+  POSTはべき等ではないので呼び出されるたびにサーバ側のデータが更新されるような処理に使う
+\item
+  HTTPメソッドは動作や性質が定義されているが、動作を保証するわけではない
+\item
+  サーバ側が定義通りの実装をする必要がある
+\end{itemize}
+
+\section{HTTPの中身}\label{httpux306eux4e2dux8eab}
+
+サーバとの通信を行うための規格であるHTTPのリクエストの構成は主に以下の4つである。
+- メソッド(GET、POSTなど) - パス(ホスト以下の部分) -
+プロトコルバージョン (HTTP 1.1など) - リクエストヘッダ (詳細は後ほど)
+
+また、POSTなら追加でbodyを持つ。
+
+レスポンスの構成は主に以下の4つである。 - プロトコルバージョン -
+ステータスコード (200など) - ステータスメッセージ (OKなど) -
+レスポンスヘッダ(詳細は後ほど) -
+レスポンスボディ(GETメソッドでリクエストしたときにhtmlなどがここに入る)
+
+なお、レスポンスのボディは省略可能。(POSTの場合は不要なことがある)
+
+\subsection{リクエストヘッダとレスポンスヘッダ}\label{ux30eaux30afux30a8ux30b9ux30c8ux30d8ux30c3ux30c0ux3068ux30ecux30b9ux30ddux30f3ux30b9ux30d8ux30c3ux30c0}
+
+ここに追加の情報を載せることで主に通信を行う。
+主なリクエストのヘッダを以下に示す。 - user-agent - cookie - host -
+accept - accept-language - accept-encoding
+
+また、主なレスポンスヘッダを以下に示す。 - content-type -
+Content-Encoding - set-cookie - connection - server
+
+なお、ヘッダは基本的にブラウザなどが必要なものを自動的に付与するため、開発者が必要なヘッダを付与する必要はあまりない。\\
+必要ではないだけで、任意の自作のヘッダなど好きなヘッダを付与することもできる。\\
+ただし、既に定義されているヘッダは避ける必要があるため、慣れるまではヘッダ自作や付与はブラウザに任せるのが良い。
+
+\subsection{実際に見てみる}\label{ux5b9fux969bux306bux898bux3066ux307fux308b}
+
+GETの中身を確認 - 開発者ツールを開いたブラウザのタブを開く -
+ログインした状態の \texttt{github.com}を開く(リロードする) -
+Nameのカラムにgithub.comと書いてある行をクリック -
+リクエストヘッダやレスポンスヘッダ、レスポンスボディなどを確認する
+
+POSTの中身を確認 - 開発者ツールを開いたブラウザのタブを用意 -
+githubにログイン(ログイン中の場合はサインアウトして再度サインイン) -
+NameのカラムがSessionになっているものをクリック -
+ヘッダやペイロードを確認
+
+\subsection{まとめ}\label{ux307eux3068ux3081-1}
+
+\begin{itemize}
+\tightlist
+\item
+  リクエストもレスポンスも、送受信したいデータ以外にもさまざまな情報を持っている
+\item
+  ヘッダから通信の情報を得ることができる
+\item
+  ヘッダを任意に追加できるが、基本的にやらなくて良い
+\end{itemize}
+
+\section{CORSとは}\label{corsux3068ux306f}
+
+Cross-Origin Resource Sharingの略。\\
+オリジンを跨いでデータの送受信を行える。\\
+オリジンとは、スキーム(プロトコル)、ホスト(ドメイン)、ポート、この3つによって構成されるものである。\\
+ブラウザにはCSRFやXSSといった攻撃を防ぐために、異なるオリジン間ではデータを送受信できないようにする同一オリジンポリシーが存在する。\\
+しかし、HTMLやJavaScriptを取ってくるオリジンとアクセスするAPIのオリジンが異なることがあり、このような場合に不都合が出るためCORSが考案された。\\
+CORSは安全だと認められたオリジン間のみ、跨いでデータの送受信を行うことができる。\\
+CORSを使用するにはサーバ、クライアントでそれぞれヘッダを付与する必要がある。\\
+なお、一定の条件を満たす場合を除いて、プリフライトリクエストを行い安全性の確認を行う。
+
+\subsection{CORSリクエスト}\label{corsux30eaux30afux30a8ux30b9ux30c8}
+
+CORSリクエストを行う場合はリクエストヘッダに
+\texttt{origin}を付与する必要がある。\\
+このとき、レスポンスには\texttt{Access-Control-Allow-Origin}のヘッダが付与され(サーバー側はこのヘッダを付与する必要がある)、このヘッダの内容とオリジンが一致するとき、レスポンスを受け取る。\\
+なお、以下の条件をすべて満たすとプリフライトリクエスト(後述)を発生させないCORSリクエストとなる。
+
+\begin{itemize}
+\tightlist
+\item
+  特定のHTTPメソッドで通信を行う
+
+  \begin{itemize}
+  \tightlist
+  \item
+    GET
+  \item
+    HEAD
+  \item
+    POST
+  \end{itemize}
+\item
+  特定のヘッダのみが付与されている
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Accept
+  \item
+    Accept-Language
+  \item
+    Content-Language
+  \item
+    Content-Type
+  \item
+    Range
+  \end{itemize}
+\item
+  Content-Typeに指定できるもの
+
+  \begin{itemize}
+  \tightlist
+  \item
+    application/x-www-form-urlencoded
+  \item
+    multipart/form-data
+  \item
+    text/plain
+  \end{itemize}
+\item
+  XMLHttpRequest~オブジェクトを使用してリクエストを行う場合は、XMLHttpRequest.upload
+  プロパティから返されるオブジェクトにイベントリスナーが登録されていないこと。すなわち、\texttt{XMLHttpRequest}インスタンスを~\texttt{xhr}~とした場合、どのコードも~\texttt{xhr.upload.addEventListener()}~が呼び出してアップロードを監視するためのイベントリスナーを追加していないこと。
+\item
+  リクエストに~ReadableStreamオブジェクトが使用されていないこと
+\end{itemize}
+
+\subsection{実際に見てみる}\label{ux5b9fux969bux306bux898bux3066ux307fux308b-1}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \texttt{/transfer-protocol}に移動
+\item
+  \texttt{deno\ run\ server.js}を実行
+\item
+  別のターミナルで\texttt{deno\ run\ client.js}を実行
+\item
+  ブラウザで\texttt{http://localhost:8000}にアクセスして開発者ツールを開く
+\item
+  \texttt{try\ cors}ボタンを押して
+  NewworkタブやConsoleに出力されたデータを確認する。
+\item
+  \texttt{try\ cors\ (simple\ request)}ボタンを押して、NewworkタブやConsoleに出力されたデータを確認する。
+\end{enumerate}
+
+\subsubsection{軽く解説}\label{ux8efdux304fux89e3ux8aac}
+
+サーバは\texttt{3000}番のポートで動作するように設定されており、クライアントは\texttt{8000}番で動作するようになっている。\\
+ポート番号が異なるためCORSを用いてアクセスする必要がある。\\
+\texttt{try\ cors}ボタンは\texttt{/cors}を、\texttt{try\ cors\ (simple\ request)}は\texttt{/cors-additional-header}のエンドポイントを叩くようになっている。\\
+\texttt{/cors-additional-header}はヘッダーに\texttt{Access-Control-Allow-Origin:*}を付与してレスポンスを返しているが、\texttt{/cors}は何も付与していない。\\
+従って\texttt{try\ cors}ボタンはエラーを吐くが、\texttt{try\ cors\ (simple\ request)}ボタンは正常にレスポンスを受け取ることができ、メッセージを描画することができる。
+
+\subsection{プリフライトリクエスト}\label{ux30d7ux30eaux30d5ux30e9ux30a4ux30c8ux30eaux30afux30a8ux30b9ux30c8}
+
+前述の条件を満たせなかった場合、主にユーザのデータに影響があるリクエストの場合、プリフライトリクエストが発生する。
+CORSリクエストの前に
+\texttt{OPTION}メソッドを用いてプリフライトリクエストを送信し、そのレスポンスが安全だったときに通常のリクエストを行う。\\
+プリフライトリクエストでは、クライアント側のヘッダには
+\texttt{origin}に加えて
+\texttt{Access-Control-Request-Method}と\texttt{Access-Control-Request-Headers}を付与する必要がある。\\
+サーバ側のレスポンスヘッダには
+\texttt{Access-Control-Allow-Origin}、\texttt{Access-Control-Allow-Methods}、\texttt{Access-Control-Allow-Headers}、\texttt{Access-Control-Max-Age}を付与する必要がある。\\
+これらのヘッダの結果により、安全性が確保できた場合、単純リクエストと同様のヘッダで通信を行う。
+
+\subsection{実際に見てみる}\label{ux5b9fux969bux306bux898bux3066ux307fux308b-2}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \texttt{/transfer-protocol}に移動
+\item
+  \texttt{deno\ run\ server.js}を実行
+\item
+  別のターミナルで\texttt{deno\ run\ client.js}を実行
+\item
+  ブラウザで\texttt{http://localhost:8000}にアクセスして開発者ツールを開く
+\item
+  \texttt{try\ cors\ (prefright\ request)}ボタンを押して
+  NewworkタブやConsoleに出力されたデータを確認する。
+\end{enumerate}
+
+\subsubsection{軽く解説}\label{ux8efdux304fux89e3ux8aac-1}
+
+\texttt{try\ cors\ (prefright\ request)}ボタンはPOSTメソッドで、bodyにJSON形式のデータを持ってリクエストを行う。\\
+そのため、\texttt{Content-Type:\ application/json}のヘッダを持つ必要があるが、これはCORSの単純リクエストとしては許可されていない。\\
+そこで、プリフライトリクエストを送り、このレスポンスに必要な情報があるか確認している。
+
+\subsection{まとめ}\label{ux307eux3068ux3081-2}
+
+\begin{itemize}
+\tightlist
+\item
+  オリジンを跨ぐアクセスを許可する場合はCORSの設定を行う
+\item
+  特定の条件を満たせない場合プリフライトリクエストという、安全性の確認用の通信が発生する
+\item
+  外部のWebAPIを呼び出すときはCORSの設定が必要になる可能性あり
+\end{itemize}
+
+\section{最後に}\label{ux6700ux5f8cux306b}
+
+ここまでサーバとの通信に使われる技術について紹介してきた。
+最後に実装していく上で意識することを中心にまとめる。
+
+HTTPメソッドは、個人情報を扱うかデータを変更するなら\texttt{POST}、クライアントがデータを要求するだけ（サーバ側のデータを更新しない）なら\texttt{GET}を利用する。\\
+その他にもHTTPメソッドは仕様として定義されているが、実装に慣れてきてから利用していくで問題ない。
+ただし、どのHTTPメソッドを利用するにしても、サーバ側の実装は原則そのメソッドの仕様を守って実装する必要がある。\\
+HTTP通信のヘッダは基本何もせず、ブラウザが自動で自動で付与するヘッダのみで問題ない。\\
+CORSの設定について、サーバ実装においてはあまり気にしなくて良い。\\
+これは、自分で実装したサーバに別のオリジンからアクセスされることがないからである。\\
+クライアント側は外部のAPIを叩くときにCORSの設定をする必要があるが、fetchAPIを利用する場合、modeをCORSにすれば基本的に問題なく動作する。
+
+もし、より深く理解したい場合は参考文献等を利用して自学することをお勧めする。
+
+\section{参考文献}\label{ux53c2ux8003ux6587ux732e}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://developer.mozilla.org/ja/docs/Web/HTTP/Overview}{HTTPの概要}
+\item
+  \href{https://developer.mozilla.org/ja/docs/Web/HTTP/Methods}{HTTPメソッドについて}
+\item
+  \href{https://qiita.com/kanataxa/items/522efb74421255f0e0a1}{GETとPOSTの違いについて}
+\item
+  \href{https://developer.mozilla.org/ja/docs/Web/HTTP/CORS}{CORSについて}
+\item
+  \href{https://zenn.dev/syo_yamamoto/articles/445ce152f05b02}{CORSを絶対に理解する}
+\end{itemize}

@@ -1,0 +1,1242 @@
+\section{MySQL入門}\label{mysqlux5165ux9580}
+
+本項では、OSS（\textbf{O}pen \textbf{S}ource \textbf{S}oftware:
+オープンソースソフトウェア）として提供されるリレーショナル・データベース管理システム
+\href{https://www.mysql.com/jp/}{MySQL}
+を利用した開発手法について解説します。\\
+簡略化のため、MySQLのセットアップ方法については解説せず、既に環境を用意しています。
+
+\subsection{1. 導入編}\label{ux5c0eux5165ux7de8}
+
+\emph{データベースやMySQLについて知ろう！}
+
+\subsubsection{1-1.
+データベースとは何か？}\label{ux30c7ux30fcux30bfux30d9ux30fcux30b9ux3068ux306fux4f55ux304b}
+
+\begin{quote}
+データベースとは、構造化した情報またはデータの組織的な集合であり、通常はコンピューター・システムに電子的に格納されています。\\
+出典: https://www.oracle.com/jp/database/what-is-database/
+\end{quote}
+
+データベースは、データを構造化して保存するためのシステムです。\\
+データの保存が必要となる多くのアプリケーションで使用されています。ファイル等に単純に保存する場合と比較してデータが扱いやすくなっています。
+
+その中でも、ここではリレーショナル・データベース（\textbf{R}elational
+\textbf{D}ata\textbf{B}ase、RDB）について解説します。
+
+\begin{quote}
+Topic: relational／【形容詞】親類の、関係を示す、関係の、相関的な\\
+出典: https://eow.alc.co.jp/search?q=relational
+\end{quote}
+
+リレーショナル・データベースでは単純なデータ以外に、データ同士の関連情報を保存します。\\
+これによって、以下のような利点を得られます。
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  整合性が保たれます。データの重複、本来存在するべきデータが削除されてしまう、等の問題を回避できます
+\item
+  データ構造の追加が容易です。新規データ構造を追加した際、既存のデータとの関連情報を追加するのみで参照等が可能になります
+\item
+  データベースの操作用の言語であるSQLが使用できます。MySQLやPostgreSQLなど、互いに制御用の基本構文が同じデータベースを利用したことのある技術者であれば、比較的容易に導入が可能です
+\end{enumerate}
+
+\subsubsection{1-2.
+MySQLとは何か？}\label{mysqlux3068ux306fux4f55ux304b}
+
+\begin{quote}
+MySQL（マイ・エスキューエル、海外ではマイ・シークェルとも）は、オープンソースのリレーショナルデータベース管理システム
+(RDBMS)
+である。その名前は、共同設立者のミカエル・ウィデニウスの娘の名前である「My」と、Structured
+Query Languageの略称である「SQL」を組み合わせたものである。\\
+出典: https://ja.wikipedia.org/wiki/MySQL
+\end{quote}
+
+MySQLは、RDBMS（\textbf{R}elational \textbf{D}ata\textbf{B}ase
+\textbf{M}anagement \textbf{S}ystem:
+関係データベース管理システム）の一つです。\\
+ライセンスさえ守れば無料で利用できる上に、利用事例も多いため、インターネット上でも容易に情報を手に入れることができます。
+
+MySQLでは、以下のような形式でデータを保存します。\\
+各種用語と併せて以下に示します。
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+用語
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+意味
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+DATABASE: データベース & 複数のTABLEを持つ。
+基本的にはデータ同士の関連付けはデータベースを跨がずに行う。 \\
+TABLE: テーブル & 複数のRECORDを持つ。表。
+STUDENTテーブル、CLASS\_ROOMテーブル等、データの種類ごとにテーブルを分ける。 \\
+COLUMN: カラム & テーブルのデータ項目。列。 STUDENTテーブルなら
+\texttt{id,\ class\_room\_id,\ name}
+などのそれぞれの項目（縦列）を指す。 \\
+RECORD: レコード & テーブルに保存されるデータ。行。 STUDENTテーブルなら
+\texttt{id,\ class\_room\_id,\ name}
+などのひとかたまりのデータ（横行）を指す。 \\
+\end{longtable}
+
+\includegraphics{./imgs/materials/school_database_simple.jpg}
+
+CLASS\_ROOM -
+STUDENTのそれぞれのテーブルの関係を図に示すと以下のようになります。\\
+一つのクラスに対して複数の学生が紐付いています。クラスに対して学生が一人も紐付いていない場合もあります。\\
+STUDENTテーブルに \texttt{class\_room\_id}
+カラムを定義し、CLASS\_ROOMテーブルのレコードの \texttt{id}
+を保存することでレコード同士を紐づけています。
+
+\begin{quote}
+Topic:
+以下の図はER図と呼ばれ、リレーショナル・データベースのデータ構造を示すために用いられます。\\
+掲載した図では、CLASS\_ROOMテーブルとSTUDENTテーブルが一対多の関係で紐づいていることを示しています。\\
+ER図の記述方法については省略しますが、気になる方は各自、調べてみてください。
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{erDiagram}
+\NormalTok{    CLASS\_ROOM \{}
+\NormalTok{        id int}
+\NormalTok{        grade int}
+\NormalTok{        name char}
+\NormalTok{    \}}
+\NormalTok{    STUDENT \{}
+\NormalTok{        id int}
+\NormalTok{        class\_room\_id int}
+\NormalTok{        name char}
+\NormalTok{        admission\_date datetime}
+\NormalTok{        graduation\_date datetime}
+\NormalTok{    \}}
+\NormalTok{    CLASS\_ROOM ||{-}{-}o\{ STUDENT : one\_to\_zero{-}or{-}more}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{1-3.
+MySQL　Workbenchとは何か？}\label{mysql-workbenchux3068ux306fux4f55ux304b}
+
+\begin{quote}
+MySQL Workbench は、データベースアーキテクト、開発者、DBA
+のための統合ビジュアルツールです。\\
+出典: https://www.mysql.com/jp/products/workbench/
+\end{quote}
+
+MySQL
+WorkbenchはMySQLに対する操作を行うことができるアプリケーションです。\\
+SQL文に対するシンタックスハイライトや、SQL文の構築を手助けする機能が搭載されています。\\
+また、データベースを操作するための認証情報を記憶させることができるため、認証の簡易化等にも有効です。
+
+\subsection{2.
+MySQLを触ってみよう}\label{mysqlux3092ux89e6ux3063ux3066ux307fux3088ux3046}
+
+\emph{MySQLを実際に使ってみよう！}
+
+\subsubsection{2-0.
+MySQLにログインしよう}\label{mysqlux306bux30edux30b0ux30a4ux30f3ux3057ux3088ux3046}
+
+今回はMySQLの環境構築等の工程はスキップし、一部データについても挿入済みのデータベースをサーバ上に予め用意しました。このデータベースにアクセスして、MySQLの操作を学習しましょう。\\
+データベースへのログインのための認証情報をお渡ししますので、MySQL
+Workbenchを起動して認証情報を入力してください。
+
+練習: MySQL Workbenchでデータベースに接続してみよう
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  MySQL Workbenchを起動します
+\item
+  「+」ボタンをクリックして、アクセス情報の入力ウィンドウを開きます
+\item
+  ウィンドウ上部の「Connection
+  Name」を入力します。これはアプリ上での表示名なので、任意のもので問題ありません
+\end{enumerate}
+
+\begin{quote}
+悩むようなら \texttt{jig-intern-db} 等にしておきましょう
+\end{quote}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\item
+  Hostname, Port, Username, Passwordを入力します。Passwordは「Store in
+  Keychain\ldots」から入力してください
+  \includegraphics{./imgs/screen-shots/01_mysql_workbench_connection.png}
+\item
+  ウィンドウ右下の「Test Connection」をクリックして、「Successfully made
+  the MySQL connection」の表示を確認します
+\end{enumerate}
+
+\begin{quote}
+「Failed to
+Connect\ldots」と表示されると失敗です。入力内容が正しいか、再度確認してください
+\end{quote}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{5}
+\item
+  「OK」をクリックして設定を完了します
+\item
+  追加されたコネクションをクリックして、データベースに接続します
+  \includegraphics{./imgs/screen-shots/02_mysql_workbench_connected.png}
+\end{enumerate}
+
+\subsubsection{2-1. SELECT:
+データを取得してみよう}\label{select-ux30c7ux30fcux30bfux3092ux53d6ux5f97ux3057ux3066ux307fux3088ux3046}
+
+\begin{longtable}[]{@{}lllll@{}}
+\toprule\noalign{}
+id & class\_room\_id & name & admission\_date & graduation\_date \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 & 2 & 山田 & 2022-04-01 00:00:00 & 2027-03-31 23:59:59 \\
+2 & 3 & 佐藤 & 2021-04-01 00:00:00 & 2026-03-31 23:59:59 \\
+3 & 3 & 鈴木 & 2021-04-01 00:00:00 & 2026-03-31 23:59:59 \\
+4 & 1 & じぐ太郎 & 2023-04-01 00:00:00 & 2023-03-31 23:59:59 \\
+︙ & & & & \\
+\end{longtable}
+
+\texttt{SELECT} は、レコードを取得するためのSQL文です。\\
+指定したテーブルからレコードを取得することができます。\\
+以下に基本的な取得方法等を示します。
+
+\begin{quote}
+Topic: SQLの命令文のことを「クエリ」と呼ぶこともあります。
+\end{quote}
+
+\paragraph{2-1-1.
+レコードを全件取得する}\label{ux30ecux30b3ux30fcux30c9ux3092ux5168ux4ef6ux53d6ux5f97ux3059ux308b}
+
+最も基本的な \texttt{SELECT}
+です。データベースの中身を確認する時などに真っ先に実行することになります。
+
+\begin{quote}
+Topic: MySQL
+Workbenchでは、レコード取得時に最大取得数1000件の制限がかかるようになっています。
+必要であれば制限を解除することもできますが、膨大なデータを取得しようとして通信が終わらなくなることがあるので、制限をかけておくことを推奨します。
+\end{quote}
+
+練習: レコードを全件取得してみよう
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{-1}
+\tightlist
+\item
+  以降のハンズオンで使用するデータベース \texttt{mysql\_handson}
+  を使用することを宣言します。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{USE}\NormalTok{ mysql\_handson}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  新任教師用の学生名簿を作るために、在籍している学生のデータを確認しなければならなくなりました。早速、studentテーブルのレコードを取得してみましょう。\\
+  まずはテーブルの構成を確認します。\texttt{DESC}
+  句を使用すれば、テーブルの構成（カラムごとの型情報、入力されるデータの制約など）を閲覧することができます。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\# テーブルの構成を確認}
+\KeywordTok{DESC}\NormalTok{ student;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  レコードを全件取得してみましょう。\\
+  以下のSQLを実行することで、studentテーブルのid, nameが取得できます。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\# 任意のカラムを取得}
+\KeywordTok{SELECT} \KeywordTok{id}\NormalTok{, name }\KeywordTok{FROM}\NormalTok{ student;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  全カラムを取得対象とすることもできます。\\
+  以下のクエリを実行することで、studentテーブルの全カラム・全レコードを取得できます。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\# 全カラムを取得}
+\KeywordTok{SELECT} \OperatorTok{*} \KeywordTok{FROM}\NormalTok{ student;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  レコードの取得時に表示順序のソートを行うことができます。\\
+  \texttt{ORDER\ BY} 句を使用してみましょう。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\# 入学日時で昇順ソート}
+\KeywordTok{SELECT} \OperatorTok{*} \KeywordTok{FROM}\NormalTok{ student }\KeywordTok{ORDER} \KeywordTok{BY}\NormalTok{ admission\_date }\KeywordTok{ASC}\NormalTok{;}
+
+\NormalTok{\# 入学日時で降順ソート}
+\KeywordTok{SELECT} \OperatorTok{*} \KeywordTok{FROM}\NormalTok{ student }\KeywordTok{ORDER} \KeywordTok{BY}\NormalTok{ admission\_date }\KeywordTok{DESC}\NormalTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\paragraph{2-1-2.
+レコードを条件付きで取得する}\label{ux30ecux30b3ux30fcux30c9ux3092ux6761ux4ef6ux4ed8ux304dux3067ux53d6ux5f97ux3059ux308b}
+
+\texttt{WHERE} 句によって、レコードを条件付きで取得できます。\\
+この機能は、特定の条件のデータのみを抽出したい時などに活用されます。
+
+\begin{quote}
+Topic:
+SQL文は複数行に跨って書くことも可能です。セミコロン（\texttt{;}）が命令の終了を示します。
+\end{quote}
+
+練習: レコードを条件付きで取得してみよう
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  レコードを条件付きで取得してみましょう。\\
+  以下のクエリを実行することで、名前が「山田」の学生のみを抽出できます。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\# あるカラムが特定の値のレコードのみ取得}
+\KeywordTok{SELECT} \OperatorTok{*} \KeywordTok{FROM}\NormalTok{ student }\KeywordTok{WHERE}\NormalTok{ name }\OperatorTok{=} \OtherTok{"山田"}\NormalTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  \texttt{WHERE}
+  の後に書く内容は、条件式であれば何でも問題ありません。\\
+  2022年以降に入学した学生のレコードを抽出してみましょう。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\# あるカラムが特定の値より大きいレコードのみ取得}
+\KeywordTok{SELECT} \OperatorTok{*} \KeywordTok{FROM}\NormalTok{ student }\KeywordTok{WHERE}\NormalTok{ admission\_date }\OperatorTok{\textgreater{}=} \OtherTok{"2022{-}01{-}01 00:00:00"}\NormalTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  \texttt{LIKE} 句を使用すれば、部分一致でのレコードの抽出も可能です。\\
+  以下のクエリを実行してみましょう。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\# あるカラムが特定の値と部分一致するレコードのみ取得}
+\KeywordTok{SELECT} \OperatorTok{*} \KeywordTok{FROM}\NormalTok{ student }\KeywordTok{WHERE}\NormalTok{ name }\KeywordTok{LIKE} \OtherTok{"\%藤"}\NormalTok{;}
+
+\NormalTok{\# }\OperatorTok{{-}\textgreater{}}\NormalTok{ nameが}\OtherTok{"藤"}\NormalTok{、}\OtherTok{"佐藤"}\NormalTok{、}\OtherTok{"後藤"}\NormalTok{などのレコードを取得}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  \texttt{IN}
+  句を使用すれば、リスト内の値と一致するかでレコードを抽出できます。
+  以下のクエリを実行してみましょう。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\# あるカラムがIN以降のリストに含まれるレコードのみ取得}
+\KeywordTok{SELECT} \OperatorTok{*} \KeywordTok{FROM}\NormalTok{ student }\KeywordTok{WHERE}\NormalTok{ name }\KeywordTok{IN}\NormalTok{ (}\OtherTok{"佐藤"}\NormalTok{, }\OtherTok{"鈴木"}\NormalTok{);}
+
+\NormalTok{\# }\OperatorTok{{-}\textgreater{}}\NormalTok{ nameが}\OtherTok{"佐藤"}\NormalTok{、}\OtherTok{"鈴木"}\NormalTok{の場合のみ取得}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  \texttt{AND} や \texttt{OR} 等で条件式を複数使用することもできます。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\# 複数の条件で絞り込む}
+\KeywordTok{SELECT} \OperatorTok{*} \KeywordTok{FROM}\NormalTok{ student}
+\KeywordTok{WHERE}\NormalTok{ name }\KeywordTok{IN}\NormalTok{ (}\OtherTok{"佐藤"}\NormalTok{, }\OtherTok{"鈴木"}\NormalTok{)}
+\KeywordTok{AND}\NormalTok{ admission\_date }\OperatorTok{\textgreater{}=} \OtherTok{"2022{-}01{-}01 00:00:00"}\NormalTok{;}
+
+\NormalTok{\# }\OperatorTok{{-}\textgreater{}} \DecValTok{2022}\NormalTok{年以降に入学した、}\OtherTok{"佐藤"}\NormalTok{、}\OtherTok{"鈴木"}\NormalTok{のみを取得}
+\end{Highlighting}
+\end{Shaded}
+
+\paragraph{2-1-3.
+集計結果の取得}\label{ux96c6ux8a08ux7d50ux679cux306eux53d6ux5f97}
+
+集計関数を使用することで、取得結果の合計値等を求めることができます。\\
+集計関数には様々な種類があり、例として以下のようなものが挙げられます。
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+SQL & 機能 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\texttt{COUNT} & レコードの件数を数える \\
+\texttt{SUM} & 値の合計値を算出する \\
+\texttt{AVG} & 値の平均値を算出する \\
+\texttt{MAX} & 値の最大値を算出する \\
+\texttt{MIN} & 値の最小値を算出する \\
+\end{longtable}
+
+練習: レコードを取得した後で集計してみよう
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  exam（試験結果）のテーブルで、集計関数を使ってみましょう。\\
+  まずはテーブルの構成を確認します。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{DESC}\NormalTok{ exam;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  \texttt{COUNT} を使ってレコードの件数を確認しましょう。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\# 取得したレコードの件数取得}
+\KeywordTok{SELECT} \FunctionTok{COUNT}\NormalTok{(}\OperatorTok{*}\NormalTok{) }\KeywordTok{FROM}\NormalTok{ exam;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  \texttt{SUM} を使って取得したレコードの点数の合計値を確認しましょう。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\# 取得した値の合計の取得}
+\KeywordTok{SELECT} \FunctionTok{SUM}\NormalTok{(score) }\KeywordTok{FROM}\NormalTok{ exam;}
+
+\NormalTok{\# 絞り込んでから集計することも可能}
+\KeywordTok{SELECT} \FunctionTok{SUM}\NormalTok{(score) }\KeywordTok{FROM}\NormalTok{ exam }\KeywordTok{WHERE}\NormalTok{ student\_id }\OperatorTok{=} \DecValTok{3}\NormalTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  \texttt{AVG} を使って取得したレコードの点数の平均値を確認しましょう。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\# 取得した値の平均値の取得}
+\KeywordTok{SELECT} \FunctionTok{AVG}\NormalTok{(score) }\KeywordTok{FROM}\NormalTok{ exam;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  \texttt{MAX}、\texttt{MIN}
+  を使って取得したレコードの点数の最大値・最小値を確認しましょう。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\# 最大値・最小値の取得}
+\KeywordTok{SELECT} \FunctionTok{MAX}\NormalTok{(score) }\KeywordTok{FROM}\NormalTok{ exam;}
+\KeywordTok{SELECT} \FunctionTok{MIN}\NormalTok{(score) }\KeywordTok{FROM}\NormalTok{ exam;}
+\end{Highlighting}
+\end{Shaded}
+
+\paragraph{2-1-4.
+種別分けした集計結果の取得}\label{ux7a2eux5225ux5206ux3051ux3057ux305fux96c6ux8a08ux7d50ux679cux306eux53d6ux5f97}
+
+集計関数を使用する際、集計を種別ごとに分離して行いたい場合があります。\\
+そんな時は、\texttt{GROUP\ BY}
+句を使用しましょう。これによって種別ごとの集計結果を取得できます。
+
+練習: レコードを取得した後で種別分けして集計してみよう
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  以下のクエリで、学生ごとの平均得点を取得してみましょう。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\# 学生ごとの、今までの試験の点数の平均値を取得}
+\KeywordTok{SELECT}\NormalTok{ student\_id, }\FunctionTok{AVG}\NormalTok{(}\OperatorTok{*}\NormalTok{) }\KeywordTok{FROM}\NormalTok{ exam}
+\KeywordTok{GROUP} \KeywordTok{BY}\NormalTok{ student\_id;}
+\end{Highlighting}
+\end{Shaded}
+
+\paragraph{2-1-5.
+テーブルの結合とサブクエリ}\label{ux30c6ux30fcux30d6ux30ebux306eux7d50ux5408ux3068ux30b5ux30d6ux30afux30a8ux30ea}
+
+関連付いたテーブル同士を結合して取得することも可能です。\\
+\texttt{LEFT\ JOIN\ \textasciitilde{}\ ON\ \textasciitilde{}}
+句を使用することで結合済みのデータを取得することができます。
+また、あるクエリの結果を元に更に条件を絞り込んで取得することも可能です。この条件等の中に記載するクエリをサブクエリと呼びます。
+
+双方共に、複数のテーブルを参照してデータを取得することができます。\\
+多くの場合、テーブルの結合を使用する方が高速に処理することができますが、サブクエリを使用する方が効率的な場合や、SQL文が簡潔に書ける場合はサブクエリを使用しても問題ありません。
+
+練習: レコードを取得した後で種別分けして集計してみよう
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  引き続きstudentテーブル、examテーブルを使用する他、追加でclass\_roomテーブルを使用します。
+  class\_roomテーブルの構成を確認しましょう。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{DESC}\NormalTok{ class\_room;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  \texttt{LEFT\ JOIN\ \textasciitilde{}\ ON\ \textasciitilde{}}
+  を使用して、テーブルを結合して取得してみましょう。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\# テーブル同士を結合して取得}
+\KeywordTok{SELECT} \OperatorTok{*} \KeywordTok{FROM}\NormalTok{ student }\KeywordTok{LEFT} \KeywordTok{JOIN}\NormalTok{ class\_room}
+\KeywordTok{ON}\NormalTok{ student.class\_room\_id }\OperatorTok{=}\NormalTok{ class\_room.}\KeywordTok{id}\NormalTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  テーブルを結合する際、\texttt{WHERE}
+  句を併用することで取得するレコードを絞り込むことも可能です。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\# 条件付きでも取得できる}
+\KeywordTok{SELECT} \OperatorTok{*} \KeywordTok{FROM}\NormalTok{ student }\KeywordTok{LEFT} \KeywordTok{JOIN}\NormalTok{ class\_room}
+\KeywordTok{ON}\NormalTok{ student.class\_room\_id }\OperatorTok{=}\NormalTok{ class\_room.}\KeywordTok{id}
+\KeywordTok{WHERE}\NormalTok{ student.}\KeywordTok{id} \OperatorTok{=} \DecValTok{5}\NormalTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  次はサブクエリを使用してみます。以下のクエリでは、山田さん、鈴木さんの所属するクラスのデータを取得できます。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\# サブクエリを条件に含めて検索}
+\KeywordTok{SELECT} \OperatorTok{*} \KeywordTok{FROM}\NormalTok{ class\_room}
+\KeywordTok{WHERE} \KeywordTok{id} \KeywordTok{IN}\NormalTok{ (}
+\NormalTok{    \# ここがサブクエリ}
+    \KeywordTok{SELECT}\NormalTok{ class\_room\_id }\KeywordTok{FROM}\NormalTok{ student }\KeywordTok{WHERE}\NormalTok{ name }\KeywordTok{IN}\NormalTok{ (}\OtherTok{"山田"}\NormalTok{, }\OtherTok{"鈴木"}\NormalTok{)}
+\NormalTok{);}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  \texttt{GROUP\ BY} 句を併用して、前項「2-1-4.
+  \hyperref[2-1-4-ux7a2eux5225ux5206ux3051ux3057ux305fux96c6ux8a08ux7d50ux679cux306eux53d6ux5f97]{種別分けした集計結果の取得}」の練習で実行した内容を修正してみます。\\
+  以下のクエリを実行することで、学生ごとの平均得点を再取得してみましょう。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{SELECT}\NormalTok{ student.}\KeywordTok{id}\NormalTok{, student.name, }\FunctionTok{AVG}\NormalTok{(exam.score) }\KeywordTok{FROM}\NormalTok{ exam}
+\KeywordTok{LEFT} \KeywordTok{JOIN}\NormalTok{ student }\KeywordTok{ON}\NormalTok{ exam.student\_id }\OperatorTok{=}\NormalTok{ student.}\KeywordTok{id}
+\KeywordTok{GROUP} \KeywordTok{BY}\NormalTok{ student.}\KeywordTok{id}\NormalTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{2-2. CREATE TABLE:
+テーブルを作ってみよう}\label{create-table-ux30c6ux30fcux30d6ux30ebux3092ux4f5cux3063ux3066ux307fux3088ux3046}
+
+\texttt{CREATE\ TABLE}
+は、テーブルを新規作成するためのSQL文です。指定した定義でテーブルを作成することができます。
+作成の際には一意な \texttt{PRIMARY\ KEY}
+を設定しなければなりません。この値は同一テーブルの複数のレコードで重複してはいけません。
+
+\texttt{CREATE\ TABLE} は以下のような形式で記述します。
+
+\begin{quote}
+Topic: \texttt{DEFAULT\ CHARSET=utf8mb4} で文字化け等を防止できます
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{CREATE} \KeywordTok{TABLE}\NormalTok{ new\_table\_name (}
+\NormalTok{    column\_name\_01 column\_type\_01,}
+\NormalTok{    column\_name\_02 column\_type\_02,}
+    \OperatorTok{..}\NormalTok{.}
+\NormalTok{) }\KeywordTok{DEFAULT}\NormalTok{ CHARSET}\OperatorTok{=}\NormalTok{utf8mb4;}
+
+\NormalTok{\# 例: studentテーブルの定義}
+\KeywordTok{CREATE} \KeywordTok{TABLE}\NormalTok{ student (}
+    \KeywordTok{id} \DataTypeTok{int} \KeywordTok{NOT} \KeywordTok{NULL}\NormalTok{ AUTO\_INCREMENT,}
+\NormalTok{    class\_room\_id }\DataTypeTok{int} \KeywordTok{NOT} \KeywordTok{NULL}\NormalTok{,}
+\NormalTok{    name }\DataTypeTok{varchar}\NormalTok{(}\DecValTok{255}\NormalTok{) }\KeywordTok{NOT} \KeywordTok{NULL}\NormalTok{,}
+\NormalTok{    admission\_date datetime }\KeywordTok{NOT} \KeywordTok{NULL}\NormalTok{,}
+\NormalTok{    graduation\_date datetime }\KeywordTok{NOT} \KeywordTok{NULL}\NormalTok{,}
+    \KeywordTok{PRIMARY} \KeywordTok{KEY}\NormalTok{ (}\KeywordTok{id}\NormalTok{)}
+\NormalTok{) }\KeywordTok{DEFAULT}\NormalTok{ CHARSET}\OperatorTok{=}\NormalTok{utf8mb4;}
+\end{Highlighting}
+\end{Shaded}
+
+練習: CREATE TABLEを用いてテーブルを新規作成してみよう
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  teacherテーブルを作成してみましょう。\\
+  操作するテーブルの名前が重複しないように、テーブルの名前は「teacher\_自分の名前」にしておいてください。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{CREATE} \KeywordTok{TABLE}\NormalTok{ teacher\_自分の名前 (}
+    \KeywordTok{id} \DataTypeTok{int} \KeywordTok{NOT} \KeywordTok{NULL}\NormalTok{ AUTO\_INCREMENT,}
+\NormalTok{    class\_room\_id }\DataTypeTok{int}\NormalTok{,}
+\NormalTok{    name }\DataTypeTok{varchar}\NormalTok{(}\DecValTok{255}\NormalTok{) }\KeywordTok{NOT} \KeywordTok{NULL}\NormalTok{,}
+\NormalTok{    joining\_date datetime }\KeywordTok{NOT} \KeywordTok{NULL}\NormalTok{,}
+    \KeywordTok{PRIMARY} \KeywordTok{KEY}\NormalTok{ (}\KeywordTok{id}\NormalTok{)}
+\NormalTok{) }\KeywordTok{DEFAULT}\NormalTok{ CHARSET}\OperatorTok{=}\NormalTok{utf8mb4;}
+
+\NormalTok{\# 入力例}
+\KeywordTok{CREATE} \KeywordTok{TABLE}\NormalTok{ teacher\_futaba (}
+    \KeywordTok{id} \DataTypeTok{int} \KeywordTok{NOT} \KeywordTok{NULL}\NormalTok{ AUTO\_INCREMENT,  \# }\KeywordTok{id}
+\NormalTok{    class\_room\_id }\DataTypeTok{int}\NormalTok{,               \# 担任を受け持つクラスのID}
+\NormalTok{    name }\DataTypeTok{varchar}\NormalTok{(}\DecValTok{255}\NormalTok{) }\KeywordTok{NOT} \KeywordTok{NULL}\NormalTok{,      \# 名前}
+\NormalTok{    joining\_date datetime }\KeywordTok{NOT} \KeywordTok{NULL}\NormalTok{,  \# 着任日時}
+    \KeywordTok{PRIMARY} \KeywordTok{KEY}\NormalTok{ (}\KeywordTok{id}\NormalTok{)}
+\NormalTok{) }\KeywordTok{DEFAULT}\NormalTok{ CHARSET}\OperatorTok{=}\NormalTok{utf8mb4;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  新規作成したテーブルの構成を確認してみましょう。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\# 構成確認}
+\KeywordTok{DESC}\NormalTok{ teacher\_自分の名前;}
+
+\NormalTok{\# レコードが空になっていることを確認}
+\KeywordTok{SELECT} \OperatorTok{*} \KeywordTok{FROM}\NormalTok{ teacher\_自分の名前;}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{2-3. INSERT:
+データを新規作成してみよう}\label{insert-ux30c7ux30fcux30bfux3092ux65b0ux898fux4f5cux6210ux3057ux3066ux307fux3088ux3046}
+
+\texttt{INSERT} は、テーブルにレコードを追加するためのSQL文です。\\
+\texttt{INSERT} は以下のような形式で記述します。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{INSERT} \KeywordTok{INTO}\NormalTok{ table\_name (}
+\NormalTok{    \# テーブルのカラム名を羅列}
+\NormalTok{    column\_name\_1,}
+\NormalTok{    column\_name\_2,}
+    \OperatorTok{..}\NormalTok{.}
+\NormalTok{) }\KeywordTok{VALUES}\NormalTok{ (}
+\NormalTok{    \# 追加するレコードのデータをカラムと同順で羅列}
+\NormalTok{    column\_1\_value,}
+\NormalTok{    column\_2\_value,}
+    \OperatorTok{..}\NormalTok{.}
+\NormalTok{);}
+\end{Highlighting}
+\end{Shaded}
+
+練習: INSERTを用いてレコードを追加してみよう
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  teacherテーブルにレコードを追加します。担任のクラスは無い想定で、class\_room\_idは入力しません。
+  また、idには\texttt{AUTO\ INCREMENT}を指定したので、自動で\texttt{1}が割り当てられます。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\# }\DecValTok{2023}\NormalTok{年4月に着任したじぐ先生のレコードを追加}
+\KeywordTok{INSERT} \KeywordTok{INTO}\NormalTok{ teacher\_自分の名前 (}
+\NormalTok{    name, joining\_date}
+\NormalTok{) }\KeywordTok{VALUES}\NormalTok{ (}
+    \OtherTok{"じぐ先生"}\NormalTok{, }\OtherTok{"2023{-}04{-}01 00:00:00"}
+\NormalTok{);}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  \texttt{SELECT} で上手くレコードが追加されたか確認します
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{SELECT} \OperatorTok{*} \KeywordTok{FROM}\NormalTok{ teacher\_自分の名前;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  更にレコードを追加します。1年生のAクラス担任の''じぇいぴー先生''を追加してみましょう。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\# }\DecValTok{1}\NormalTok{年生のAクラスのidを確認}
+\KeywordTok{SELECT} \OperatorTok{*} \KeywordTok{FROM}\NormalTok{ class\_room }\KeywordTok{WHERE}\NormalTok{ grade }\OperatorTok{=} \DecValTok{1} \KeywordTok{AND}\NormalTok{ name }\OperatorTok{=} \OtherTok{"A"}\NormalTok{;}
+
+\NormalTok{\# }\DecValTok{1}\NormalTok{年生のあるクラス担任のレコードを追加する}
+\KeywordTok{INSERT} \KeywordTok{INTO}\NormalTok{ teacher\_自分の名前 (}
+\NormalTok{    class\_room\_id, name, joining\_date}
+\NormalTok{) }\KeywordTok{VALUES}\NormalTok{ (}
+\NormalTok{    調べたID, }\OtherTok{"じぇいぴー先生"}\NormalTok{, }\OtherTok{"2022{-}04{-}01 00:00:00"}
+\NormalTok{);}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  \texttt{SELECT} で上手くレコードが追加されたか確認します
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{SELECT} \OperatorTok{*} \KeywordTok{FROM}\NormalTok{ teacher\_自分の名前;}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{2-4. UPDATE:
+データを更新してみよう}\label{update-ux30c7ux30fcux30bfux3092ux66f4ux65b0ux3057ux3066ux307fux3088ux3046}
+
+\texttt{UPDATE} は、テーブルのレコードを編集するためのSQL文です。
+
+\texttt{UPDATE}
+を行う際は、\textbf{更新対象のレコードの条件式を必ず記述}するように注意してください。\\
+条件式を記述せずに \texttt{UPDATE}
+を実行した場合、対象のテーブルの全レコードの値が書き換わってしまいます。\\
+バックアップがなければ修正は困難なため、細心の注意を払いましょう。
+
+\begin{quote}
+Topic: \texttt{SELECT}
+で対象のレコードのidを確認して、idで条件を絞って更新するのがおすすめです。
+\end{quote}
+
+\texttt{UPDATE} は以下のような形式で記述します。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{UPDATE}\NormalTok{ table\_name}
+\KeywordTok{SET}\NormalTok{ column\_name\_1}\OperatorTok{=}\NormalTok{column\_1\_value, column\_name\_2}\OperatorTok{=}\NormalTok{column\_2\_value, }\OperatorTok{..}\NormalTok{.}
+\KeywordTok{WHERE}\NormalTok{ 条件式;}
+\end{Highlighting}
+\end{Shaded}
+
+練習: UPDATEを用いてレコードを編集してみよう
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  担任を持っていなかったじぐ先生が、1年生のBクラスの担任になることになりました。対象のレコードにclass\_room\_idを割り当ててみましょう。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\# }\DecValTok{1}\NormalTok{年生のBクラスのidを確認}
+\KeywordTok{SELECT} \OperatorTok{*} \KeywordTok{FROM}\NormalTok{ class\_room }\KeywordTok{WHERE}\NormalTok{ grade }\OperatorTok{=} \DecValTok{1} \KeywordTok{AND}\NormalTok{ name }\OperatorTok{=} \OtherTok{"B"}\NormalTok{;}
+
+\NormalTok{\# じぐ先生のidを確認}
+\KeywordTok{SELECT} \OperatorTok{*} \KeywordTok{FROM}\NormalTok{ teacher\_自分の名前 }\KeywordTok{WHERE}\NormalTok{ name }\OperatorTok{=} \OtherTok{"じぐ先生"}\NormalTok{;}
+
+\NormalTok{\# じぐ先生を1年生のBクラスの担任に割当}
+\KeywordTok{UPDATE}\NormalTok{ teacher\_自分の名前}
+\KeywordTok{SET}\NormalTok{ class\_room\_id }\OperatorTok{=} \DecValTok{1}\NormalTok{年生のBクラスのid}
+\KeywordTok{WHERE} \KeywordTok{id} \OperatorTok{=}\NormalTok{ じぐ先生のid}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  \texttt{SELECT} で上手くレコードが編集されたか確認します
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{SELECT} \OperatorTok{*} \KeywordTok{FROM}\NormalTok{ teacher\_自分の名前;}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{2-5. DELETE:
+データを削除してみよう}\label{delete-ux30c7ux30fcux30bfux3092ux524aux9664ux3057ux3066ux307fux3088ux3046}
+
+\texttt{DELETE} は、テーブルのレコードを削除するためのSQL文です。
+
+\texttt{DELETE}
+を行う際は、\textbf{削除対象のレコードの条件式を必ず記述}するように注意してください。\\
+条件式を記述せずに \texttt{DELETE}
+を実行した場合、対象のテーブルの全レコードが削除されます。
+バックアップがなければ修正は困難なため、細心の注意を払いましょう。
+
+\begin{quote}
+Topic: \texttt{SELECT}
+で対象のレコードのidを確認して、idで条件を絞って削除するのがおすすめです。
+\end{quote}
+
+\texttt{DELETE} は以下のような形式で記述します。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{DELETE} \KeywordTok{FROM}\NormalTok{ table\_name}
+\KeywordTok{WHERE}\NormalTok{ 条件式;}
+\end{Highlighting}
+\end{Shaded}
+
+練習: DELETEを用いてレコードを編集してみよう
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  じぇいぴー先生が、教職を引退することになりました。対象のレコードを削除しましょう。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\# じぇいぴー先生のidを確認}
+\KeywordTok{SELECT} \OperatorTok{*} \KeywordTok{FROM}\NormalTok{ teacher\_自分の名前 }\KeywordTok{WHERE}\NormalTok{ name }\OperatorTok{=} \OtherTok{"じぇいぴー先生"}\NormalTok{;}
+
+\NormalTok{\# じぇいぴー先生を削除}
+\KeywordTok{DELETE} \KeywordTok{FROM}\NormalTok{ teacher\_自分の名前 }\KeywordTok{WHERE} \KeywordTok{id} \OperatorTok{=}\NormalTok{ じぇいぴー先生のid;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  \texttt{SELECT} で上手くレコードが削除されたか確認します
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{SELECT} \OperatorTok{*} \KeywordTok{FROM}\NormalTok{ teacher\_自分の名前;}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{2-6. ALTER TABLE:
+テーブルの定義を修正する}\label{alter-table-ux30c6ux30fcux30d6ux30ebux306eux5b9aux7fa9ux3092ux4feeux6b63ux3059ux308b}
+
+\texttt{ALTER\ TABLE} は、テーブルの定義を書き換えるためのSQL文です。\\
+\texttt{CREATE\ TABLE}
+時に指定した定義を後から書き換えることができます。
+
+\begin{quote}
+Topic:
+既にテーブルの中にレコードが保存されている場合、テーブルの定義変更によって保存されている値が不適切なものにならないか、よく確認する必要があります。
+\end{quote}
+
+\texttt{ALTER\ TABLE} は以下のような形式で記述します。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\# テーブル名の変更}
+\KeywordTok{ALTER} \KeywordTok{TABLE}\NormalTok{ before\_table\_name}
+\KeywordTok{RENAME} \KeywordTok{TO}\NormalTok{ after\_table\_name;}
+
+\NormalTok{\# テーブルのカラム名の変更}
+\KeywordTok{ALTER} \KeywordTok{TABLE}\NormalTok{ table\_name}
+\KeywordTok{RENAME} \KeywordTok{COLUMN}\NormalTok{ before\_column\_name }\KeywordTok{TO}\NormalTok{ after\_column\_name;}
+
+\NormalTok{\# カラム定義変更}
+\KeywordTok{ALTER} \KeywordTok{TABLE}\NormalTok{ table\_name}
+\KeywordTok{MODIFY} \KeywordTok{COLUMN}\NormalTok{ column\_name new\_data\_type 制約;}
+
+\NormalTok{\# カラム追加}
+\KeywordTok{ALTER} \KeywordTok{TABLE}\NormalTok{ table\_name}
+\KeywordTok{ADD} \KeywordTok{COLUMN}\NormalTok{ new\_column\_name column\_type 制約;}
+
+\NormalTok{\# カラム削除}
+\KeywordTok{ALTER} \KeywordTok{TABLE}\NormalTok{ table\_name}
+\KeywordTok{DROP} \KeywordTok{COLUMN}\NormalTok{ column\_name;}
+\end{Highlighting}
+\end{Shaded}
+
+練習: ALTER TABLEを用いて、よく使用するテーブルの定義変更を行ってみよう
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  teacherテーブルに登録されるレコード数が将来的にintの上限である2\textsuperscript{31-1を超えることを考慮して、型をbigint型に変更してみましょう。bigintの上限は2}63-1です。
+\end{enumerate}
+
+\begin{quote}
+Topic:
+新任の先生が一年に3人増えたとして、約715827882年でintの上限に到達します。
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\# 定義を変更}
+\KeywordTok{ALTER} \KeywordTok{TABLE}\NormalTok{ teacher\_自分の名前}
+\KeywordTok{MODIFY} \KeywordTok{COLUMN} \KeywordTok{id}\NormalTok{ bigint }\KeywordTok{NOT} \KeywordTok{NULL}\NormalTok{ AUTO\_INCREMENT;}
+
+\NormalTok{\# 定義を確認}
+\KeywordTok{DESC}\NormalTok{ teacher\_自分の名前;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  teacherテーブルに、性別の記録用のgenderカラムを追加します。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{\# カラムを追加}
+\KeywordTok{ALTER} \KeywordTok{TABLE}\NormalTok{ teacher\_自分の名前}
+\KeywordTok{ADD} \KeywordTok{COLUMN}\NormalTok{ gender }\DataTypeTok{varchar}\NormalTok{(}\DecValTok{255}\NormalTok{) }\KeywordTok{AFTER}\NormalTok{ name;}
+
+\NormalTok{\# 定義を確認}
+\KeywordTok{DESC}\NormalTok{ teacher\_自分の名前;}
+\KeywordTok{SELECT} \OperatorTok{*} \KeywordTok{FROM}\NormalTok{ teacher\_自分の名前;}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{3.
+DenoからMySQLにアクセスしてみよう}\label{denoux304bux3089mysqlux306bux30a2ux30afux30bbux30b9ux3057ux3066ux307fux3088ux3046}
+
+\emph{Denoでデータベースを操作してみよう}
+
+\subsubsection{3-1.
+環境変数を使ってみよう}\label{ux74b0ux5883ux5909ux6570ux3092ux4f7fux3063ux3066ux307fux3088ux3046}
+
+MySQLの認証情報（idやパスワード等）は、ソースコードに直に記述したままGithub等にアップすると、認証情報が第三者に漏洩してしまいます。\\
+データベース内部の情報の漏洩・改竄を防ぐため、ソースコードに認証情報を記述することは避けるべきです。
+
+これらの情報は環境変数と呼ばれる、OS上でのみ利用されて外部に公開されない変数に格納する手法が一般的です。\\
+MySQLの認証情報以外にも、外部サービスへのアクセス時の暗号鍵などを登録することも多いです。
+
+ここでは、環境変数ファイル \texttt{.env}
+を用いて認証情報をプログラムに渡す方法を紹介します。 以下に
+\texttt{.env} ファイルの記述例を示します。
+
+\begin{quote}
+Topic: 認証情報を記載する都合上、\texttt{.env}
+ファイルはGithub等にアップしてはいけません。Git管理下から特定のファイルを除外する場合、除外するファイルの名前を
+\texttt{.gitignore} に記載します。
+\end{quote}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{MYSQL\_HOSTNAME=xxx}
+\NormalTok{MYSQL\_USER=xxx}
+\NormalTok{MYSQL\_PASSWORD=xxx}
+\NormalTok{MYSQL\_DBNAME=xxx}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{.env}ファイルの中に登録された変数は、以下のライブラリを用いることで読み込むことができます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// .envファイルを読み込む}
+\ImportTok{import} \StringTok{"https://deno.land/std@0.193.0/dotenv/load.ts"}
+
+\CommentTok{// HOGEHOGE\_ENVを取得}
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(Deno}\OperatorTok{.}\AttributeTok{env}\OperatorTok{.}\FunctionTok{get}\NormalTok{(}\StringTok{"HOGEHOGE\_ENV"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+練習: 環境変数を読み込んでみよう
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  以下URLのリポジトリをGithubからクローンしてください。 \textgreater{}
+  https://github.com/jigintern/deno-with-mysql-tutorial-2023
+\item
+  リポジトリをVSCodeで開いてください。
+\item
+  \texttt{.env.example}
+  ファイルを開いてみましょう。設定が必要な環境変数一通り記載されているため、このファイルをコピーして
+  \texttt{.env} ファイルを作ります。
+  \includegraphics{./imgs/screen-shots/03_dotenv_example_file.png}
+  \includegraphics{./imgs/screen-shots/04_create_dotenv_file.png}
+\item
+  環境変数を記載します。予め配布したMySQLのデータベースの認証情報を記載してください。
+\item
+  \texttt{.gitignore} を開いてみましょう。\texttt{.gitignore}
+  はGit管理下に置かないファイルを指定する場所で、今回は \texttt{.env}
+  をGit管理下に置きたくない（Githubにアップしたくない）ため、\texttt{.env}
+  が指定されています。
+\item
+  \texttt{envCheck.js}
+  を開いてみましょう。環境変数を読み込んで出力するだけのDenoのスクリプトファイルです。\\
+  確認したら、実行してみましょう。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# {-}{-}allow{-}env: 環境変数を読み込む権限。.envから読みだした環境変数を取得するのに必要。}
+\CommentTok{\# {-}{-}allow{-}env: ファイルを読み込む権限。.envを読み込むのに必要。}
+\ExtensionTok{deno}\NormalTok{ run }\AttributeTok{{-}{-}allow{-}env} \AttributeTok{{-}{-}allow{-}read}\NormalTok{ envCheck.js}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{3-2.
+DenoからMySQLの命令を発行してみよう}\label{denoux304bux3089mysqlux306eux547dux4ee4ux3092ux767aux884cux3057ux3066ux307fux3088ux3046}
+
+DenoからMySQLの操作を行うライブラリを用いて、SQLを発行して実行してみましょう。\\
+この操作には以下のライブラリを使用します。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// mysqlの操作用ライブラリを取得}
+\ImportTok{import}\NormalTok{ \{ Client \} }\ImportTok{from} \StringTok{"https://deno.land/x/mysql@v2.11.0/mod.ts"}
+
+\CommentTok{// MySQLのDBにアクセスして、操作用のクライアントを生成}
+\KeywordTok{const}\NormalTok{ mySqlClient }\OperatorTok{=} \ControlFlowTok{await} \KeywordTok{new} \FunctionTok{Client}\NormalTok{()}\OperatorTok{.}\FunctionTok{connect}\NormalTok{(\{}
+  \DataTypeTok{hostname}\OperatorTok{:}\NormalTok{ MYSQL\_HOSTNAME}\OperatorTok{,}
+  \DataTypeTok{username}\OperatorTok{:}\NormalTok{ MYSQL\_USER}\OperatorTok{,}
+  \DataTypeTok{password}\OperatorTok{:}\NormalTok{ MYSQL\_PASSWORD}\OperatorTok{,}
+  \DataTypeTok{db}\OperatorTok{:}\NormalTok{ MYSQL\_DBNAME}
+\NormalTok{\})}
+
+\CommentTok{// SELECTなど、取得用SQLを実行する}
+\KeywordTok{const}\NormalTok{ selectResult }\OperatorTok{=} \ControlFlowTok{await}\NormalTok{ mySqlClient}\OperatorTok{.}\FunctionTok{query}\NormalTok{(}\VerbatimStringTok{\textasciigrave{}SELECT * FROM table\_name;\textasciigrave{}}\NormalTok{)}
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(selectResult)}
+
+\CommentTok{// INSERTなど、書込用SQLを実行する}
+\KeywordTok{const}\NormalTok{ insertResult }\OperatorTok{=} \ControlFlowTok{await}\NormalTok{ mySqlClient}\OperatorTok{.}\FunctionTok{execute}\NormalTok{(}\VerbatimStringTok{\textasciigrave{}}
+\VerbatimStringTok{    INSERT INTO teacher\_自分の名前 (}
+\VerbatimStringTok{        name, joining\_date}
+\VerbatimStringTok{    ) VALUES (}
+\VerbatimStringTok{        ?, ?}
+\VerbatimStringTok{    );}
+\VerbatimStringTok{\textasciigrave{}}\OperatorTok{,}\NormalTok{ [}
+    \StringTok{"じぐ美先生"}\OperatorTok{,}
+    \KeywordTok{new} \BuiltInTok{Date}\NormalTok{()}
+\NormalTok{    ]}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+SQLを実行する際、以下のような方法でクエリを実行しないように注意しなければなりません。\\
+SQLインジェクションと呼ばれる攻撃によって、データベースの値を不正に読み取られたり、改竄されたりする可能性があります。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// ...}
+\CommentTok{// table\_nameを受け取る処理...}
+\CommentTok{// ...}
+
+\ControlFlowTok{await}\NormalTok{ mySqlClient}\OperatorTok{.}\FunctionTok{query}\NormalTok{(}\StringTok{"SELECT * FROM"} \OperatorTok{+}\NormalTok{ table\_name }\OperatorTok{+} \StringTok{";"}\NormalTok{)}
+\CommentTok{// ↓}
+\CommentTok{// table\_nameの中身が "student" などであれば問題無さそう}
+\CommentTok{// table\_nameの中身が "student; INSERT INTO class\_room (...) VALUES (...)" などになっていた場合、SQLが不正に実行される}
+
+\ControlFlowTok{await}\NormalTok{ mySqlClient}\OperatorTok{.}\FunctionTok{query}\NormalTok{(}\StringTok{"SELECT * FROM ??;"}\OperatorTok{,}\NormalTok{ [table\_name])}
+\CommentTok{// ↓}
+\CommentTok{// ライブラリが自動的にSQLインジェクション攻撃を検知してくれる}
+\CommentTok{// JavaScriptのDate等の値もよしなに入力してくれる}
+\end{Highlighting}
+\end{Shaded}
+
+テーブル名、カラム名等は \texttt{??}、値は \texttt{?}
+で置換するようになっています。
+
+練習: DenoからMySQLを実行してみよう
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \texttt{mysqlClient.js}
+  を開いてみましょう。環境変数を読み込んでMySQLに接続し、studentテーブルに対して全件取得の
+  \texttt{SELECT} を発行するプログラムです。
+  確認したら、実行してみましょう。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# {-}{-}allow{-}env: 環境変数を読み込む権限。.envから読みだした環境変数を取得するのに必要。}
+\CommentTok{\# {-}{-}allow{-}env: ファイルを読み込む権限。.envを読み込むのに必要。}
+\CommentTok{\# {-}{-}allow{-}net: 通信を行う権限。MySQLのサーバに接続するのに必要。}
+\ExtensionTok{deno}\NormalTok{ run }\AttributeTok{{-}{-}allow{-}env} \AttributeTok{{-}{-}allow{-}read} \AttributeTok{{-}{-}allow{-}net}\NormalTok{ mysqlClient.js}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  \texttt{INSERT}
+  のSQLを実行してみましょう。teacherテーブルにレコードを追加する処理を実装します。\\
+  \texttt{mysqlClient.js}
+  を編集して、24行目に以下の内容を追加しましょう。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{const}\NormalTok{ insertResult }\OperatorTok{=} \ControlFlowTok{await}\NormalTok{ mySqlClient}\OperatorTok{.}\FunctionTok{execute}\NormalTok{(}\VerbatimStringTok{\textasciigrave{}}
+\VerbatimStringTok{    INSERT INTO teacher\_自分の名前 (}
+\VerbatimStringTok{        ??, ??}
+\VerbatimStringTok{    ) VALUES (}
+\VerbatimStringTok{        ?, ?}
+\VerbatimStringTok{    );}
+\VerbatimStringTok{\textasciigrave{}}\OperatorTok{,}\NormalTok{ [}
+    \StringTok{"name"}\OperatorTok{,}
+    \StringTok{"joining\_date"}\OperatorTok{,}
+    \StringTok{"じぐ美先生"}\OperatorTok{,}
+    \KeywordTok{new} \BuiltInTok{Date}\NormalTok{()}
+\NormalTok{    ]}
+\NormalTok{)}
+\BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(insertResult)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  処理を追記した後で、再度スクリプトを実行してみます。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{deno}\NormalTok{ run }\AttributeTok{{-}{-}allow{-}env} \AttributeTok{{-}{-}allow{-}read} \AttributeTok{{-}{-}allow{-}net}\NormalTok{ mysqlClient.js}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  MySQL Workbenchを開いて、値が正常に挿入されていることを確認します。
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{SELECT} \OperatorTok{*} \KeywordTok{FROM}\NormalTok{ teacher\_自分の名前;}
+\end{Highlighting}
+\end{Shaded}

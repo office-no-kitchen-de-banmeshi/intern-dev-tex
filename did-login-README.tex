@@ -1,0 +1,721 @@
+\section{DID
+を使ってログイン機能を実装しよう}\label{did-ux3092ux4f7fux3063ux3066ux30edux30b0ux30a4ux30f3ux6a5fux80fdux3092ux5b9fux88c5ux3057ux3088ux3046}
+
+\subsection{事前準備}\label{ux4e8bux524dux6e96ux5099}
+
+ハンズオンでは用意されているフロントエンドとサーバーの雛形を使って作成します。それぞれのファイルについて説明します。
+
+\begin{itemize}
+\tightlist
+\item
+  /public/index.html
+
+  \begin{itemize}
+  \tightlist
+  \item
+    新規登録用の html ファイル
+  \end{itemize}
+\item
+  /public/login.html
+
+  \begin{itemize}
+  \tightlist
+  \item
+    ログイン用の html ファイル
+  \end{itemize}
+\item
+  serve.js
+
+  \begin{itemize}
+  \tightlist
+  \item
+    サーバー用の JavaScript ファイル
+  \end{itemize}
+\item
+  db-controller.js
+
+  \begin{itemize}
+  \tightlist
+  \item
+    サーバーから DB にアクセスするためのメソッドをまとめたファイル
+  \end{itemize}
+\end{itemize}
+
+また、DB にアクセスするために \texttt{serve.js} と同じ階層に
+\texttt{.env} ファイルを作成し、\texttt{.env.example}
+をコピーして適切な値を入力してください。 \texttt{.env}
+ファイルについては\href{https://github.com/jigintern/intern-dev-tutorial/blob/main/database-tutorial/docs.md\#3-deno\%E3\%81\%8B\%E3\%82\%89mysql\%E3\%81\%AB\%E3\%82\%A2\%E3\%82\%AF\%E3\%82\%BB\%E3\%82\%B9\%E3\%81\%97\%E3\%81\%A6\%E3\%81\%BF\%E3\%82\%88\%E3\%81\%86}{こちら}を参考にしてください。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\AttributeTok{HOST\_NAME=}
+\AttributeTok{SQL\_USER=}
+\AttributeTok{SQL\_PASSWORD=}
+\AttributeTok{DATABASE=}
+\AttributeTok{PORT=}
+\end{Highlighting}
+\end{Shaded}
+
+denoコマンドで\texttt{serve.js}を実行して、フロントエンドの画面を表示してみましょう。
+コマンドを実行した後、\url{http://localhost:8000/}
+にアクセスすると確認できます。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ExtensionTok{deno}\NormalTok{ run }\AttributeTok{{-}{-}watch} \AttributeTok{{-}A}\NormalTok{ serve.js}
+\end{Highlighting}
+\end{Shaded}
+
+実装を詳しく見たいという方は下記リポジトリをご覧ください。
+
+\begin{itemize}
+\tightlist
+\item
+  \url{https://github.com/jigintern/did-login}
+\end{itemize}
+
+\subsection{DID とは}\label{did-ux3068ux306f}
+
+DID とは分散型 ID
+のことで、公開鍵暗号技術の公開鍵のことです。人々が自分自身の ID
+と秘密鍵を管理する方法です。
+
+例えば、今までの ID は大学や会社、Facebook や Google
+のような大きな組織が管理していました。それらの組織が ID
+とパスワードを管理し、ユーザーはそれを使ってログインします。しかし、それではサービスごとに
+ID
+とパスワードを設定しなければならないので面倒です。またそのサービスがデータを失ったりハッキングされたりすると、ユーザーの
+ID も危険に晒されることになります。
+
+ここで DID の登場です。DID は自分自身が自分の ID
+を管理できるようにするものです。自分だけが自分の ID
+を制御し、誰にどんな情報を提供するかを自分で決定できます。
+
+\subsection{新規登録 API
+を実装しよう}\label{ux65b0ux898fux767bux9332-api-ux3092ux5b9fux88c5ux3057ux3088ux3046}
+
+さっそく新規登録するための API(エンドポイントは \texttt{/users/register}
+)
+を作成しましょう。まずはフロントエンドとサーバーの要件をまとめる必要があります。
+
+フロントエンドの要件
+
+\begin{itemize}
+\tightlist
+\item
+  DID（公開鍵）、パスワード（秘密鍵）、メッセージ、電子署名を生成する
+\item
+  POST API を叩くときに DID、ハンドルネーム、メッセージ、電子署名を body
+  としてサーバーへ渡す
+\item
+  新規登録が完了すればローカルストレージにユーザー情報を保存する
+\end{itemize}
+
+サーバーの要件
+
+\begin{itemize}
+\tightlist
+\item
+  DID、ハンドルネーム、メッセージ、電子署名を受け取る
+\item
+  電子署名が正しいかの検証をする
+\item
+  DID が DB に保存されているかチェック
+
+  \begin{itemize}
+  \tightlist
+  \item
+    保存されていなければ DID を DB に保存して登録完了する
+  \item
+    保存されていればすでに登録済みということをフロントエンドを伝える
+  \end{itemize}
+\end{itemize}
+
+それではフロントエンドから実装していきましょう。
+今回はユーザーにハンドルネーム(name)を入力してもらう程で進めます。
+
+まずは登録ボタンをクリックしたことを通知するために onclick メソッドを
+\texttt{\textless{}script\textgreater{}} タグ内に追加しましょう。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\textless{}!{-}{-} index.html {-}{-}\textgreater{}}
+\DataTypeTok{\textless{}}\KeywordTok{script}\OtherTok{ type=}\StringTok{"module"}\DataTypeTok{\textgreater{}}
+  \CommentTok{// 送信時の処理}
+  \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"submit"}\NormalTok{)}\OperatorTok{.}\AttributeTok{onclick} \OperatorTok{=} \KeywordTok{async}\NormalTok{ (}\BuiltInTok{event}\NormalTok{) }\KeywordTok{=\textgreater{}}\NormalTok{ \{}
+    \BuiltInTok{event}\OperatorTok{.}\FunctionTok{preventDefault}\NormalTok{()}\OperatorTok{;}
+    \CommentTok{// 名前が入力されていなければエラー}
+    \KeywordTok{const}\NormalTok{ name }\OperatorTok{=} \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"name"}\NormalTok{)}\OperatorTok{.}\AttributeTok{value}\OperatorTok{;}
+    \ControlFlowTok{if}\NormalTok{ (name }\OperatorTok{===} \StringTok{""}\NormalTok{) \{}
+      \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"error"}\NormalTok{)}\OperatorTok{.}\AttributeTok{innerText} \OperatorTok{=} \StringTok{"名前は必須パラメータです"}\OperatorTok{;}
+      \ControlFlowTok{return}\OperatorTok{;}
+\NormalTok{    \}}
+\NormalTok{  \}}\OperatorTok{;}
+\DataTypeTok{\textless{}/}\KeywordTok{script}\DataTypeTok{\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+続いて
+\href{https://jigintern.github.io/did-login/auth/DIDAuth.js}{DIDAuth
+モジュール}を使って DID、パスワード、メッセージ、電子署名を作成します。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// DIDAuthを使うためインポート}
+\ImportTok{import}\NormalTok{ \{ DIDAuth \} }\ImportTok{from} \StringTok{\textquotesingle{}https://jigintern.github.io/did{-}login/auth/DIDAuth.js\textquotesingle{}}\OperatorTok{;}
+
+\BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"submit"}\NormalTok{)}\OperatorTok{.}\AttributeTok{onclick} \OperatorTok{=} \KeywordTok{async}\NormalTok{ () }\KeywordTok{=\textgreater{}}\NormalTok{ \{}
+  \CommentTok{// ...}
+
+  \CommentTok{// \textasciigrave{}DIDAuth\textasciigrave{} モジュールの \textasciigrave{}createNewUser\textasciigrave{} を使って DID、パスワード、メッセージ、電子署名を取得}
+  \KeywordTok{const}\NormalTok{ [did}\OperatorTok{,}\NormalTok{ password}\OperatorTok{,}\NormalTok{ message}\OperatorTok{,}\NormalTok{ sign] }\OperatorTok{=}\NormalTok{ DIDAuth}\OperatorTok{.}\FunctionTok{createNewUser}\NormalTok{(name)}\OperatorTok{;}
+
+  \CommentTok{// Formに反映}
+  \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"did"}\NormalTok{)}\OperatorTok{.}\AttributeTok{value} \OperatorTok{=}\NormalTok{ did}\OperatorTok{;}
+  \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"password"}\NormalTok{)}\OperatorTok{.}\AttributeTok{value} \OperatorTok{=}\NormalTok{ password}\OperatorTok{;}
+  \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"sign"}\NormalTok{)}\OperatorTok{.}\AttributeTok{value} \OperatorTok{=}\NormalTok{ sign}\OperatorTok{;}
+  \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"message"}\NormalTok{)}\OperatorTok{.}\AttributeTok{value} \OperatorTok{=}\NormalTok{ message}\OperatorTok{;}
+\NormalTok{\}}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+ここまでできたら実際にサーバー側に \texttt{/users/register}
+をエンドポイントとした API を追加して POST
+リクエストを送ってみましょう。また、\texttt{did}と\texttt{password}をローカルに保存させる機能も追加しましょう。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// index.html}
+\BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"submit"}\NormalTok{)}\OperatorTok{.}\AttributeTok{onclick} \OperatorTok{=} \KeywordTok{async}\NormalTok{ () }\KeywordTok{=\textgreater{}}\NormalTok{ \{}
+  \CommentTok{// ...}
+  \CommentTok{// 公開鍵・名前・電子署名をサーバーに渡す}
+  \ControlFlowTok{try}\NormalTok{ \{}
+    \KeywordTok{const}\NormalTok{ resp }\OperatorTok{=} \ControlFlowTok{await} \FunctionTok{fetch}\NormalTok{(}\StringTok{"/users/register"}\OperatorTok{,}\NormalTok{ \{}
+      \DataTypeTok{method}\OperatorTok{:} \StringTok{"POST"}\OperatorTok{,}
+      \DataTypeTok{headers}\OperatorTok{:}\NormalTok{ \{ }\StringTok{"Content{-}Type"}\OperatorTok{:} \StringTok{"application/json"}\NormalTok{ \}}\OperatorTok{,}
+      \DataTypeTok{body}\OperatorTok{:} \BuiltInTok{JSON}\OperatorTok{.}\FunctionTok{stringify}\NormalTok{(\{}
+\NormalTok{        name}\OperatorTok{,}
+\NormalTok{        did}\OperatorTok{,}
+\NormalTok{        sign}\OperatorTok{,}
+\NormalTok{        message}\OperatorTok{,}
+\NormalTok{      \})}\OperatorTok{,}
+\NormalTok{    \})}\OperatorTok{;}
+\NormalTok{  \} }\ControlFlowTok{catch}\NormalTok{ (err) \{}
+    \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"error"}\NormalTok{)}\OperatorTok{.}\AttributeTok{innerText} \OperatorTok{=}\NormalTok{ err}\OperatorTok{.}\AttributeTok{message}\OperatorTok{;}
+\NormalTok{  \}}
+\NormalTok{\}}\OperatorTok{;}
+
+\CommentTok{// DIDとパスワードの保存処理}
+\BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"saveBtn"}\NormalTok{)}\OperatorTok{.}\AttributeTok{onclick} \OperatorTok{=} \KeywordTok{async}\NormalTok{ (}\BuiltInTok{event}\NormalTok{) }\KeywordTok{=\textgreater{}}\NormalTok{ \{}
+  \BuiltInTok{event}\OperatorTok{.}\FunctionTok{preventDefault}\NormalTok{()}\OperatorTok{;}
+
+  \KeywordTok{const}\NormalTok{ did }\OperatorTok{=} \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"did"}\NormalTok{)}\OperatorTok{.}\AttributeTok{value}\OperatorTok{;}
+  \KeywordTok{const}\NormalTok{ password }\OperatorTok{=} \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"password"}\NormalTok{)}\OperatorTok{.}\AttributeTok{value}\OperatorTok{;}
+\NormalTok{  DIDAuth}\OperatorTok{.}\FunctionTok{savePem}\NormalTok{(did}\OperatorTok{,}\NormalTok{ password)}\OperatorTok{;}
+\NormalTok{\}}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// serve.js}
+\FunctionTok{serve}\NormalTok{(}\KeywordTok{async}\NormalTok{ (req) }\KeywordTok{=\textgreater{}}\NormalTok{ \{}
+  \KeywordTok{const}\NormalTok{ pathname }\OperatorTok{=} \KeywordTok{new} \FunctionTok{URL}\NormalTok{(req}\OperatorTok{.}\AttributeTok{url}\NormalTok{)}\OperatorTok{.}\AttributeTok{pathname}\OperatorTok{;}
+  \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(pathname)}\OperatorTok{;}
+
+  \CommentTok{// ユーザー新規登録API}
+  \ControlFlowTok{if}\NormalTok{ (req}\OperatorTok{.}\AttributeTok{method} \OperatorTok{===} \StringTok{"POST"} \OperatorTok{\&\&}\NormalTok{ pathname }\OperatorTok{===} \StringTok{"/users/register"}\NormalTok{) \{}
+\NormalTok{  \}}
+\NormalTok{\})}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+名前を入力して登録ボタンを押すと、サーバ側のログに\texttt{{[}POST{]}\ /users/register\ 404}と表示されます。
+ここではまだ\texttt{/users/register}の実装がないため、404になっています。
+
+さらに request の body からデータを取り出し、電子署名の検証、DB に DID
+が保存されているかのチェック、DB に DID を保存する処理を追加しましょう。
+サーバーから DB に接続してクエリを叩く処理は \texttt{db-controller.js}
+にまとめます。
+サーバーでもDIDAuthモジュールを使います。また\texttt{serve.js}から\texttt{db-controller.js}を使います。
+\texttt{serve.js}にそれぞれのインポートを追加してください。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// DIDAuthとdb{-}controllerのインポートを追加}
+\ImportTok{import}\NormalTok{ \{ DIDAuth \} }\ImportTok{from} \StringTok{\textquotesingle{}https://jigintern.github.io/did{-}login/auth/DIDAuth.js\textquotesingle{}}\OperatorTok{;}
+\ImportTok{import}\NormalTok{ \{ addDID}\OperatorTok{,}\NormalTok{ checkIfIdExists \} }\ImportTok{from} \StringTok{\textquotesingle{}./db{-}controller.js\textquotesingle{}}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// serve.js}
+\CommentTok{// ユーザー新規登録API}
+\ControlFlowTok{if}\NormalTok{ (req}\OperatorTok{.}\AttributeTok{method} \OperatorTok{===} \StringTok{"POST"} \OperatorTok{\&\&}\NormalTok{ pathname }\OperatorTok{===} \StringTok{"/users/register"}\NormalTok{) \{}
+  \KeywordTok{const}\NormalTok{ json }\OperatorTok{=} \ControlFlowTok{await}\NormalTok{ req}\OperatorTok{.}\FunctionTok{json}\NormalTok{()}\OperatorTok{;}
+  \KeywordTok{const}\NormalTok{ userName }\OperatorTok{=}\NormalTok{ json}\OperatorTok{.}\AttributeTok{name}\OperatorTok{;}
+  \KeywordTok{const}\NormalTok{ sign }\OperatorTok{=}\NormalTok{ json}\OperatorTok{.}\AttributeTok{sign}\OperatorTok{;}
+  \KeywordTok{const}\NormalTok{ did }\OperatorTok{=}\NormalTok{ json}\OperatorTok{.}\AttributeTok{did}\OperatorTok{;}
+  \KeywordTok{const}\NormalTok{ message }\OperatorTok{=}\NormalTok{ json}\OperatorTok{.}\AttributeTok{message}\OperatorTok{;}
+
+  \CommentTok{// 電子署名が正しいかチェック}
+  \ControlFlowTok{try}\NormalTok{ \{}
+    \KeywordTok{const}\NormalTok{ chk }\OperatorTok{=}\NormalTok{ DIDAuth}\OperatorTok{.}\FunctionTok{verifySign}\NormalTok{(did}\OperatorTok{,}\NormalTok{ sign}\OperatorTok{,}\NormalTok{ message)}\OperatorTok{;}
+    \ControlFlowTok{if}\NormalTok{ (}\OperatorTok{!}\NormalTok{chk) \{}
+      \ControlFlowTok{return} \KeywordTok{new} \FunctionTok{Response}\NormalTok{(}\StringTok{"不正な電子署名です"}\OperatorTok{,}\NormalTok{ \{ }\DataTypeTok{status}\OperatorTok{:} \DecValTok{400}\NormalTok{ \})}\OperatorTok{;}
+\NormalTok{    \}}
+\NormalTok{  \} }\ControlFlowTok{catch}\NormalTok{ (e) \{}
+    \ControlFlowTok{return} \KeywordTok{new} \FunctionTok{Response}\NormalTok{(e}\OperatorTok{.}\AttributeTok{message}\OperatorTok{,}\NormalTok{ \{ }\DataTypeTok{status}\OperatorTok{:} \DecValTok{500}\NormalTok{ \})}\OperatorTok{;}
+\NormalTok{  \}}
+
+  \CommentTok{// 既にDBにDIDが登録されているかチェック}
+  \ControlFlowTok{try}\NormalTok{ \{}
+    \KeywordTok{const}\NormalTok{ isExists }\OperatorTok{=} \ControlFlowTok{await} \FunctionTok{checkIfIdExists}\NormalTok{(did)}\OperatorTok{;}
+    \ControlFlowTok{if}\NormalTok{ (isExists) \{}
+      \ControlFlowTok{return} \FunctionTok{Response}\NormalTok{(}\StringTok{"登録済みです"}\OperatorTok{,}\NormalTok{ \{ }\DataTypeTok{status}\OperatorTok{:} \DecValTok{400}\NormalTok{ \})}\OperatorTok{;}
+\NormalTok{    \}}
+\NormalTok{  \} }\ControlFlowTok{catch}\NormalTok{ (e) \{}
+    \ControlFlowTok{return} \KeywordTok{new} \FunctionTok{Response}\NormalTok{(e}\OperatorTok{.}\AttributeTok{message}\OperatorTok{,}\NormalTok{ \{ }\DataTypeTok{status}\OperatorTok{:} \DecValTok{500}\NormalTok{ \})}\OperatorTok{;}
+\NormalTok{  \}}
+
+  \CommentTok{// DBにDIDとuserNameを保存}
+  \ControlFlowTok{try}\NormalTok{ \{}
+    \ControlFlowTok{await} \FunctionTok{addDID}\NormalTok{(did}\OperatorTok{,}\NormalTok{ userName)}\OperatorTok{;}
+    \ControlFlowTok{return} \KeywordTok{new} \FunctionTok{Response}\NormalTok{(}\StringTok{"ok"}\NormalTok{)}\OperatorTok{;}
+\NormalTok{  \} }\ControlFlowTok{catch}\NormalTok{ (e) \{}
+    \ControlFlowTok{return} \KeywordTok{new} \FunctionTok{Response}\NormalTok{(e}\OperatorTok{.}\AttributeTok{message}\OperatorTok{,}\NormalTok{ \{ }\DataTypeTok{status}\OperatorTok{:} \DecValTok{500}\NormalTok{ \})}\OperatorTok{;}
+\NormalTok{  \}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// db{-}controller.js}
+\ImportTok{import}\NormalTok{ \{ Client \} }\ImportTok{from} \StringTok{"https://deno.land/x/mysql@v2.11.0/mod.ts"}\OperatorTok{;}
+\ImportTok{import} \StringTok{"https://deno.land/std@0.192.0/dotenv/load.ts"}\OperatorTok{;}
+
+\CommentTok{// SQLの設定}
+\KeywordTok{const}\NormalTok{ connectionParam }\OperatorTok{=}\NormalTok{ \{}
+  \DataTypeTok{hostname}\OperatorTok{:}\NormalTok{ Deno}\OperatorTok{.}\AttributeTok{env}\OperatorTok{.}\FunctionTok{get}\NormalTok{(}\StringTok{"HOST\_NAME"}\NormalTok{)}\OperatorTok{,}
+  \DataTypeTok{username}\OperatorTok{:}\NormalTok{ Deno}\OperatorTok{.}\AttributeTok{env}\OperatorTok{.}\FunctionTok{get}\NormalTok{(}\StringTok{"SQL\_USER"}\NormalTok{)}\OperatorTok{,}
+  \DataTypeTok{password}\OperatorTok{:}\NormalTok{ Deno}\OperatorTok{.}\AttributeTok{env}\OperatorTok{.}\FunctionTok{get}\NormalTok{(}\StringTok{"SQL\_PASSWORD"}\NormalTok{)}\OperatorTok{,}
+  \DataTypeTok{db}\OperatorTok{:}\NormalTok{ Deno}\OperatorTok{.}\AttributeTok{env}\OperatorTok{.}\FunctionTok{get}\NormalTok{(}\StringTok{"DATABASE"}\NormalTok{)}\OperatorTok{,}
+  \DataTypeTok{port}\OperatorTok{:} \BuiltInTok{Number}\NormalTok{(Deno}\OperatorTok{.}\AttributeTok{env}\OperatorTok{.}\FunctionTok{get}\NormalTok{(}\StringTok{"PORT"}\NormalTok{))}\OperatorTok{,}
+\NormalTok{\}}\OperatorTok{;}
+
+\CommentTok{// クライアントの作成}
+\KeywordTok{const}\NormalTok{ client }\OperatorTok{=} \ControlFlowTok{await} \KeywordTok{new} \FunctionTok{Client}\NormalTok{()}\OperatorTok{.}\FunctionTok{connect}\NormalTok{(connectionParam)}\OperatorTok{;}
+
+\ImportTok{export} \KeywordTok{async} \KeywordTok{function} \FunctionTok{checkIfIdExists}\NormalTok{(did) \{}
+  \CommentTok{// DBにDIDがあるか}
+  \KeywordTok{const}\NormalTok{ res }\OperatorTok{=} \ControlFlowTok{await}\NormalTok{ client}\OperatorTok{.}\FunctionTok{execute}\NormalTok{(}
+    \VerbatimStringTok{\textasciigrave{}select count(*) from users where did = ?;\textasciigrave{}}\OperatorTok{,}
+\NormalTok{    [did]}
+\NormalTok{  )}\OperatorTok{;}
+  \CommentTok{// レスポンスのObjectから任意のDIDと保存されているDIDが一致している数を取得し}
+  \CommentTok{// その数が1かどうかを返す}
+  \CommentTok{// DBにはDIDが重複されない設計になっているので一致している数は0か1になる}
+  \ControlFlowTok{return}\NormalTok{ res}\OperatorTok{.}\AttributeTok{rows}\NormalTok{[}\DecValTok{0}\NormalTok{][res}\OperatorTok{.}\AttributeTok{fields}\NormalTok{[}\DecValTok{0}\NormalTok{]}\OperatorTok{.}\AttributeTok{name}\NormalTok{] }\OperatorTok{===} \DecValTok{1}\OperatorTok{;}
+\NormalTok{\}}
+
+\ImportTok{export} \KeywordTok{async} \KeywordTok{function} \FunctionTok{addDID}\NormalTok{(did}\OperatorTok{,}\NormalTok{ userName) \{}
+  \CommentTok{// DBにDIDとuserNameを追加}
+  \ControlFlowTok{await}\NormalTok{ client}\OperatorTok{.}\FunctionTok{execute}\NormalTok{(}\VerbatimStringTok{\textasciigrave{}insert into users (did, name) values (?, ?);\textasciigrave{}}\OperatorTok{,}\NormalTok{ [}
+\NormalTok{    did}\OperatorTok{,}
+\NormalTok{    userName}\OperatorTok{,}
+\NormalTok{  ])}\OperatorTok{;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+サーバーから成功ステータスが返ってきたら DID、password、name
+をローカルストレージに保存する処理を追加します。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// index.html}
+\CommentTok{// 公開鍵・名前・電子署名をサーバーに渡す}
+\ControlFlowTok{try}\NormalTok{ \{}
+  \KeywordTok{const}\NormalTok{ resp }\OperatorTok{=} \ControlFlowTok{await} \FunctionTok{fetch}\NormalTok{(}\StringTok{"/users/register"}\OperatorTok{,}\NormalTok{ \{}
+    \DataTypeTok{method}\OperatorTok{:} \StringTok{"POST"}\OperatorTok{,}
+    \DataTypeTok{headers}\OperatorTok{:}\NormalTok{ \{ }\StringTok{"Content{-}Type"}\OperatorTok{:} \StringTok{"application/json"}\NormalTok{ \}}\OperatorTok{,}
+    \DataTypeTok{body}\OperatorTok{:} \BuiltInTok{JSON}\OperatorTok{.}\FunctionTok{stringify}\NormalTok{(\{}
+\NormalTok{      name}\OperatorTok{,}
+\NormalTok{      did}\OperatorTok{,}
+\NormalTok{      sign}\OperatorTok{,}
+\NormalTok{      message}\OperatorTok{,}
+\NormalTok{    \})}\OperatorTok{,}
+\NormalTok{  \})}\OperatorTok{;}
+
+  \CommentTok{// サーバーから成功ステータスが返ってこないときの処理}
+  \ControlFlowTok{if}\NormalTok{ (}\OperatorTok{!}\NormalTok{resp}\OperatorTok{.}\AttributeTok{ok}\NormalTok{) \{}
+    \KeywordTok{const}\NormalTok{ errMsg }\OperatorTok{=} \ControlFlowTok{await}\NormalTok{ resp}\OperatorTok{.}\FunctionTok{text}\NormalTok{()}\OperatorTok{;}
+    \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"error"}\NormalTok{)}\OperatorTok{.}\AttributeTok{innerText} \OperatorTok{=} \StringTok{"エラー："} \OperatorTok{+}\NormalTok{ errMsg}\OperatorTok{;}
+    \ControlFlowTok{return}\OperatorTok{;}
+\NormalTok{  \}}
+
+  \CommentTok{// レスポンスが正常ならローカルストレージに保存}
+\NormalTok{  localStorage}\OperatorTok{.}\FunctionTok{setItem}\NormalTok{(}\StringTok{"did"}\OperatorTok{,}\NormalTok{ did)}\OperatorTok{;}
+\NormalTok{  localStorage}\OperatorTok{.}\FunctionTok{setItem}\NormalTok{(}\StringTok{"password"}\OperatorTok{,}\NormalTok{ password)}\OperatorTok{;}
+\NormalTok{  localStorage}\OperatorTok{.}\FunctionTok{setItem}\NormalTok{(}\StringTok{"name"}\OperatorTok{,}\NormalTok{ name)}\OperatorTok{;}
+\NormalTok{\} }\ControlFlowTok{catch}\NormalTok{ (err) \{}
+  \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"error"}\NormalTok{)}\OperatorTok{.}\AttributeTok{innerText} \OperatorTok{=}\NormalTok{ err}\OperatorTok{.}\AttributeTok{message}\OperatorTok{;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+これで新規登録の API の実装ができました。
+
+\subsection{ログイン API
+を実装しよう}\label{ux30edux30b0ux30a4ux30f3-api-ux3092ux5b9fux88c5ux3057ux3088ux3046}
+
+新規登録と同様にフロントエンドとサーバーでそれぞれの要件を満たした実装をしていきます。エンドポイントは
+\texttt{/users/login} とします。
+
+フロントエンド
+
+\begin{itemize}
+\tightlist
+\item
+  DID と パスワードを入力してもらう
+\item
+  入力してもらった DID とパスワードの組み合わせが正しいかの検証
+\item
+  DID、パスワード、パス、メソッドからメッセージと電子署名を取得
+\item
+  \texttt{fetch} メソッドを使って
+  DID、メッセージ、電子署名をサーバーへ送信
+\item
+  ログインに成功すればユーザー情報がサーバーから返ってくるため、それをローカルストレージに保存する
+\end{itemize}
+
+サーバー
+
+\begin{itemize}
+\tightlist
+\item
+  DID、メッセージ、電子署名を受け取る
+\item
+  電子署名が正しいかの検証をする
+\item
+  DID が DB に保存されているかチェック
+
+  \begin{itemize}
+  \tightlist
+  \item
+    保存されていなければ未登録ということをフロントエンドに伝える
+  \item
+    保存されていればログイン成功と判断しユーザー情報を返す
+  \end{itemize}
+\end{itemize}
+
+まずはフロントエンドから実装します。今回は DID とパスワードの入力は
+\texttt{pem} ファイルをインポートすることとします。また DID
+とパスワードの組み合わせの検証は
+\href{https://jigintern.github.io/did-login/auth/DIDAuth.js}{\texttt{DIDAuth}
+モジュール}の \texttt{getDIDAndPasswordFromPem()} 内で行っています。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// login.html}
+\CommentTok{// pemファイルを受け取って、DIDとパスワードを取得}
+\ImportTok{import}\NormalTok{ \{ DIDAuth \} }\ImportTok{from} \StringTok{"https://jigintern.github.io/did{-}login/auth/DIDAuth.js"}\OperatorTok{;}
+
+\BuiltInTok{document}
+  \OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"loginForm"}\NormalTok{)}
+  \OperatorTok{.}\FunctionTok{addEventListener}\NormalTok{(}\StringTok{"submit"}\OperatorTok{,} \KeywordTok{async}\NormalTok{ (}\BuiltInTok{event}\NormalTok{) }\KeywordTok{=\textgreater{}}\NormalTok{ \{}
+    \BuiltInTok{event}\OperatorTok{.}\FunctionTok{preventDefault}\NormalTok{()}\OperatorTok{;}
+    \KeywordTok{const}\NormalTok{ pemFile }\OperatorTok{=} \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"pemFile"}\NormalTok{)}\OperatorTok{.}\AttributeTok{files}\NormalTok{[}\DecValTok{0}\NormalTok{]}\OperatorTok{;}
+    \ControlFlowTok{if}\NormalTok{ (}\OperatorTok{!}\NormalTok{pemFile) \{}
+      \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"error"}\NormalTok{)}\OperatorTok{.}\AttributeTok{innerText} \OperatorTok{=}
+        \StringTok{"ファイルを選択してください。"}\OperatorTok{;}
+\NormalTok{    \}}
+
+    \KeywordTok{const}\NormalTok{ [did}\OperatorTok{,}\NormalTok{ password] }\OperatorTok{=} \ControlFlowTok{await}\NormalTok{ DIDAuth}\OperatorTok{.}\FunctionTok{getDIDAndPasswordFromPem}\NormalTok{(pemFile)}\OperatorTok{;}
+
+    \CommentTok{// サーバーにユーザー情報を問い合わせる}
+    \KeywordTok{const}\NormalTok{ path }\OperatorTok{=} \StringTok{"/users/login"}\OperatorTok{;}
+    \KeywordTok{const}\NormalTok{ method }\OperatorTok{=} \StringTok{"POST"}\OperatorTok{;}
+    \CommentTok{// 電子署名とメッセージの作成}
+    \KeywordTok{const}\NormalTok{ [message}\OperatorTok{,}\NormalTok{ sign] }\OperatorTok{=}\NormalTok{ DIDAuth}\OperatorTok{.}\FunctionTok{genMsgAndSign}\NormalTok{(did}\OperatorTok{,}\NormalTok{ password}\OperatorTok{,}\NormalTok{ path}\OperatorTok{,}\NormalTok{ method)}\OperatorTok{;}
+
+    \CommentTok{// 公開鍵・電子署名をサーバーに渡す}
+    \ControlFlowTok{try}\NormalTok{ \{}
+      \KeywordTok{const}\NormalTok{ resp }\OperatorTok{=} \ControlFlowTok{await} \FunctionTok{fetch}\NormalTok{(path}\OperatorTok{,}\NormalTok{ \{}
+        \DataTypeTok{method}\OperatorTok{:}\NormalTok{ method}\OperatorTok{,}
+        \DataTypeTok{headers}\OperatorTok{:}\NormalTok{ \{ }\StringTok{"Content{-}Type"}\OperatorTok{:} \StringTok{"application/json"}\NormalTok{ \}}\OperatorTok{,}
+        \DataTypeTok{body}\OperatorTok{:} \BuiltInTok{JSON}\OperatorTok{.}\FunctionTok{stringify}\NormalTok{(\{ did}\OperatorTok{,}\NormalTok{ sign}\OperatorTok{,}\NormalTok{ message \})}\OperatorTok{,}
+\NormalTok{      \})}\OperatorTok{;}
+
+      \CommentTok{// サーバーから成功ステータスが返ってこないときの処理}
+      \ControlFlowTok{if}\NormalTok{ (}\OperatorTok{!}\NormalTok{resp}\OperatorTok{.}\AttributeTok{ok}\NormalTok{) \{}
+        \KeywordTok{const}\NormalTok{ errMsg }\OperatorTok{=} \ControlFlowTok{await}\NormalTok{ resp}\OperatorTok{.}\FunctionTok{text}\NormalTok{()}\OperatorTok{;}
+        \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"error"}\NormalTok{)}\OperatorTok{.}\AttributeTok{innerText} \OperatorTok{=} \StringTok{"エラー："} \OperatorTok{+}\NormalTok{ errMsg}\OperatorTok{;}
+        \ControlFlowTok{return}\OperatorTok{;}
+\NormalTok{      \}}
+
+      \CommentTok{// レスポンスが正常ならローカルストレージに保存}
+      \KeywordTok{const}\NormalTok{ json }\OperatorTok{=} \ControlFlowTok{await}\NormalTok{ resp}\OperatorTok{.}\FunctionTok{json}\NormalTok{()}\OperatorTok{;}
+\NormalTok{      localStorage}\OperatorTok{.}\FunctionTok{setItem}\NormalTok{(}\StringTok{"did"}\OperatorTok{,}\NormalTok{ did)}\OperatorTok{;}
+\NormalTok{      localStorage}\OperatorTok{.}\FunctionTok{setItem}\NormalTok{(}\StringTok{"password"}\OperatorTok{,}\NormalTok{ password)}\OperatorTok{;}
+\NormalTok{      localStorage}\OperatorTok{.}\FunctionTok{setItem}\NormalTok{(}\StringTok{"name"}\OperatorTok{,}\NormalTok{ json}\OperatorTok{.}\AttributeTok{user}\OperatorTok{.}\AttributeTok{name}\NormalTok{)}\OperatorTok{;}
+
+      \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"status"}\NormalTok{)}\OperatorTok{.}\AttributeTok{innerText} \OperatorTok{=} \StringTok{"ログイン成功"}\OperatorTok{;}
+      \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"name"}\NormalTok{)}\OperatorTok{.}\AttributeTok{innerText} \OperatorTok{=}\NormalTok{ json}\OperatorTok{.}\AttributeTok{user}\OperatorTok{.}\AttributeTok{name}\OperatorTok{;}
+      \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"did"}\NormalTok{)}\OperatorTok{.}\AttributeTok{innerText} \OperatorTok{=}\NormalTok{ did}\OperatorTok{;}
+      \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"password"}\NormalTok{)}\OperatorTok{.}\AttributeTok{innerText} \OperatorTok{=}\NormalTok{ password}\OperatorTok{;}
+\NormalTok{    \} }\ControlFlowTok{catch}\NormalTok{ (err) \{}
+      \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{"error"}\NormalTok{)}\OperatorTok{.}\AttributeTok{innerText} \OperatorTok{=}\NormalTok{ err}\OperatorTok{.}\AttributeTok{message}\OperatorTok{;}
+\NormalTok{    \}}
+\NormalTok{  \})}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+続いてサーバー側を実装します。電子署名のチェックと DB に DID
+が保存されているかのチェックは新規登録と同じ処理になっています。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// serve.js}
+\CommentTok{// ユーザーログインAPI}
+\ImportTok{import}\NormalTok{ \{ addDID}\OperatorTok{,}\NormalTok{ checkDIDExists}\OperatorTok{,}\NormalTok{ getUser \} }\ImportTok{from} \StringTok{"./db{-}controller.js"}\OperatorTok{;}
+
+\ControlFlowTok{if}\NormalTok{ (req}\OperatorTok{.}\AttributeTok{method} \OperatorTok{===} \StringTok{"POST"} \OperatorTok{\&\&}\NormalTok{ pathname }\OperatorTok{===} \StringTok{"/users/login"}\NormalTok{) \{}
+  \KeywordTok{const}\NormalTok{ json }\OperatorTok{=} \ControlFlowTok{await}\NormalTok{ req}\OperatorTok{.}\FunctionTok{json}\NormalTok{()}\OperatorTok{;}
+  \KeywordTok{const}\NormalTok{ sign }\OperatorTok{=}\NormalTok{ json}\OperatorTok{.}\AttributeTok{sign}\OperatorTok{;}
+  \KeywordTok{const}\NormalTok{ did }\OperatorTok{=}\NormalTok{ json}\OperatorTok{.}\AttributeTok{did}\OperatorTok{;}
+  \KeywordTok{const}\NormalTok{ message }\OperatorTok{=}\NormalTok{ json}\OperatorTok{.}\AttributeTok{message}\OperatorTok{;}
+
+  \CommentTok{// 電子署名が正しいかチェック}
+  \ControlFlowTok{try}\NormalTok{ \{}
+    \KeywordTok{const}\NormalTok{ chk }\OperatorTok{=}\NormalTok{ DIDAuth}\OperatorTok{.}\FunctionTok{verifySign}\NormalTok{(did}\OperatorTok{,}\NormalTok{ sign}\OperatorTok{,}\NormalTok{ message)}\OperatorTok{;}
+    \ControlFlowTok{if}\NormalTok{ (}\OperatorTok{!}\NormalTok{chk) \{}
+      \ControlFlowTok{return} \KeywordTok{new} \FunctionTok{Response}\NormalTok{(}\StringTok{"不正な電子署名です"}\OperatorTok{,}\NormalTok{ \{ }\DataTypeTok{status}\OperatorTok{:} \DecValTok{400}\NormalTok{ \})}\OperatorTok{;}
+\NormalTok{    \}}
+\NormalTok{  \} }\ControlFlowTok{catch}\NormalTok{ (e) \{}
+    \ControlFlowTok{return} \KeywordTok{new} \FunctionTok{Response}\NormalTok{(e}\OperatorTok{.}\AttributeTok{message}\OperatorTok{,}\NormalTok{ \{ }\DataTypeTok{status}\OperatorTok{:} \DecValTok{400}\NormalTok{ \})}\OperatorTok{;}
+\NormalTok{  \}}
+
+  \CommentTok{// DBにdidが登録されているかチェック}
+  \ControlFlowTok{try}\NormalTok{ \{}
+    \KeywordTok{const}\NormalTok{ isExists }\OperatorTok{=} \ControlFlowTok{await} \FunctionTok{checkIfIdExists}\NormalTok{(did)}\OperatorTok{;}
+    \ControlFlowTok{if}\NormalTok{ (}\OperatorTok{!}\NormalTok{isExists) \{}
+      \ControlFlowTok{return} \KeywordTok{new} \FunctionTok{Response}\NormalTok{(}\StringTok{"登録されていません"}\OperatorTok{,}\NormalTok{ \{ }\DataTypeTok{status}\OperatorTok{:} \DecValTok{400}\NormalTok{ \})}\OperatorTok{;}
+\NormalTok{    \}}
+    \CommentTok{// 登録済みであればuser情報を返す}
+    \KeywordTok{const}\NormalTok{ res }\OperatorTok{=} \ControlFlowTok{await} \FunctionTok{getUser}\NormalTok{(did)}\OperatorTok{;}
+    \KeywordTok{const}\NormalTok{ user }\OperatorTok{=}\NormalTok{ \{ }\DataTypeTok{did}\OperatorTok{:}\NormalTok{ res}\OperatorTok{.}\AttributeTok{rows}\NormalTok{[}\DecValTok{0}\NormalTok{]}\OperatorTok{.}\AttributeTok{did}\OperatorTok{,} \DataTypeTok{name}\OperatorTok{:}\NormalTok{ res}\OperatorTok{.}\AttributeTok{rows}\NormalTok{[}\DecValTok{0}\NormalTok{]}\OperatorTok{.}\AttributeTok{name}\NormalTok{ \}}\OperatorTok{;}
+    \ControlFlowTok{return} \KeywordTok{new} \FunctionTok{Response}\NormalTok{(}\BuiltInTok{JSON}\OperatorTok{.}\FunctionTok{stringify}\NormalTok{(\{ user \})}\OperatorTok{,}\NormalTok{ \{}
+      \DataTypeTok{headers}\OperatorTok{:}\NormalTok{ \{ }\StringTok{"Content{-}Type"}\OperatorTok{:} \StringTok{"application/json"}\NormalTok{ \}}\OperatorTok{,}
+\NormalTok{    \})}\OperatorTok{;}
+\NormalTok{  \} }\ControlFlowTok{catch}\NormalTok{ (e) \{}
+    \ControlFlowTok{return} \KeywordTok{new} \FunctionTok{Response}\NormalTok{(e}\OperatorTok{.}\AttributeTok{message}\OperatorTok{,}\NormalTok{ \{ }\DataTypeTok{status}\OperatorTok{:} \DecValTok{500}\NormalTok{ \})}\OperatorTok{;}
+\NormalTok{  \}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// db{-}controller.js}
+\ImportTok{export} \KeywordTok{async} \KeywordTok{function} \FunctionTok{addDID}\NormalTok{(did}\OperatorTok{,}\NormalTok{ userName) \{}
+  \CommentTok{// ...}
+\NormalTok{\}}
+
+\ImportTok{export} \KeywordTok{async} \KeywordTok{function} \FunctionTok{getUser}\NormalTok{(did) \{}
+  \CommentTok{// DBからsignatureが一致するレコードを取得}
+  \KeywordTok{const}\NormalTok{ res }\OperatorTok{=} \ControlFlowTok{await}\NormalTok{ client}\OperatorTok{.}\FunctionTok{execute}\NormalTok{(}\VerbatimStringTok{\textasciigrave{}select * from users where did = ?;\textasciigrave{}}\OperatorTok{,}\NormalTok{ [did])}\OperatorTok{;}
+  \ControlFlowTok{return}\NormalTok{ res}\OperatorTok{;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+以上がログイン機能の実装となります。
+
+\subsection{ログイン中だけ使えるAPIを実装しよう}\label{ux30edux30b0ux30a4ux30f3ux4e2dux3060ux3051ux4f7fux3048ux308bapiux3092ux5b9fux88c5ux3057ux3088ux3046}
+
+ログイン中だけ使えるAPIを作ってみましょう。
+従来の方法だと、サーバがユーザ情報を管理していましたね。
+クライアントがログイン中か判断するために、ログインセッションを管理してログイン状態を維持する仕組みを作っていました。
+
+それに対して、DIDはクライアントがユーザ情報を管理しています。
+クライアントは、ユーザからの正しいリクエストか分かる情報を合わせて送る必要があります。
+サーバはリクエストされたデータを検証することで、ログインしたユーザからのリクエストかどうかを判断できます。
+
+このようにリクエストごとに検証することで、セッションを管理せずにログイン中かどうか判断できます。
+
+\subsubsection{クライアントでログイン状態を判断しよう}\label{ux30afux30e9ux30a4ux30a2ux30f3ux30c8ux3067ux30edux30b0ux30a4ux30f3ux72b6ux614bux3092ux5224ux65adux3057ux3088ux3046}
+
+ログイン中の判定はどうするとよいでしょうか。
+今回の実装では\texttt{localStorage}を使って判定します。
+
+新規登録とログインで、DIDとパスワードを\texttt{localStorage}に保存しています。
+ここで、ログインしていないユーザをゲストユーザとしましょう。
+\texttt{localStorage}にDIDとパスワードが保存されていればログインユーザ、なければゲストユーザと判定できます。
+これらの処理をクライアントに実装してみましょう。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{function} \FunctionTok{isGuest}\NormalTok{() \{}
+  \KeywordTok{const}\NormalTok{ did }\OperatorTok{=}\NormalTok{ localStorage}\OperatorTok{.}\FunctionTok{getItem}\NormalTok{(}\StringTok{"did"}\NormalTok{)}\OperatorTok{;}
+  \KeywordTok{const}\NormalTok{ password }\OperatorTok{=}\NormalTok{ localStorage}\OperatorTok{.}\FunctionTok{getItem}\NormalTok{(}\StringTok{"password"}\NormalTok{)}\OperatorTok{;}
+
+  \ControlFlowTok{return}\NormalTok{ did }\OperatorTok{===} \KeywordTok{null} \OperatorTok{||}\NormalTok{ password }\OperatorTok{===} \KeywordTok{null}\OperatorTok{;}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsubsection{コメントAPIを実装しよう}\label{ux30b3ux30e1ux30f3ux30c8apiux3092ux5b9fux88c5ux3057ux3088ux3046}
+
+ログイン中だけ使えるAPIの例として、ログインしたユーザだけコメントできる
+\texttt{POST\ /comment}を実装してみましょう。
+
+クライアントからは二種類のデータを送ります。
+正しいユーザか判断するためのDIDと電子署名、コメント投稿のためのテキストの二種類です。
+サーバはユーザの検証を保持していないため、アクセスがあるたびに検証する必要があります。
+そのため、ログインAPIと同じようにリクエストの検証、登録したユーザかどうかの検証をします。
+すべての検証が成功したらコメントの投稿を処理します。
+
+それではクライアントから実装してみましょう。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// comment.html}
+\ImportTok{import}\NormalTok{ \{ DIDAuth \} }\ImportTok{from} \StringTok{"https://jigintern.github.io/did{-}login/auth/DIDAuth.js"}\OperatorTok{;}
+
+\CommentTok{// ログイン済みかどうかを返す}
+\KeywordTok{function} \FunctionTok{isGuest}\NormalTok{() \{}
+  \KeywordTok{const}\NormalTok{ did }\OperatorTok{=}\NormalTok{ localStorage}\OperatorTok{.}\FunctionTok{getItem}\NormalTok{(}\StringTok{\textquotesingle{}did\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+  \KeywordTok{const}\NormalTok{ password }\OperatorTok{=}\NormalTok{ localStorage}\OperatorTok{.}\FunctionTok{getItem}\NormalTok{(}\StringTok{\textquotesingle{}password\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+
+  \ControlFlowTok{return}\NormalTok{ did }\OperatorTok{===} \KeywordTok{null} \OperatorTok{||}\NormalTok{ password }\OperatorTok{===} \KeywordTok{null}\OperatorTok{;}
+\NormalTok{\}}
+
+\CommentTok{// コメント送信で処理をする}
+\BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{\textquotesingle{}commentForm\textquotesingle{}}\NormalTok{)}\OperatorTok{.}\FunctionTok{addEventListener}\NormalTok{(}\StringTok{\textquotesingle{}submit\textquotesingle{}}\OperatorTok{,} \KeywordTok{async}\NormalTok{ (}\BuiltInTok{event}\NormalTok{) }\KeywordTok{=\textgreater{}}\NormalTok{ \{}
+  \BuiltInTok{event}\OperatorTok{.}\FunctionTok{preventDefault}\NormalTok{()}\OperatorTok{;}
+
+  \KeywordTok{const}\NormalTok{ comment }\OperatorTok{=} \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{\textquotesingle{}comment\textquotesingle{}}\NormalTok{)}\OperatorTok{.}\AttributeTok{value}\OperatorTok{;}
+
+  \KeywordTok{const}\NormalTok{ path }\OperatorTok{=} \StringTok{\textquotesingle{}/comment\textquotesingle{}}\OperatorTok{;}
+  \KeywordTok{const}\NormalTok{ method }\OperatorTok{=} \StringTok{\textquotesingle{}POST\textquotesingle{}}\OperatorTok{;}
+  \KeywordTok{const}\NormalTok{ params }\OperatorTok{=}\NormalTok{ \{ }\DataTypeTok{comment}\OperatorTok{:}\NormalTok{ comment \}}\OperatorTok{;}
+
+  \CommentTok{// 未ログインならログイン画面に遷移する}
+  \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{isGuest}\NormalTok{()) \{}
+\NormalTok{    location}\OperatorTok{.}\AttributeTok{href} \OperatorTok{=} \StringTok{\textquotesingle{}login.html\textquotesingle{}}\OperatorTok{;}
+    \ControlFlowTok{return}\OperatorTok{;}
+\NormalTok{  \}}
+
+  \CommentTok{// 送信に必要なデータを用意}
+  \KeywordTok{const}\NormalTok{ did }\OperatorTok{=}\NormalTok{ localStorage}\OperatorTok{.}\FunctionTok{getItem}\NormalTok{(}\StringTok{\textquotesingle{}did\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+  \KeywordTok{const}\NormalTok{ password }\OperatorTok{=}\NormalTok{ localStorage}\OperatorTok{.}\FunctionTok{getItem}\NormalTok{(}\StringTok{\textquotesingle{}password\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+  \KeywordTok{const}\NormalTok{ [message}\OperatorTok{,}\NormalTok{ sign] }\OperatorTok{=}\NormalTok{ DIDAuth}\OperatorTok{.}\FunctionTok{genMsgAndSign}\NormalTok{(}
+\NormalTok{    did}\OperatorTok{,}
+\NormalTok{    password}\OperatorTok{,}
+\NormalTok{    path}\OperatorTok{,}
+\NormalTok{    method}\OperatorTok{,}
+\NormalTok{    params}
+\NormalTok{  )}\OperatorTok{;}
+  \ControlFlowTok{try}\NormalTok{ \{}
+    \CommentTok{// POST commentにデータを送信}
+    \KeywordTok{const}\NormalTok{ resp }\OperatorTok{=} \ControlFlowTok{await} \FunctionTok{fetch}\NormalTok{(path}\OperatorTok{,}\NormalTok{ \{}
+      \DataTypeTok{method}\OperatorTok{:}\NormalTok{ method}\OperatorTok{,}
+      \DataTypeTok{headers}\OperatorTok{:}\NormalTok{ \{ }\StringTok{\textquotesingle{}Content{-}Type\textquotesingle{}}\OperatorTok{:} \StringTok{\textquotesingle{}application/json\textquotesingle{}}\NormalTok{ \}}\OperatorTok{,}
+      \DataTypeTok{body}\OperatorTok{:} \BuiltInTok{JSON}\OperatorTok{.}\FunctionTok{stringify}\NormalTok{(\{ did}\OperatorTok{,}\NormalTok{ sign}\OperatorTok{,}\NormalTok{ message}\OperatorTok{,}\NormalTok{ params \})}\OperatorTok{,}
+\NormalTok{    \})}\OperatorTok{;}
+
+    \CommentTok{// サーバーから成功ステータスが返ってこないときの処理}
+    \ControlFlowTok{if}\NormalTok{ (}\OperatorTok{!}\NormalTok{resp}\OperatorTok{.}\AttributeTok{ok}\NormalTok{) \{}
+      \KeywordTok{const}\NormalTok{ errMsg }\OperatorTok{=} \ControlFlowTok{await}\NormalTok{ resp}\OperatorTok{.}\FunctionTok{text}\NormalTok{()}\OperatorTok{;}
+      \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{\textquotesingle{}error\textquotesingle{}}\NormalTok{)}\OperatorTok{.}\AttributeTok{innerText} \OperatorTok{=} \StringTok{\textquotesingle{}エラー：\textquotesingle{}} \OperatorTok{+}\NormalTok{ errMsg}\OperatorTok{;}
+      \ControlFlowTok{return}\OperatorTok{;}
+\NormalTok{    \}}
+\NormalTok{  \} }\ControlFlowTok{catch}\NormalTok{ (e) \{}
+    \BuiltInTok{document}\OperatorTok{.}\FunctionTok{getElementById}\NormalTok{(}\StringTok{\textquotesingle{}error\textquotesingle{}}\NormalTok{)}\OperatorTok{.}\AttributeTok{innerText} \OperatorTok{=}\NormalTok{ e}\OperatorTok{.}\AttributeTok{message}\OperatorTok{;}
+\NormalTok{  \}}
+\NormalTok{\})}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\texttt{POST\ /comment}にリクエストを送る実装が出来ました。
+サーバにリクエストを受け取る実装を追加しましょう。
+まずは電子署名とユーザのDIDを検証します。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// serve.js}
+
+\KeywordTok{class}\NormalTok{ DIDVerifyException }\KeywordTok{extends} \BuiltInTok{Error}\NormalTok{ \{}
+\NormalTok{  status}\OperatorTok{;}
+
+  \FunctionTok{constructor}\NormalTok{(message}\OperatorTok{,}\NormalTok{ status) \{}
+    \KeywordTok{super}\NormalTok{(message)}\OperatorTok{;}
+
+    \KeywordTok{this}\OperatorTok{.}\AttributeTok{status} \OperatorTok{=}\NormalTok{ status}\OperatorTok{;}
+\NormalTok{  \}}
+\NormalTok{\}}
+
+\KeywordTok{async} \KeywordTok{function} \FunctionTok{verifyUser}\NormalTok{(sign}\OperatorTok{,}\NormalTok{ did}\OperatorTok{,}\NormalTok{ message) \{}
+  \CommentTok{// 電子署名が正しいかチェック}
+  \ControlFlowTok{try}\NormalTok{ \{}
+    \KeywordTok{const}\NormalTok{ chk }\OperatorTok{=}\NormalTok{ DIDAuth}\OperatorTok{.}\FunctionTok{verifySign}\NormalTok{(did}\OperatorTok{,}\NormalTok{ sign}\OperatorTok{,}\NormalTok{ message)}\OperatorTok{;}
+    \ControlFlowTok{if}\NormalTok{ (}\OperatorTok{!}\NormalTok{chk) \{}
+      \ControlFlowTok{throw} \KeywordTok{new} \FunctionTok{DIDVerifyException}\NormalTok{(}\StringTok{"不正な電子署名です"}\OperatorTok{,} \DecValTok{400}\NormalTok{)}\OperatorTok{;}
+\NormalTok{    \}}
+\NormalTok{  \} }\ControlFlowTok{catch}\NormalTok{ (e) \{}
+    \ControlFlowTok{throw} \KeywordTok{new} \FunctionTok{DIDVerifyException}\NormalTok{(e}\OperatorTok{.}\AttributeTok{message}\OperatorTok{,} \DecValTok{400}\NormalTok{)}\OperatorTok{;}
+\NormalTok{  \}}
+
+  \CommentTok{// DBにdidが登録されているかチェック}
+  \ControlFlowTok{try}\NormalTok{ \{}
+    \KeywordTok{const}\NormalTok{ isExists }\OperatorTok{=} \ControlFlowTok{await} \FunctionTok{checkIfIdExists}\NormalTok{(did)}\OperatorTok{;}
+    \ControlFlowTok{if}\NormalTok{ (}\OperatorTok{!}\NormalTok{isExists) \{}
+      \ControlFlowTok{throw} \KeywordTok{new} \FunctionTok{DIDVerifyException}\NormalTok{(}\StringTok{"登録されていません"}\OperatorTok{,} \DecValTok{400}\NormalTok{)}\OperatorTok{;}
+\NormalTok{    \}}
+    \KeywordTok{const}\NormalTok{ res }\OperatorTok{=} \ControlFlowTok{await} \FunctionTok{getUser}\NormalTok{(did)}\OperatorTok{;}
+    \ControlFlowTok{return}\NormalTok{ \{ }\DataTypeTok{did}\OperatorTok{:}\NormalTok{ res}\OperatorTok{.}\AttributeTok{rows}\NormalTok{[}\DecValTok{0}\NormalTok{]}\OperatorTok{.}\AttributeTok{did}\OperatorTok{,} \DataTypeTok{name}\OperatorTok{:}\NormalTok{ res}\OperatorTok{.}\AttributeTok{rows}\NormalTok{[}\DecValTok{0}\NormalTok{]}\OperatorTok{.}\AttributeTok{name}\NormalTok{ \}}\OperatorTok{;}
+\NormalTok{  \} }\ControlFlowTok{catch}\NormalTok{ (e) \{}
+    \ControlFlowTok{throw} \KeywordTok{new} \FunctionTok{DIDVerifyException}\NormalTok{(e}\OperatorTok{.}\AttributeTok{message}\OperatorTok{,} \DecValTok{500}\NormalTok{)}\OperatorTok{;}
+\NormalTok{  \}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+電子署名とユーザのDIDを検証する関数ができました。
+この関数を使って\texttt{POST\ /comment}を受け取る処理を追加します。
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{// serve.js}
+\CommentTok{// ...}
+\ControlFlowTok{if}\NormalTok{ (req}\OperatorTok{.}\AttributeTok{method} \OperatorTok{===} \StringTok{"POST"} \OperatorTok{\&\&}\NormalTok{ pathname }\OperatorTok{===} \StringTok{"/comment"}\NormalTok{) \{}
+  \KeywordTok{const}\NormalTok{ json }\OperatorTok{=} \ControlFlowTok{await}\NormalTok{ req}\OperatorTok{.}\FunctionTok{json}\NormalTok{()}\OperatorTok{;}
+  \KeywordTok{const}\NormalTok{ sign }\OperatorTok{=}\NormalTok{ json}\OperatorTok{.}\AttributeTok{sign}\OperatorTok{;}
+  \KeywordTok{const}\NormalTok{ did }\OperatorTok{=}\NormalTok{ json}\OperatorTok{.}\AttributeTok{did}\OperatorTok{;}
+  \KeywordTok{const}\NormalTok{ message }\OperatorTok{=}\NormalTok{ json}\OperatorTok{.}\AttributeTok{message}\OperatorTok{;}
+  \KeywordTok{const}\NormalTok{ params }\OperatorTok{=}\NormalTok{ json}\OperatorTok{.}\AttributeTok{params}\OperatorTok{;}
+
+  \ControlFlowTok{try}\NormalTok{ \{}
+    \KeywordTok{const}\NormalTok{ user }\OperatorTok{=} \ControlFlowTok{await} \FunctionTok{verifyUser}\NormalTok{(sign}\OperatorTok{,}\NormalTok{ did}\OperatorTok{,}\NormalTok{ message)}\OperatorTok{;}
+
+    \CommentTok{// ログイン済み！}
+    \BuiltInTok{console}\OperatorTok{.}\FunctionTok{log}\NormalTok{(user}\OperatorTok{.}\AttributeTok{name}\OperatorTok{,}\NormalTok{ params}\OperatorTok{.}\AttributeTok{comment}\NormalTok{)}\OperatorTok{;}
+
+    \ControlFlowTok{return} \KeywordTok{new} \FunctionTok{Response}\NormalTok{(}\StringTok{"OK"}\OperatorTok{,}\NormalTok{ \{ }\DataTypeTok{status}\OperatorTok{:} \DecValTok{200}\NormalTok{ \})}\OperatorTok{;}
+\NormalTok{  \} }\ControlFlowTok{catch}\NormalTok{ (e) \{}
+    \ControlFlowTok{if}\NormalTok{ (e }\KeywordTok{instanceof}\NormalTok{ DIDVerifyException) \{}
+      \ControlFlowTok{return} \KeywordTok{new} \FunctionTok{Response}\NormalTok{(e}\OperatorTok{.}\AttributeTok{message}\OperatorTok{,}\NormalTok{ \{ }\DataTypeTok{status}\OperatorTok{:}\NormalTok{ e}\OperatorTok{.}\AttributeTok{status}\NormalTok{ \})}\OperatorTok{;}
+\NormalTok{    \} }\ControlFlowTok{else}\NormalTok{ \{}
+      \ControlFlowTok{return} \KeywordTok{new} \FunctionTok{Response}\NormalTok{(e}\OperatorTok{.}\AttributeTok{message}\OperatorTok{,}\NormalTok{ \{ }\DataTypeTok{status}\OperatorTok{:} \DecValTok{500}\NormalTok{ \})}\OperatorTok{;}
+\NormalTok{    \}}
+\NormalTok{  \}}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+これでログイン中だけ使えるコメント送信のAPIができました。
+この例のように、DIDを用いる場合はリクエストごとに検証するようにしましょう。
+目安としてログイン中だけ使える機能はPOSTにして、GETでは送らないようにしましょう。
